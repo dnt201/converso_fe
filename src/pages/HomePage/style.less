@@ -1,0 +1,115 @@
+.home-page {
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   background-color: #fff;
+   padding: 16px 0px;
+   .layer-sign-up {
+      display: flex;
+      padding-top: 16px;
+      align-items: center;
+      .left-container {
+         display: flex;
+         flex-direction: column;
+         flex: 1;
+         gap: 12px;
+         > h1 {
+            letter-spacing: -2px;
+         }
+         > span {
+            font-size: 1.485rem;
+            width: 80%;
+            padding: 1rem 0;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+         }
+         .contact-container {
+            display: flex;
+            width: 80%;
+            gap: 6px;
+         }
+      }
+      .right-container {
+         display: flex;
+         align-items: center;
+         width: 50%;
+         flex-shrink: 1;
+         > video {
+            max-height: 720px;
+            max-width: 720px;
+            width: 100%;
+         }
+      }
+      .text-mark {
+         position: relative;
+         z-index: 1;
+         &::after {
+            background-image: url('../../assets/icons/mark.svg');
+            background-position: bottom;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            bottom: -0.1em;
+            content: '';
+            display: block;
+            height: 0.3em;
+            left: 0;
+            position: absolute;
+            width: 100%;
+            z-index: -1;
+         }
+      }
+   }
+}
+
+@media screen and (max-width: 1024px) {
+   .home-page {
+      .layer-sign-up {
+         display: flex;
+         flex-direction: column;
+         .left-container {
+            width: 75%;
+            text-align: center;
+            min-width: 380px;
+            align-items: center;
+            > span {
+               font-size: 1.25rem;
+               width: 100%;
+               padding: 0;
+
+               margin-bottom: 8px;
+            }
+            .contact-container {
+               width: 100%;
+               margin-bottom: 16px;
+            }
+         }
+
+         .text-mark {
+            position: relative;
+            z-index: 1;
+            &::after {
+               background-image: url('../../assets/icons/mark.svg');
+               background-position: bottom;
+               background-repeat: no-repeat;
+               background-size: 100% 100%;
+               bottom: -0.1em;
+               content: '';
+               display: block;
+               height: 0.3em;
+               left: 0;
+               position: absolute;
+               width: 100%;
+               z-index: -1;
+            }
+         }
+         .right-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            > video {
+               width: 100%;
+            }
+         }
+      }
+   }
+}

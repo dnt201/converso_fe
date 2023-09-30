@@ -1,0 +1,30 @@
+* {
+   box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+}
+button {
+   border: 0;
+   background-color: transparent;
+   &:hover {
+      cursor: pointer;
+   }
+   &:disabled {
+      cursor: not-allowed;
+   }
+}
+
+h1 {
+   font-size: 3.5rem;
+}
+
+@media screen and (max-width: 1024px) {
+   h1 {
+      font-size: 2.5rem;
+   }
+}
+@media screen and (max-width: 768px) {
+   h1 {
+      font-size: 2rem;
+   }
+}
