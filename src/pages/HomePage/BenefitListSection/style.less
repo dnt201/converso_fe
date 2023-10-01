@@ -1,0 +1,36 @@
+.home-page {
+    .benefit-list-container {
+        >video {
+        width: 100%;  
+        border: 0;
+        }
+        .benefit-list {
+            display: flex;
+            gap:24px;
+        }
+     }
+     
+}
+@media screen and (max-width: 1024px) {
+    .home-page {
+        .benefit-list-container {
+            .benefit-list {
+                display: flex;
+                gap:16px;
+            }
+        }
+         
+    }
+}
+@media screen and (max-width: 769px) {
+    .home-page {
+        .benefit-list-container {
+            .benefit-list {
+                display: flex;
+                flex-direction: column;
+                gap:16px;
+            }
+        }
+         
+    }
+}

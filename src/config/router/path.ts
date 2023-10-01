@@ -1,8 +1,8 @@
 export const routerPath = {
    HOME: '/',
-   ALL_EMPLOYEE: '/all-employee',
-   EMPLOYEE_DETAIL: '/employee-detail/:employeeID',
    LOGIN: '/login',
+   REGISTER: '/register',
+   EMPLOYEE_DETAIL: '/employee-detail/:employeeID',
    NOT_FOUND: '/notfound',
    ANY: '*',
 };

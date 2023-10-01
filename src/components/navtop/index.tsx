@@ -3,7 +3,9 @@ import { Header } from 'antd/es/layout/layout';
 import Logo from '@assets/images/logo_min.png';
 import './style.less';
 import { DownOutlined } from '@ant-design/icons';
-import { Messenger, Shopify, Wordpress, Zalo } from '@assets/icons';
+import { ChatBotLogo, Messenger, Shopify, Wordpress, Zalo } from '@assets/icons';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const items: MenuProps['items'] = [
    {
@@ -88,10 +90,29 @@ const items2: MenuProps['items'] = [
    },
 ];
 const NavTop = () => {
+   const navTopRef = useRef<HTMLDivElement>(null);
+   const navigate = useNavigate();
+   useEffect(() => {
+      let prevScrollPos = window.scrollY;
+      function handleScroll() {
+         const currentYOffset = window.scrollY;
+         if (navTopRef.current && currentYOffset > 64) {
+            if (prevScrollPos > currentYOffset) {
+               navTopRef.current.style.top = '0';
+            } else {
+               navTopRef.current.style.top = '-64px';
+            }
+            prevScrollPos = currentYOffset;
+         }
+      }
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+   }, []);
+
    return (
-      <Header className="navTop">
+      <Header className="navTop" id="navTop" ref={navTopRef}>
          <button className="logo">
-            <img src={Logo} style={{ width: '40px', height: '40px' }} /> ChatBot
+            <ChatBotLogo />
          </button>
          {/* <Menu mode="horizontal" items={items1} /> */}
          <div className="navList">
@@ -122,8 +143,12 @@ const NavTop = () => {
             </Dropdown>
          </div>
          <div className="authBtn">
-            <Button type="default">Login</Button>
-            <Button type="primary">Sign up free</Button>
+            <Button type="default" onClick={() => navigate('login')}>
+               Login
+            </Button>
+            <Button type="primary" onClick={() => navigate('register')}>
+               Sign up free
+            </Button>
          </div>
       </Header>
    );
