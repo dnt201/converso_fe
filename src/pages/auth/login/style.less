@@ -1,0 +1,61 @@
+.login-container {
+   display: flex;
+   min-height: 100vh;
+   .left-element {
+      background: url('/src/assets/images/bg.svg') no-repeat bottom;
+      background-color: var(--color-shade-light-gray);
+      flex:2;
+      display: flex;
+      gap: 20px;
+      flex-direction: column;
+      padding: 48px 20px 0px 36px;
+      .list-element{
+         display: flex;
+         flex-direction: row;
+         flex-wrap: wrap;
+         gap: 16px;
+      }
+      .title {
+         font-weight: 300;
+         font-size: 28px;
+         letter-spacing:0;
+      }
+   }
+   .right-element {
+      flex: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      > img {
+         width: 90px;
+      }
+
+      .ant-input {
+         padding: 4px 12px;
+         height: 38px;
+      }
+
+      .special {
+         .ant-input-affix-wrapper {
+            padding: 0;
+         }
+         .ant-input-suffix {
+            margin: 0 8px;
+         }
+         .ant-input {
+            padding-right: 0px;
+         }
+      }
+   }
+}
+
+@media screen and (max-width: 1024px) {
+   .login-container {
+      .left-element {
+         padding: 48px 32px 0px;
+      }
+   
+   }
+}

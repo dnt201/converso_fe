@@ -1,9 +1,11 @@
-.main-layout {
+.main-layout {  
    background-color: #fff !important;
    .content {
       background-color: #fff !important;
       padding: 0 50px;
       margin-top: 64px;
+      animation-name: appear;
+      animation-duration: 0.5s;
       .ant-layout {
          background-color: #fff !important;
       }
@@ -20,3 +22,8 @@
       }
    }
 }
+
+@keyframes appear {
+   from {opacity: 0}
+   to {opacity: 1}
+ }
