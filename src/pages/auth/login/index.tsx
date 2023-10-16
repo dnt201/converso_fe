@@ -1,7 +1,11 @@
 import './style.less';
-import { Form, Input } from 'antd';
 import { ChatBotLogo } from '@assets/icons';
+import { Link, useNavigate } from 'react-router-dom';
+import { Divider } from 'antd';
+import FormLogin from './FormLogin';
+import ListOptionLogin from './ListOptionLogin';
 const Login = () => {
+   const navigate = useNavigate();
    return (
       <div className="login-container">
          <div className="left-element">
@@ -36,29 +40,16 @@ const Login = () => {
             </div>
          </div>
          <div className="right-element">
-            {/* <img src={logo} />
-             */}
-
-            <ChatBotLogo />
-            <span>Login</span>
-            <Form
-               layout={'vertical'}
-               //  wrapperCol={{ span: 4 }}
-               style={{ minWidth: 360 }}>
-               <Form.Item<string>
-                  label="Business Email"
-                  name="email"
-                  rules={[{ required: true, message: 'Please input your email!' }]}>
-                  <Input placeholder="your-business@work-gmail.com" />
-               </Form.Item>
-               <Form.Item<string>
-                  label="Password"
-                  name="password"
-                  className="special"
-                  rules={[{ required: true, message: 'Please input your password!' }]}>
-                  <Input.Password placeholder="your-password" />
-               </Form.Item>
-            </Form>
+            <div className="logo" onClick={() => navigate('/')}>
+               <ChatBotLogo />
+            </div>
+            <span className="title">Log in</span>
+            <FormLogin />
+            <span className="sign-up">
+               Need new account? <Link to="/register">Sign up free</Link>
+            </span>
+            <Divider className="divider">or</Divider>
+            <ListOptionLogin />
          </div>
       </div>
    );

@@ -1,11 +1,11 @@
 import { routerPath } from '@config/router/path';
 import './App.less';
-import HomePage from '@pages/homePage';
+import HomePage from '@pages/HomePage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import MainLayout from '@layouts/mainLayout';
-import Login from '@pages/auth/login';
-import Register from '@pages/auth/register';
-import PlayReactFlow from '@pages/playReactFlow';
+import MainLayout from '@layouts/MainLayout';
+import Login from '@pages/auth/Login';
+import Register from '@pages/auth/Register';
+import PlayReactFlow from '@pages/PlayReactFlow';
 import 'reactflow/dist/style.css';
 
 function App() {

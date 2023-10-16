@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import { Outlet } from 'react-router-dom';
-import NavTop from '@components/navtop';
+import NavTop from '@components/NavTop';
 
 import './style.less';
 

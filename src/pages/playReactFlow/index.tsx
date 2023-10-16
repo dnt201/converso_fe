@@ -1,20 +1,18 @@
-import React, { useState, useRef, useCallback, DragEventHandler, useMemo } from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import ReactFlow, {
    ReactFlowProvider,
    addEdge,
    useNodesState,
    useEdgesState,
    Controls,
-   useNodes,
-   useEdges,
    Connection,
    Edge,
    ReactFlowInstance,
 } from 'reactflow';
 import './style.less';
-import SideBar from '@components/react-flow/side-bar';
+import SideBar from '@components/ReactFlow/SideBar';
 import 'reactflow/dist/style.css';
-import FlowNode from '@components/react-flow/custom-node/flow';
+import FlowNode from '@components/ReactFlow/CustomNode/Flow';
 
 const initialNodes = [
    {

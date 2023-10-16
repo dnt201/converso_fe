@@ -1,11 +1,10 @@
 import { Button, Dropdown, MenuProps, Space } from 'antd';
 import { Header } from 'antd/es/layout/layout';
-import Logo from '@assets/images/logo_min.png';
-import './style.less';
 import { DownOutlined } from '@ant-design/icons';
 import { ChatBotLogo, Messenger, Shopify, Wordpress, Zalo } from '@assets/icons';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './style.less';
 
 const items: MenuProps['items'] = [
    {

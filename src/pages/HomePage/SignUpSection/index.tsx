@@ -1,6 +1,6 @@
 import videoDemo from '@assets/video/chatbot-home-app.mp4';
 import { CheckOutlined } from '@ant-design/icons';
-import ContactForm from '@components/contact-form';
+import ContactForm from '@components/ContactForm';
 import './style.less';
 const SignUpSection = () => {
    return (

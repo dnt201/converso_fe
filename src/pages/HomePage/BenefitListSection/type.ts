@@ -1,7 +1,7 @@
-import { iBenefitItem } from './BenefitItem';
 import Marketing from '@assets/images/marketing.png';
 import Sales from '@assets/images/sales.png';
 import Support from '@assets/images/support.png';
+import { iBenefitItem } from './BenefitItem';
 export const listBenefit: iBenefitItem[] = [
    {
       title: 'Power up your marketing Power up your marketing Power up your marketing',

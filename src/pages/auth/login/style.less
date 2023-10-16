@@ -4,12 +4,12 @@
    .left-element {
       background: url('/src/assets/images/bg.svg') no-repeat bottom;
       background-color: var(--color-shade-light-gray);
-      flex:2;
+      flex: 2;
       display: flex;
       gap: 20px;
       flex-direction: column;
       padding: 48px 20px 0px 36px;
-      .list-element{
+      .list-element {
          display: flex;
          flex-direction: row;
          flex-wrap: wrap;
@@ -18,35 +18,100 @@
       .title {
          font-weight: 300;
          font-size: 28px;
-         letter-spacing:0;
+         letter-spacing: 0;
       }
    }
    .right-element {
+      margin-top: 60px;
+      width: 360px;
       flex: 3;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       margin-bottom: 16px;
       > img {
          width: 90px;
       }
-
-      .ant-input {
-         padding: 4px 12px;
-         height: 38px;
+      
+      .sign-up {
+         position: absolute;
+         top: 12px;
+         right: 16px;
+         font-size: 12px;
+         > a {
+            appearance: unset;
+            font-weight: 500;
+            color: var(--color-main-blue);
+            border: 0;
+            text-decoration: none;
+            transition-duration: 250ms;
+            &:hover {
+               opacity: 0.75;
+            }
+         }
       }
+      .logo {
+         cursor: pointer;
+         margin-top: 16px;
+      }
+      .title {
+         margin-top: 32px;
 
-      .special {
-         .ant-input-affix-wrapper {
-            padding: 0;
+         font-size: 22px;
+         font-weight: 500;
+         letter-spacing: 0px;
+      }
+      .divider{
+         justify-content: center;
+         color:var(--color-shade-mid-gray);
+         &::after{
+            max-width: 180px;
          }
-         .ant-input-suffix {
-            margin: 0 8px;
+         &::before{
+            max-width: 180px;
          }
-         .ant-input {
-            padding-right: 0px;
+      }
+   }
+}
+@media screen and (max-width: 768px) {
+   .login-container {
+      display: flex;
+      min-height: 100vh;
+      .left-element {
+         flex: 0;
+         display: none;
+         .list-element {
          }
+         .title {
+         }
+      }
+      .right-element {
+         flex: 1;
+         .sign-up {
+            position: unset;
+            margin-top: 8px;
+         }
+         // > img {
+         //    width: 90px;
+         // }
+
+         // .ant-input {
+         //    padding: 4px 12px;
+         //    height: 38px;
+         // }
+
+         // .special {
+         //    .ant-input-affix-wrapper {
+         //       padding: 0;
+         //    }
+         //    .ant-input-suffix {
+         //       margin: 0 8px;
+         //    }
+         //    .ant-input {
+         //       padding-right: 0px;
+         //    }
+         // }
       }
    }
 }
@@ -56,6 +121,5 @@
       .left-element {
          padding: 48px 32px 0px;
       }
-   
    }
 }
