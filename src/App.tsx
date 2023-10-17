@@ -7,6 +7,7 @@ import Login from '@pages/auth/Login';
 import Register from '@pages/auth/Register';
 import PlayReactFlow from '@pages/PlayReactFlow';
 import 'reactflow/dist/style.css';
+import AppearLayout from '@layouts/AppearLayout';
 
 function App() {
    return (
@@ -18,7 +19,9 @@ function App() {
             <Route>
                <Route element={<PlayReactFlow />} path={routerPath.PLAY} />
 
-               <Route element={<Login />} path={routerPath.LOGIN} />
+               <Route element={<AppearLayout />}>
+                  <Route element={<Login />} path={routerPath.LOGIN} />
+               </Route>
                <Route element={<Register />} path={routerPath.REGISTER} />
             </Route>
          </Routes>

@@ -16,26 +16,29 @@ const Login = () => {
             </span>
             <div className="list-element">
                <div>
-                  <h6>LiveChat</h6>
+                  <div className="live-chat" />
                   <span>Connect with customers</span>
                </div>
                <div>
-                  <h6>Chatbot</h6>
+                  <div className="chat-bot" />
                   <span>Automate customer service with AI</span>
                </div>
                <div>
-                  <h6>HelpDesk</h6>
+                  <div className="help-desk" />
                   <span>Support customers with tickets</span>
                </div>
                <div>
-                  <h6>KnowledgeBase</h6>
+                  <div className="knowledge-base" />
                   <span>Improve support with customer self-service</span>
                </div>
             </div>
             <div className="footer">
+               <div className="logo-container">
+                  <div className="logo" />
+               </div>
                <p>
                   ChatBot is an all-in-one platform that automates customer service by using
-                  conversational AI <span>Learn more</span>
+                  conversational AI. <span className="learn-more">Learn more</span>
                </p>
             </div>
          </div>
