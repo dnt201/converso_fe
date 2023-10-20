@@ -1,60 +1,52 @@
 import './style.less';
-import { ChatBotLogo } from '@assets/icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { Divider } from 'antd';
-import FormLogin from './FormLogin';
+import { Button, Divider, Form, Input } from 'antd';
 import ListOptionLogin from './ListOptionLogin';
-const Login = () => {
-   const navigate = useNavigate();
+
+const Login: React.FC<{}> = () => {
    return (
-      <div className="login-container">
-         <div className="left-element">
-            <span className="title">
-               Log in to all your
-               <b>{' text| '}</b>
-               products
-            </span>
-            <div className="list-element">
-               <div>
-                  <div className="live-chat" />
-                  <span>Connect with customers</span>
-               </div>
-               <div>
-                  <div className="chat-bot" />
-                  <span>Automate customer service with AI</span>
-               </div>
-               <div>
-                  <div className="help-desk" />
-                  <span>Support customers with tickets</span>
-               </div>
-               <div>
-                  <div className="knowledge-base" />
-                  <span>Improve support with customer self-service</span>
-               </div>
-            </div>
-            <div className="footer">
-               <div className="logo-container">
-                  <div className="logo" />
-               </div>
-               <p>
-                  ChatBot is an all-in-one platform that automates customer service by using
-                  conversational AI. <span className="learn-more">Learn more</span>
-               </p>
-            </div>
-         </div>
-         <div className="right-element">
-            <div className="logo" onClick={() => navigate('/')}>
-               <ChatBotLogo />
-            </div>
-            <span className="title">Log in</span>
-            <FormLogin />
-            <span className="sign-up">
-               Need new account? <Link to="/register">Sign up free</Link>
-            </span>
-            <Divider className="divider">or</Divider>
-            <ListOptionLogin />
-         </div>
-      </div>
+      <>
+         <Form
+            layout={'vertical'}
+            //  wrapperCol={{ span: 4 }}
+            style={{ minWidth: 360, marginTop: '16px' }}>
+            <Form.Item<string>
+               label="Business Email"
+               name="email"
+               rules={[{ required: true, message: 'Please input your email!' }]}>
+               <Input placeholder="your-business@work-gmail.com" />
+            </Form.Item>
+            <Form.Item<string>
+               label={
+                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                     <span style={{ flex: '1' }}>Password</span>
+                     <span
+                        className="forgot-password"
+                        onClick={(e) => {
+                           e.preventDefault();
+                           prompt('Forgot-password');
+                        }}>
+                        Forgot password?
+                     </span>
+                  </div>
+               }
+               name="password"
+               className="special"
+               rules={[{ required: true, message: 'Please input your password!' }]}>
+               <Input.Password placeholder="your-password" />
+            </Form.Item>
+            <Form.Item className="btn">
+               <Button
+                  style={{ width: '100%', marginBottom: '0px' }}
+                  type="primary"
+                  htmlType="submit">
+                  Log in
+               </Button>
+            </Form.Item>
+         </Form>
+         <Divider className="divider">or</Divider>
+         <ListOptionLogin />
+      </>
    );
 };
 

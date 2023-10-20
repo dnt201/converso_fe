@@ -3,11 +3,10 @@ import './App.less';
 import HomePage from '@pages/HomePage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainLayout from '@layouts/MainLayout';
-import Login from '@pages/auth/Login';
-import Register from '@pages/auth/Register';
 import PlayReactFlow from '@pages/PlayReactFlow';
 import 'reactflow/dist/style.css';
 import AppearLayout from '@layouts/AppearLayout';
+import AuthPage from '@pages/auth';
 
 function App() {
    return (
@@ -20,9 +19,8 @@ function App() {
                <Route element={<PlayReactFlow />} path={routerPath.PLAY} />
 
                <Route element={<AppearLayout />}>
-                  <Route element={<Login />} path={routerPath.LOGIN} />
+                  <Route element={<AuthPage />} path={routerPath.AUTH} />
                </Route>
-               <Route element={<Register />} path={routerPath.REGISTER} />
             </Route>
          </Routes>
       </BrowserRouter>

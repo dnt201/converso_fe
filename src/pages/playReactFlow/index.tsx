@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import ReactFlow, {
    ReactFlowProvider,
    addEdge,
@@ -29,6 +29,7 @@ const DnDFlow: React.FC = () => {
    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
    const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
+   console.log(nodes);
 
    const onConnect = useCallback(
       (params: Edge | Connection) => setEdges((eds: Edge[]) => addEdge(params, eds)),
@@ -51,7 +52,6 @@ const DnDFlow: React.FC = () => {
             if (typeof type === 'undefined' || !type) {
                return;
             }
-
             const position = reactFlowInstance.project({
                x: event.clientX - reactFlowBounds.left,
                y: event.clientY - reactFlowBounds.top,

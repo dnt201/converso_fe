@@ -7,8 +7,8 @@ const BenefitListSection = () => {
       <div className="benefit-list-container">
          <video preload="none" autoPlay loop muted src={videoBenefit} />
          <div className="benefit-list">
-            {listBenefit.map((item) => {
-               return <BenefitItem {...item} />;
+            {listBenefit.map((item, index) => {
+               return <BenefitItem {...item} key={item.title + index} />;
             })}
          </div>
       </div>

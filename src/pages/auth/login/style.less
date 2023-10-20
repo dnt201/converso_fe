@@ -1,184 +1,55 @@
-.login-container {
-   display: flex;
-   min-height: 100vh;
-   .left-element {
-      background: url('/src/assets/images/bg.svg') no-repeat bottom;
-      background-color: var(--color-shade-light-gray);
-      flex: 2;
-      display: flex;
-      gap: 20px;
-      flex-direction: column;
-      padding: 48px 20px 0px 36px;
-      .list-element {
-         display: flex;
-         flex-direction: row;
-         flex-wrap: wrap;
-         gap: 16px;
-
-         > div {
-            flex: 1 1 30%;
-            flex-wrap: wrap;
-            > span {
-               font-size: 14px;
-               font-weight: 300;
-               letter-spacing: 0.25px;
-            }
-         }
-
-         .live-chat {
-            height: 20px;
-            background: url('/src/assets/icons/livechat.svg') no-repeat;
-         }
-         .chat-bot {
-            height: 20px;
-            background: url('/src/assets/icons/chatbot.svg') no-repeat;
-         }
-         .help-desk {
-            height: 20px;
-            background: url('/src/assets/icons/helpdesk.svg') no-repeat;
-         }
-         .knowledge-base {
-            height: 20px;
-            background: url('/src/assets/icons/knowledgebase.svg') no-repeat;
-         }
-      }
-      .title {
-         font-weight: 300;
-         font-size: 28px;
-         letter-spacing: 0;
-      }
-      .footer {
-         margin-top: 40px;
-         display: flex;
-         gap: 16px;
-         align-items: center;
-         .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            background-color: white;
-            border-radius: 8px;
-            .logo {
-         
-               width: 32px;
-               height: 32px;
-               background: url('/src/assets/icons/mini-logo.svg') no-repeat center;
-            }
-         }
-         .learn-more {
-            color:var(--color-main-blue);
-            font-weight: 500;
-            cursor: pointer;
-            &:hover {
-               opacity: 0.75;
-            }
-         }
-
-         > p {
-            font-weight: 300;
-         }
-      }
-   }
+.auth {
    .right-element {
-      margin-top: 60px;
-      width: 360px;
-      flex: 3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      margin-bottom: 16px;
-      > img {
-         width: 90px;
+      .ant-input {
+         padding: 4px 12px;
+         height: 38px;
       }
+      .ant-form-item {
+         margin-bottom: 16px;
+         &.btn {
+            margin-bottom: 0;
+         }
+      }
+      .ant-col.ant-form-item-label {
+         padding-bottom: 2px;
+         font-size: 14px;
+         > .ant-form-item-required {
+            width: 100%;
+            cursor: pointer;
 
-      .sign-up {
-         position: absolute;
-         top: 12px;
-         right: 16px;
-         font-size: 12px;
-         > a {
-            appearance: unset;
-            font-weight: 500;
-            color: var(--color-main-blue);
-            border: 0;
-            text-decoration: none;
-            transition-duration: 250ms;
-            &:hover {
-               opacity: 0.75;
+            .forgot-password {
+               color: var(--color-main-blue);
+               &:hover {
+                  opacity: 0.75;
+               }
             }
          }
       }
-      .logo {
-         cursor: pointer;
-         margin-top: 16px;
-      }
-      .title {
-         margin-top: 32px;
 
-         font-size: 22px;
-         font-weight: 500;
-         letter-spacing: 0px;
-      }
-      .divider {
-         justify-content: center;
-         color: var(--color-shade-mid-gray);
-         &::after {
-            max-width: 180px;
+      .special {
+         .ant-input-affix-wrapper {
+            padding: 0;
          }
-         &::before {
-            max-width: 180px;
+         .ant-input-suffix {
+            margin: 0 8px;
+         }
+         .ant-input {
+            padding-right: 0px;
          }
       }
    }
 }
 @media screen and (max-width: 768px) {
-   .login-container {
-      display: flex;
-      min-height: 100vh;
-      .left-element {
-         flex: 0;
-         display: none;
-         .list-element {
-         }
-         .title {
-         }
-      }
+   .auth {
       .right-element {
          flex: 1;
          .sign-up {
             position: unset;
             margin-top: 8px;
          }
-         // > img {
-         //    width: 90px;
-         // }
-
-         // .ant-input {
-         //    padding: 4px 12px;
-         //    height: 38px;
-         // }
-
-         // .special {
-         //    .ant-input-affix-wrapper {
-         //       padding: 0;
-         //    }
-         //    .ant-input-suffix {
-         //       margin: 0 8px;
-         //    }
-         //    .ant-input {
-         //       padding-right: 0px;
-         //    }
-         // }
       }
    }
 }
 
 @media screen and (max-width: 1024px) {
-   .login-container {
-      .left-element {
-         padding: 48px 32px 0px;
-      }
-   }
 }
