@@ -142,10 +142,10 @@ const NavTop = () => {
             </Dropdown>
          </div>
          <div className="authBtn">
-            <Button type="default" onClick={() => navigate('login')}>
+            <Button type="default" onClick={() => navigate('auth?action=login')}>
                Login
             </Button>
-            <Button type="primary" onClick={() => navigate('register')}>
+            <Button type="primary" onClick={() => navigate('auth?action=register')}>
                Sign up free
             </Button>
          </div>
