@@ -7,10 +7,14 @@ const Register = () => {
    return (
       <>
          <Form className="register-form" layout={'vertical'}>
-            <Form.Item label="User name">
+            <Form.Item
+               label="User name"
+               rules={[{ required: true, message: 'Please input User name' }]}>
                <Input placeholder="Enter your username" />
             </Form.Item>
-            <Form.Item label="Password">
+            <Form.Item
+               label="Password"
+               rules={[{ required: true, message: 'Please input password' }]}>
                <Input.Password
                   className="input-password"
                   placeholder="Enter your password"
@@ -19,7 +23,10 @@ const Register = () => {
             </Form.Item>
             <Row gutter={4}>
                <Col span={12}>
-                  <Form.Item label="Name">
+                  <Form.Item
+                     label="Name"
+                     // rules={[{ required: true, message: 'Please input name' }]}>
+                  >
                      <Input placeholder="Enter your name" />
                   </Form.Item>
                </Col>

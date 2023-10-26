@@ -18,7 +18,7 @@ const AuthPage = () => {
          navigate('/', { replace: true });
       }
    }, [window.location.search]);
-
+console.log(import.meta.env.VITE_BACK_END_ENDPOINT);
    return (
       <div className="auth">
          <AuthLeftElement
