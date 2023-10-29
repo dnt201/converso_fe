@@ -3,7 +3,7 @@ import './style.less';
 const AuthLeftElement: React.FC<{ title: React.ReactNode }> = ({ title }) => {
    return (
       <div className="auth-left-element">
-         {title}
+         <span className="title">{title}</span>
 
          <div className="list-element">
             <div>

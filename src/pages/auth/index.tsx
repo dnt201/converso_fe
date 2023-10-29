@@ -24,17 +24,15 @@ console.log(import.meta.env.VITE_BACK_END_ENDPOINT);
          <AuthLeftElement
             title={
                action === 'login' ? (
-                  <span className="title">
-                     Log in to all your
-                     <b>{' text| '}</b>
+                  <>
+                     Log in to all your <b>{' text| '}</b>
                      products
-                  </span>
+                  </>
                ) : (
-                  <span className="title">
-                     One account for all
-                     <b>{' text| '}</b>
-                     products
-                  </span>
+                  <>
+                     One account for all {<b>{' text| '}</b>}
+                     products{' '}
+                  </>
                )
             }
          />

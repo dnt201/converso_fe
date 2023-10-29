@@ -7,6 +7,11 @@ export interface IResponse<T> {
    message: string;
    data: T;
 }
+export interface IError {
+   error: string;
+   message: string;
+}
+
 
 export interface IPaging {
    currentPage: number;
@@ -20,5 +25,4 @@ export interface IPagingFilter {
    pageSize: number;
 }
 
-export interface I360FeedBackFilter {}
 
