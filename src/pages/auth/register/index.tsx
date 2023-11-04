@@ -1,19 +1,34 @@
-import AuthLeftElement from '@components/AuthLeftElement';
 import './style.less';
-import { Button, Col, Divider, Form, Input, Row } from 'antd';
+import { Button, Col, Divider, Form, Input, InputNumber, Row } from 'antd';
 import ListOptionRegister from './ListOptionRegister';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { useForm } from 'antd/es/form/Form';
+import { tRegister, useMutationRegister } from '@hooks/auth';
+
 const Register = () => {
+   const [form] = useForm<tRegister>();
+   const mutationRegister = useMutationRegister();
+
+   const formRegisterSubmit = (formValue: tRegister) => {
+      mutationRegister.mutate(formValue, {});
+   };
    return (
       <>
-         <Form className="register-form" layout={'vertical'}>
+         <Form
+            onFinish={formRegisterSubmit}
+            form={form}
+            className="register-form"
+            layout={'vertical'}
+            autoComplete="off">
             <Form.Item
+               name="username"
                label="User name"
                rules={[{ required: true, message: 'Please input User name' }]}>
                <Input placeholder="Enter your username" />
             </Form.Item>
             <Form.Item
                label="Password"
+               name="password"
                rules={[{ required: true, message: 'Please input password' }]}>
                <Input.Password
                   className="input-password"
@@ -24,22 +39,47 @@ const Register = () => {
             <Row gutter={4}>
                <Col span={12}>
                   <Form.Item
-                     label="Name"
-                     // rules={[{ required: true, message: 'Please input name' }]}>
-                  >
+                     label="Your Name"
+                     name="name"
+                     rules={[{ required: true, message: 'Please input your name' }]}>
                      <Input placeholder="Enter your name" />
                   </Form.Item>
                </Col>
                <Col span={12}>
-                  <Form.Item label="Phone">
-                     <Input type="phone" placeholder="Enter your phone number" />
+                  <Form.Item
+                     label="Phone number"
+                     name="phonenumber"
+                     rules={[
+                        {
+                           required: true,
+                           message: 'Phone number is required',
+                        },
+                        {
+                           len: 10,
+                           message: 'Length must be 10 characters',
+                           type: 'number',
+                           transform(value) {
+                              return value + '';
+                           },
+                        },
+                     ]}>
+                     <InputNumber
+                        maxLength={10}
+                        controls={false}
+                        className="phone"
+                        type="phone"
+                        placeholder="Enter your phone number"
+                     />
                   </Form.Item>
                </Col>
             </Row>
             <Form.Item style={{ display: 'none' }}>
                <Input placeholder="Enter your avatar" />
             </Form.Item>
-            <Form.Item label="Address">
+            <Form.Item
+               label="Address"
+               name="address"
+               rules={[{ required: true, message: 'Please input your address' }]}>
                <Input placeholder="Enter your address" />
             </Form.Item>
 

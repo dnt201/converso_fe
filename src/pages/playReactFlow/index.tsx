@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import ReactFlow, {
    ReactFlowProvider,
    addEdge,
@@ -10,9 +10,9 @@ import ReactFlow, {
    ReactFlowInstance,
 } from 'reactflow';
 import './style.less';
-import SideBar from '@components/ReactFlow/SideBar';
+import SideBar from '@pages/PlayReactFlow/SideBar';
 import 'reactflow/dist/style.css';
-import FlowNode from '@components/ReactFlow/CustomNode/Flow';
+import { nodeTypes } from '@pages/PlayReactFlow/CustomNode';
 
 const initialNodes = [
    {
@@ -22,6 +22,7 @@ const initialNodes = [
       position: { x: 250, y: 5 },
    },
 ];
+
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 const DnDFlow: React.FC = () => {
@@ -68,7 +69,7 @@ const DnDFlow: React.FC = () => {
       },
       [reactFlowInstance]
    );
-   const nodeTypes = useMemo(() => ({ flowNode: FlowNode }), []);
+   // const nodeTypes = useMemo(() => (nodeTypesCustom), []);
 
    return (
       <div className="dndflow">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { listNodes, nodeTypes } from '../CustomNode';
 
 const SideBar: React.FC = () => {
    const onDragStart = (event: React.DragEvent, nodeType: string) => {
@@ -24,12 +25,18 @@ const SideBar: React.FC = () => {
             draggable>
             Output Node
          </div>
-         <div
-            className="dndnode flowNode"
-            onDragStart={(event) => onDragStart(event, 'flowNode')}
-            draggable>
-            Flow Node
-         </div>
+         {listNodes.map((item) => {
+            return (
+               <div
+                  key={item.value}
+                  className="dndnode"
+                  onDragStart={(event) => onDragStart(event, item.value)}
+                  draggable>
+                  {item.icon}
+                  <span>{item.label}</span>
+               </div>
+            );
+         })}
       </aside>
    );
 };

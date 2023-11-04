@@ -41,7 +41,9 @@ apiClient.interceptors.response.use(
          }
          return Promise.reject(error.response.data);
       }
-      return Promise.reject(error.message);
+      return Promise.reject(
+         error.message || 'Unknown Error, please try again or call admin to get help!'
+      );
    }
 );
 export default apiClient;

@@ -1,33 +1,34 @@
 import { mutationPost } from '@config/api';
 import { apiPath } from '@config/api/path';
-import { IResponse } from '@interfaces/index';
+import { IError, IResponse } from '@interfaces/index';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { notification } from 'antd';
 
-type Login = {
+type tLogin = {
    username: string;
    password: string;
 };
-type LoginResponse = IResponse<Login> & {};
-export type LoginParams = {
+type tLoginResponse = IResponse<tLogin> & {};
+export type tLoginParams = {
    username: string;
    password: string;
 };
 
 export const useMutationLogin = () => {
    return useMutation({
-      mutationFn: (loginParams: LoginParams) =>
-         mutationPost<LoginResponse>({
+      mutationFn: (loginParams: tLoginParams) => {
+         return mutationPost<tLoginResponse>({
             url: `${apiPath.AUTH.LOGIN}`,
             body: loginParams,
-         }),
-
-      onSuccess: (data) => {
-         // ✅ refetch the comments list for our blog post
+         });
+      },
+      onError: (error: IError) => {
+         notification.error({ message: error.error || 'Unknown error, please try again!' });
       },
    });
 };
 
-type Register = {
+export type tRegister = {
    username: string;
    password: string;
    name: string;
@@ -38,8 +39,8 @@ type Register = {
    extendData?: object;
    slug: string;
 };
-type RegisterResponse = IResponse<Register> & {};
-type RegisterParams = {
+type tRegisterResponse = IResponse<tRegister> & {};
+type tRegisterParams = {
    username: string;
    password: string;
    name: string;
@@ -53,16 +54,15 @@ type RegisterParams = {
 
 export const useMutationRegister = () => {
    return useMutation({
-      mutationFn: (registerParams: RegisterParams) =>
-         mutationPost<LoginResponse>({
+      mutationFn: (registerParams: tRegisterParams) => {
+         return mutationPost<tRegisterResponse>({
             url: `${apiPath.AUTH.REGISTER}`,
             body: registerParams,
-         }),
-
-      onSuccess: (data) => {
-         // ✅ refetch the comments list for our blog post
-         if (data.statusCode === 200) {
-         }
+         });
+      },
+      onSuccess: (data) => {},
+      onError: (error: IError) => {
+         notification.error({ message: error.error || 'Unknown error, please try again!' });
       },
    });
 };

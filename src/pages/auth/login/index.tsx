@@ -2,20 +2,21 @@ import './style.less';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Divider, Form, Input, notification } from 'antd';
 import ListOptionLogin from './ListOptionLogin';
-import { LoginParams, useMutationLogin } from '@hooks/auth/login';
+import { tLoginParams, useMutationLogin } from '@hooks/auth';
 import { IError } from '@interfaces/index';
 const Login: React.FC<{}> = () => {
    const mutationLogin = useMutationLogin();
-   const formLoginSubmit = (formValue: LoginParams) => {
-      mutationLogin.mutate(formValue, {
-         onError(error: IError) {
-            notification.error({ message: error.message });
-         },
-      });
+   const formLoginSubmit = (formValue: tLoginParams) => {
+      mutationLogin.mutate(
+         formValue
+         // onError(error: IError) {
+         //    notification.error({ message: error.message });
+         // },
+      );
    };
    return (
       <>
-         <Form<LoginParams>
+         <Form<tLoginParams>
             layout={'vertical'}
             onFinish={formLoginSubmit}
             //  wrapperCol={{ span: 4 }}

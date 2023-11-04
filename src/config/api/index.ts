@@ -12,9 +12,10 @@ export async function getDataWithParams<T, P>(url: string, params: P) {
       return res.data;
    });
 }
-export async function mutationPost<T>(params: IMutationPost<object>): Promise<T> {
-   const response = await apiClient.post(params.url, params.body);
-   return response.data as T;
+
+export async function mutationPost<T>(obj: IMutationPost<object>): Promise<T> {
+   const { url, body } = obj;
+   return await apiClient.post(url, { ...body }).then((response) => response.data as T);
 }
 export async function mutationDelete<T>(params: IMutationPost<object>): Promise<T> {
    const response = await apiClient.delete(params.url, params.body);
