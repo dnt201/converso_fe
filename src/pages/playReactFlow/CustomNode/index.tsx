@@ -1,16 +1,16 @@
-import { ExperimentOutlined, MessageOutlined, NotificationOutlined } from '@ant-design/icons';
-import ReceiveNode from './ReceiveNode';
+import { MessageOutlined, NotificationOutlined, SendOutlined } from '@ant-design/icons';
 import ResponseNode from './ResponseNode';
 import FlowNode from '@pages/PlayReactFlow/CustomNode/Flow';
 import { ReactNode } from 'react';
+import SendAMessageNode from './SendAMessageNode';
 
 export const nodeTypes = {
-   receiveNode: ReceiveNode,
-   //   SentimentAnalysis: SentimentAnalysis,
-   responseNode: ResponseNode,
-   flowNode: FlowNode,
-   //   NotifyAgent: NotifyAgent,
+   response: ResponseNode,
+   flow: FlowNode,
+   sendAMessage: SendAMessageNode,
 };
+
+export type tLanguage = 'vn' | 'en';
 
 interface NodeType {
    icon: ReactNode; // Assuming icon is a ReactNode
@@ -18,15 +18,6 @@ interface NodeType {
    value: string;
 }
 export const listNodes: NodeType[] = [
-   {
-      icon: <ExperimentOutlined />,
-      label: 'Sentiment Analysis',
-      value: 'SentimentAnalysis',
-   },
-   {
-      icon: <NotificationOutlined />,
-      label: 'Notify Agent',
-      value: 'NotifyAgent',
-   },
-   { icon: <MessageOutlined />, label: 'Respond', value: 'Respond' },
+   { icon: <MessageOutlined />, label: 'Response', value: 'response' },
+   { icon: <SendOutlined />, label: 'SendAMessage', value: 'sendAMessage' },
 ];
