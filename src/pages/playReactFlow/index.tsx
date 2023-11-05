@@ -13,13 +13,14 @@ import './style.less';
 import SideBar from '@pages/PlayReactFlow/SideBar';
 import 'reactflow/dist/style.css';
 import { nodeTypes } from '@pages/PlayReactFlow/CustomNode';
-import { SendAMessageData } from './CustomNode/SendAMessageNode';
+import { SendAMessageData, SendAMessageNode } from './CustomNode/SendAMessageNode';
+import { notification } from 'antd';
 
 const initialNodes = [
    {
       id: '1',
       type: 'input',
-      data: { label: 'input node' },
+      data: { label: 'Start node' },
       position: { x: 250, y: 5 },
    },
    {
@@ -67,14 +68,20 @@ const DnDFlow: React.FC = () => {
                y: event.clientY - reactFlowBounds.top,
             });
 
-            var newNode = {
-               id: getId(),
-               type,
-               position,
-               data: { label: `${type} node`, number: 12 },
-            };
-
-            setNodes((nds) => nds.concat(newNode));
+            if (type === 'sendAMessage') {
+               let newNode = {
+                  id: getId(),
+                  type,
+                  position,
+                  data: {
+                     name: '',
+                     text: [],
+                     type: '',
+                     nextAction: '',
+                  },
+               } as SendAMessageNode;
+               setNodes((nds) => nds.concat(newNode));
+            }
          }
       },
       [reactFlowInstance]
