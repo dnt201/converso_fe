@@ -18,13 +18,14 @@ export type SendAMessageNode = Node<SendAMessageData>;
 
 const SendAMessageNode: React.FC<NodeProps<SendAMessageData>> = (props) => (
    <div className="node send-a-message-node">
-      <Handle className="handle-target" type="source" position={Position.Top} />
+      <Handle className="handle-target" type="target" position={Position.Top} />
       <div className="content">
          <i className="icon">
             <MessageFilled />
          </i>
          <label className="label">Send A Message</label>
       </div>
+      <Handle className="handle-target" type={'source' || 'target'} position={Position.Bottom} />
    </div>
 );
 

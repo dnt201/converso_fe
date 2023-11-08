@@ -31,7 +31,7 @@ interface NodeType {
 export const listNodes: NodeType[] = [
    // { icon: <HomeOutlined />, label: 'Start point', value: 'start' },
    // { icon: <MessageOutlined />, label: 'Response', value: 'response' },
-   // { icon: <SendOutlined />, label: 'SendAMessage', value: 'sendAMessage' },
+   { icon: <MessageOutlined />, label: 'SendAMessage', value: 'sendAMessage' },
    { icon: <PhoneOutlined />, label: 'PromptCollect', value: 'promptCollect' },
 ];
 

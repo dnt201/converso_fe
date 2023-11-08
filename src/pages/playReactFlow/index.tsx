@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import ReactFlow, {
    ReactFlowProvider,
    addEdge,
@@ -8,6 +8,8 @@ import ReactFlow, {
    Connection,
    Edge,
    ReactFlowInstance,
+   useKeyPress,
+   MarkerType,
 } from 'reactflow';
 import './style.less';
 import SideBar from '@pages/PlayReactFlow/SideBar';
@@ -15,6 +17,7 @@ import 'reactflow/dist/style.css';
 import { nodeTypes } from '@pages/PlayReactFlow/CustomNode';
 import { SendAMessageData, SendAMessageNode } from './CustomNode/SendAMessageNode';
 import { notification } from 'antd';
+import {} from 'reactflow';
 
 const initialNodes = [
    {
@@ -23,12 +26,6 @@ const initialNodes = [
       data: { label: 'Start point' },
       position: { x: 250, y: 5 },
       deletable: false,
-   },
-   {
-      id: '2',
-      type: 'sendAMessage',
-      data: { label: 'sendAMessage node', number: 1 },
-      position: { x: 150, y: 0 },
    },
 ];
 
@@ -41,17 +38,54 @@ const DnDFlow: React.FC = () => {
    );
    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
    const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
+
    const [selectedNode, setSelectedNode] = useState(null);
+   // const [selectedEdge, setSelectedEdge] = useState<string | null>(null);
 
    const onConnect = useCallback(
-      (params: Edge | Connection) => setEdges((eds: Edge[]) => addEdge(params, eds)),
+      (params: Edge | Connection) =>
+         setEdges((eds: Edge[]) =>
+            addEdge(
+               {
+                  ...params,
+                  markerEnd: {
+                     type: MarkerType.ArrowClosed,
+                     width: 16,
+                     height: 16,
+                     color: '#333',
+                  },
+               },
+               eds
+            )
+         ),
       []
    );
 
+   const deleteEdgeById = (id: string) => {
+      setEdges((eds) => eds.filter((edge) => edge.id !== id));
+   };
+
+   const deleteNodeById = (id: string) => {
+      setNodes((nds) => nds.filter((node) => node.id !== id));
+      setEdges((eds) => eds.filter((edge) => edge.target !== id || edge.source === id));
+   };
    const onDragOver = useCallback((event: any) => {
       event.preventDefault();
       event.dataTransfer.dropEffect = 'move';
    }, []);
+
+   const onKeyDown = (event: React.KeyboardEvent) => {
+      if (event.key === 'Delete' || event.key === 'Backspace') {
+         const selectedEdges = edges.filter((el) => el.selected);
+         if (selectedEdges.length > 0) {
+            deleteEdgeById(selectedEdges[0].id);
+         }
+         const selectedNode = nodes.filter((el) => el.selected && el.id !== 'start-node');
+         if (selectedNode.length > 0) {
+            deleteNodeById(selectedNode[0].id);
+         }
+      }
+   };
 
    const onDrop = useCallback(
       (event: React.DragEvent) => {
@@ -109,9 +143,13 @@ const DnDFlow: React.FC = () => {
 
             <div className="reactflow-wrapper" ref={reactFlowWrapper}>
                <ReactFlow
+                  onKeyDown={onKeyDown}
                   nodeTypes={nodeTypes}
                   nodes={nodes}
                   edges={edges}
+                  onEdgesDelete={(e) => {
+                     console.log(e);
+                  }}
                   onNodesChange={onNodesChange}
                   onEdgesChange={onEdgesChange}
                   onConnect={onConnect}
@@ -122,6 +160,9 @@ const DnDFlow: React.FC = () => {
                      console.log(curNode);
 
                      // setSelectedNode(nodes.filter((nds) => nds.id === id)[0]);
+                  }}
+                  onEdgeClick={() => {
+                     console.log(edges);
                   }}>
                   <Controls showZoom={true} showFitView={true} position="bottom-right" />
                </ReactFlow>
