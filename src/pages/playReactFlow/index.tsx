@@ -18,10 +18,11 @@ import { notification } from 'antd';
 
 const initialNodes = [
    {
-      id: '1',
-      type: 'input',
-      data: { label: 'Start node' },
+      id: 'start-node',
+      type: 'start',
+      data: { label: 'Start point' },
       position: { x: 250, y: 5 },
+      deletable: false,
    },
    {
       id: '2',
@@ -81,6 +82,19 @@ const DnDFlow: React.FC = () => {
                   },
                } as SendAMessageNode;
                setNodes((nds) => nds.concat(newNode));
+            } else if (type === 'promptCollect') {
+               let newNode = {
+                  id: getId(),
+                  type,
+                  position,
+                  data: {
+                     name: '',
+                     text: [],
+                     type: '',
+                     nextAction: '',
+                  },
+               } as SendAMessageNode;
+               setNodes((nds) => nds.concat(newNode));
             }
          }
       },
@@ -89,7 +103,7 @@ const DnDFlow: React.FC = () => {
    // const nodeTypes = useMemo(() => (nodeTypesCustom), []);
 
    return (
-      <div className="dndflow">
+      <div className="playReactNode">
          <ReactFlowProvider>
             <SideBar />
 
@@ -109,7 +123,7 @@ const DnDFlow: React.FC = () => {
 
                      // setSelectedNode(nodes.filter((nds) => nds.id === id)[0]);
                   }}>
-                  <Controls />
+                  <Controls showZoom={true} showFitView={true} position="bottom-right" />
                </ReactFlow>
             </div>
          </ReactFlowProvider>

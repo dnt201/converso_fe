@@ -1,6 +1,7 @@
 import React from 'react';
 import { Handle, Node, Position } from 'reactflow';
 import { ValidateType, tLanguage } from '..';
+import { PhoneFilled, PhoneOutlined } from '@ant-design/icons';
 
 export interface PromptCollectData {
    type: string;
@@ -18,11 +19,17 @@ export type SendAMessageNode = Node<PromptCollectData>;
 
 const PromptCollectNode = () => {
    return (
-      <div className="prompt-collect-node">
-         <Handle type="target" position={Position.Top} />
-         <div>
-            <label htmlFor="text">Prompt and Collect node</label>
+      <div className="node prompt-collect-node">
+         <Handle className="handle-target" type="target" position={Position.Top} />
+         <div className="content">
+            <i className="icon">
+               <PhoneFilled />
+            </i>
+            <label className="label" htmlFor="text">
+               Prompt and Collect
+            </label>
          </div>
+         <Handle className="handle-target" type="source" position={Position.Bottom} />
       </div>
    );
 };

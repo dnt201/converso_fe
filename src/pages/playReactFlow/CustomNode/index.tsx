@@ -1,7 +1,8 @@
 import {
-   CarOutlined,
+   CreditCardOutlined,
+   HomeOutlined,
    MessageOutlined,
-   NotificationOutlined,
+   PhoneOutlined,
    SendOutlined,
 } from '@ant-design/icons';
 import ResponseNode from './ResponseNode';
@@ -9,8 +10,10 @@ import FlowNode from '@pages/PlayReactFlow/CustomNode/Flow';
 import { ReactNode } from 'react';
 import SendAMessageNode from './SendAMessageNode';
 import PromptCollectNode from './PromptCollectNode';
+import StartNode from './StartNode';
 
 export const nodeTypes = {
+   start: StartNode,
    response: ResponseNode,
    flow: FlowNode,
    sendAMessage: SendAMessageNode,
@@ -24,10 +27,12 @@ interface NodeType {
    label: string;
    value: string;
 }
+
 export const listNodes: NodeType[] = [
-   { icon: <MessageOutlined />, label: 'Response', value: 'response' },
-   { icon: <SendOutlined />, label: 'SendAMessage', value: 'sendAMessage' },
-   { icon: <CarOutlined />, label: 'PromptCollect', value: 'promptCollect' },
+   // { icon: <HomeOutlined />, label: 'Start point', value: 'start' },
+   // { icon: <MessageOutlined />, label: 'Response', value: 'response' },
+   // { icon: <SendOutlined />, label: 'SendAMessage', value: 'sendAMessage' },
+   { icon: <PhoneOutlined />, label: 'PromptCollect', value: 'promptCollect' },
 ];
 
 export type ValidateType = 'yes-no' | 'number' | 'email' | 'phonenumber' | 'intent';

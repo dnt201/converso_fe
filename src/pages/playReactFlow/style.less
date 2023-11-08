@@ -1,60 +1,75 @@
-.dndflow {
-  flex-direction: column;
-  display: flex;
-  flex-grow: 1;
-  min-height: 100vh;
-  height: 100%;
-  width: 100vw;
-}
+.playReactNode {
+   min-height: 100vh;
+   height: 100%;
+   width: 100vw;
+   background-color: #edf1f6;
 
-.dndflow aside {
-  border-right: 1px solid #eee;
-  padding: 15px 10px;
-  font-size: 12px;
-  background: #fcfcfc;
-}
+   .reactflow-wrapper {
+      flex-grow: 1;
+      height: 100vh;
+      width: 100vw;
+   }
+   .react-flow-node {
+      height: 20px;
+      padding: 4px;
+      border: 1px solid #1a192b;
+      border-radius: 2px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: grab;
+   }
 
-.dndflow aside .description {
-  margin-bottom: 10px;
-}
+   .node {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 50px;
+      z-index: 1;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: white;
+      cursor: move;
+      min-width: 150px;
+      width: fit-content;
+      border: 1px solid transparent;
 
-.dndflow .dndnode {
-  height: 20px;
-  padding: 4px;
-  border: 1px solid #1a192b;
-  border-radius: 2px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: grab;
+      &:hover {
+         border-color: var(--color-main-green);
+      }
+      .handle-target {
+        padding: 2px;
+        :hover {
+          background: var(--color-main-green)!important;
+        }
+      }
+      .content {
+         background: white;
+         display: flex;
+         align-items: center;
+         font-size: 14px;
+         gap: 6px;
+         cursor: move;
+         .icon {
+            font-size: 20px;
+            color:var(--color-main-blue);
+         }
+         .label {
+            cursor: move;
+            color:var(--color-main-blue);
+      
+         }
+      }
+   }
 }
+// @media screen and (min-width: 768px) {
+//   .dndflow {
+//     flex-direction: row;
+//   }
 
-.dndflow .dndnode.input {
-  border-color: #0041d0;
-}
-
-.dndflow .dndnode.output {
-  border-color: #ff0072;
-}
-
-.dndflow .reactflow-wrapper {
-  flex-grow: 1;
-  height: 100vh;
-  width: 100vw;
-}
-
-.dndflow .selectall {
-  margin-top: 10px;
-}
-
-@media screen and (min-width: 768px) {
-  .dndflow {
-    flex-direction: row;
-  }
-
-  .dndflow aside {
-    width: 20%;
-    max-width: 250px;
-  }
-}
+//   .dndflow aside {
+//     width: 20%;
+//     max-width: 250px;
+//   }
+// }
