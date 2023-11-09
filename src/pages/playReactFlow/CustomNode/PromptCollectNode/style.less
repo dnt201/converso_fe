@@ -7,4 +7,35 @@
   padding: 8px;
   border-radius: 5px;
   background: white;
+  .lazy-prompt-and-collect-handle {
+    border-radius: 0;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+
+    &:hover {
+      
+        border-color: var(--color-shade-dark-gray);
+
+    }
+    >.icon {
+      pointer-events: none;
+      color:white;
+      font-size: 8px;
+    }
+  }
+  .handle-target-false  {
+    .lazy-prompt-and-collect-handle;
+    background:var(--color-main-yellow);
+    
+  }
+  .handle-target-true {
+    .lazy-prompt-and-collect-handle;
+    background:var(--color-main-green);
+    
+    
+  }
 }

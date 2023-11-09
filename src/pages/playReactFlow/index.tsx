@@ -42,8 +42,29 @@ const DnDFlow: React.FC = () => {
    const [selectedNode, setSelectedNode] = useState(null);
    // const [selectedEdge, setSelectedEdge] = useState<string | null>(null);
 
-   const onConnect = useCallback(
-      (params: Edge | Connection) =>
+   const onConnect = useCallback(async (params: Edge | Connection) => {
+      console.log(params, edges);
+      let a = '';
+      if (params?.sourceHandle?.includes('prompt-and-collect')) {
+         a = (await prompt('Enter your intent')) ?? '';
+         if (a.length > 0) {
+            setEdges((eds: Edge[]) =>
+               addEdge(
+                  {
+                     ...params,
+                     label: a,
+                     markerEnd: {
+                        type: MarkerType.ArrowClosed,
+                        width: 16,
+                        height: 16,
+                        color: '#333',
+                     },
+                  },
+                  eds
+               )
+            );
+         }
+      } else
          setEdges((eds: Edge[]) =>
             addEdge(
                {
@@ -57,9 +78,8 @@ const DnDFlow: React.FC = () => {
                },
                eds
             )
-         ),
-      []
-   );
+         );
+   }, []);
 
    const deleteEdgeById = (id: string) => {
       setEdges((eds) => eds.filter((edge) => edge.id !== id));

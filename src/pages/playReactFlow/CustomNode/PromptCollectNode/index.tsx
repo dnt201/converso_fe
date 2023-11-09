@@ -1,8 +1,9 @@
 import React from 'react';
 import { Handle, Node, Position } from 'reactflow';
 import { ValidateType, tLanguage } from '..';
-import { PhoneFilled, PhoneOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, PhoneFilled, PhoneOutlined } from '@ant-design/icons';
 
+import './style.less';
 export interface PromptCollectData {
    type: string;
    name: string;
@@ -29,7 +30,30 @@ const PromptCollectNode = () => {
                Prompt and Collect
             </label>
          </div>
-         <Handle className="handle-target" type="source" position={Position.Bottom} />
+         <Handle
+            className="handle-target-false"
+            id="prompt-and-collect-false"
+            style={{
+               left: '25%',
+            }}
+            type="source"
+            position={Position.Bottom}>
+            <i className="icon">
+               <CloseOutlined />
+            </i>
+         </Handle>
+         <Handle
+            className="handle-target-true"
+            id="prompt-and-collect-true"
+            style={{
+               left: '75%',
+            }}
+            type="source"
+            position={Position.Bottom}>
+            <i className="icon">
+               <CheckOutlined />
+            </i>
+         </Handle>
       </div>
    );
 };
