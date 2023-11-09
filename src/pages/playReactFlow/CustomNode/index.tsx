@@ -5,7 +5,6 @@ import {
    PhoneOutlined,
    SendOutlined,
 } from '@ant-design/icons';
-import ResponseNode from './ResponseNode';
 import FlowNode from '@pages/PlayReactFlow/CustomNode/Flow';
 import { ReactNode } from 'react';
 import SendAMessageNode from './SendAMessageNode';
@@ -14,7 +13,6 @@ import StartNode from './StartNode';
 
 export const nodeTypes = {
    start: StartNode,
-   response: ResponseNode,
    flow: FlowNode,
    sendAMessage: SendAMessageNode,
    promptCollect: PromptCollectNode,

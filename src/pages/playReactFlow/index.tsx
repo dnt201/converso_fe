@@ -18,6 +18,9 @@ import { nodeTypes } from '@pages/PlayReactFlow/CustomNode';
 import { SendAMessageData, SendAMessageNode } from './CustomNode/SendAMessageNode';
 import { notification } from 'antd';
 import {} from 'reactflow';
+import PopUpEditNode from './PopUpEditNode';
+import ModalEditCheckIntent, { iValueEdgePromptCollect } from './ModalEditCheckIntent';
+import { edgeTypes } from './CustomEdge/indext';
 
 const initialNodes = [
    {
@@ -39,31 +42,37 @@ const DnDFlow: React.FC = () => {
    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
    const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
 
+   const [openModalEditCheckIntent, setOpenModalEditCheckIntent] = useState<boolean>(false);
    const [selectedNode, setSelectedNode] = useState(null);
-   // const [selectedEdge, setSelectedEdge] = useState<string | null>(null);
+   const selectedEdgeId = useRef<string | null>(null);
+
+   const [curValueCheckIntent, setCurValueCheckIntent] = useState<iValueEdgePromptCollect | null>(
+      null
+   );
+
+   useEffect(() => {}, []);
 
    const onConnect = useCallback(async (params: Edge | Connection) => {
-      console.log(params, edges);
-      let a = '';
       if (params?.sourceHandle?.includes('prompt-and-collect')) {
-         a = (await prompt('Enter your intent')) ?? '';
-         if (a.length > 0) {
-            setEdges((eds: Edge[]) =>
-               addEdge(
-                  {
-                     ...params,
-                     label: a,
-                     markerEnd: {
-                        type: MarkerType.ArrowClosed,
-                        width: 16,
-                        height: 16,
-                        color: '#333',
-                     },
+         selectedEdgeId.current = `reactflow__edge-${params.source}${params.sourceHandle ?? ''}-${
+            params.target
+         }${params.targetHandle ?? ''}`;
+
+         setOpenModalEditCheckIntent(true);
+         setEdges((eds: Edge[]) =>
+            addEdge(
+               {
+                  ...params,
+                  markerEnd: {
+                     type: MarkerType.ArrowClosed,
+                     width: 16,
+                     height: 16,
+                     color: '#333',
                   },
-                  eds
-               )
-            );
-         }
+               },
+               eds
+            )
+         );
       } else
          setEdges((eds: Edge[]) =>
             addEdge(
@@ -106,6 +115,8 @@ const DnDFlow: React.FC = () => {
          }
       }
    };
+
+   console.log(edges);
 
    const onDrop = useCallback(
       (event: React.DragEvent) => {
@@ -160,11 +171,40 @@ const DnDFlow: React.FC = () => {
       <div className="playReactNode">
          <ReactFlowProvider>
             <SideBar />
-
+            <ModalEditCheckIntent
+               open={openModalEditCheckIntent}
+               dataEdge={curValueCheckIntent}
+               setDataEdge={(c) => {
+                  setCurValueCheckIntent(c);
+               }}
+               onCancel={() => {
+                  if (selectedEdgeId.current) deleteEdgeById(selectedEdgeId.current);
+                  setOpenModalEditCheckIntent(false);
+               }}
+               onOk={() => {
+                  if (selectedEdgeId.current) {
+                     let objIndex = edges.findIndex((obj) => obj.id === selectedEdgeId.current);
+                     edges[objIndex] = {
+                        ...edges[objIndex],
+                        label: (
+                           <span>
+                              <b>{curValueCheckIntent?.condition}</b>: {curValueCheckIntent?.intent}
+                           </span>
+                        ),
+                        data: {
+                           curValueCheckIntent: curValueCheckIntent?.condition,
+                           intent: curValueCheckIntent?.intent,
+                        },
+                     };
+                  }
+                  setOpenModalEditCheckIntent(false);
+               }}
+            />
             <div className="reactflow-wrapper" ref={reactFlowWrapper}>
                <ReactFlow
                   onKeyDown={onKeyDown}
                   nodeTypes={nodeTypes}
+                  edgeTypes={edgeTypes}
                   nodes={nodes}
                   edges={edges}
                   onEdgesDelete={(e) => {

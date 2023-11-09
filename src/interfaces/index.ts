@@ -26,3 +26,7 @@ export interface IPagingFilter {
 }
 
 
+export interface iOption {
+   value: string;
+   label: string;
+}
