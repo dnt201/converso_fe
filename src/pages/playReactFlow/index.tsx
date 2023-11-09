@@ -170,6 +170,15 @@ const DnDFlow: React.FC = () => {
                   onEdgesDelete={(e) => {
                      console.log(e);
                   }}
+                  onEdgeUpdateStart={() => {
+                     console.log('start');
+                  }}
+                  onEdgeUpdate={() => {
+                     console.log('on e update');
+                  }}
+                  onEdgeUpdateEnd={() => {
+                     console.log('end');
+                  }}
                   onNodesChange={onNodesChange}
                   onEdgesChange={onEdgesChange}
                   onConnect={onConnect}
