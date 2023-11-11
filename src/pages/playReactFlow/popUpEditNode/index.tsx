@@ -9,7 +9,6 @@ interface PopUpEditNodeProps {
 }
 const PopUpEditNode: React.FC<PopUpEditNodeProps> = (props) => {
    const { setNode } = props;
-   console.log(props);
    return (
       <div className="popUpEditNode">
          <h6>

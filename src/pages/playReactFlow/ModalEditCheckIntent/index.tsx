@@ -79,7 +79,8 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
          title={<h2>Check Intent</h2>}
          {...modalProps}
          okButtonProps={{ disabled: !submittable }}
-         width={'50%'}>
+         width={'50%'}
+         afterClose={() => form.resetFields()}>
          <Form
             initialValues={{ condition: listOption[0].value }}
             form={form}

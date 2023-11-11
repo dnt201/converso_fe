@@ -8,17 +8,15 @@ import ReactFlow, {
    Connection,
    Edge,
    ReactFlowInstance,
-   useKeyPress,
    MarkerType,
+   EdgeProps,
 } from 'reactflow';
 import './style.less';
 import SideBar from '@pages/PlayReactFlow/SideBar';
 import 'reactflow/dist/style.css';
 import { nodeTypes } from '@pages/PlayReactFlow/CustomNode';
 import { SendAMessageData, SendAMessageNode } from './CustomNode/SendAMessageNode';
-import { notification } from 'antd';
 import {} from 'reactflow';
-import PopUpEditNode from './PopUpEditNode';
 import ModalEditCheckIntent, { iValueEdgePromptCollect } from './ModalEditCheckIntent';
 import { edgeTypes } from './CustomEdge/indext';
 
@@ -29,6 +27,42 @@ const initialNodes = [
       data: { label: 'Start point' },
       position: { x: 250, y: 5 },
       deletable: false,
+   },
+   {
+      id: 'prompt',
+      type: 'promptCollect',
+      data: { label: 'promptCollect' },
+      position: { x: 250, y: 150 },
+      deletable: false,
+   },
+   {
+      id: 'message',
+      type: 'sendAMessage',
+      data: { label: 'sendAMessage' },
+      position: { x: 250, y: 250 },
+      deletable: false,
+   },
+];
+const initialEdges = [
+   {
+      data: { intent: '1', condition: 'equal' },
+
+      id: 'e1-2',
+      source: 'prompt',
+      sourceHandle: 'prompt-and-collect-true',
+      target: 'message',
+      targetHandle: 'target-top',
+      type: 'promptCollectEdge',
+   },
+   {
+      data: { intent: '51', condition: 'equal' },
+
+      id: 'e22',
+      source: 'prompt',
+      sourceHandle: 'prompt-and-collect-true',
+      target: 'message',
+      targetHandle: 'target-top',
+      type: 'promptCollectEdge',
    },
 ];
 
@@ -45,24 +79,28 @@ const DnDFlow: React.FC = () => {
    const [openModalEditCheckIntent, setOpenModalEditCheckIntent] = useState<boolean>(false);
    const [selectedNode, setSelectedNode] = useState(null);
    const selectedEdgeId = useRef<string | null>(null);
-
    const [curValueCheckIntent, setCurValueCheckIntent] = useState<iValueEdgePromptCollect | null>(
       null
    );
 
-   useEffect(() => {}, []);
+   useEffect(() => {
+      // console.log(edges);
+   }, [edges]);
 
    const onConnect = useCallback(async (params: Edge | Connection) => {
       if (params?.sourceHandle?.includes('prompt-and-collect')) {
-         selectedEdgeId.current = `reactflow__edge-${params.source}${params.sourceHandle ?? ''}-${
-            params.target
-         }${params.targetHandle ?? ''}`;
-
+         const tempId = crypto.randomUUID();
+         selectedEdgeId.current = tempId;
          setOpenModalEditCheckIntent(true);
-         setEdges((eds: Edge[]) =>
-            addEdge(
+         setEdges((e) => {
+            return [
+               ...e,
                {
                   ...params,
+                  source: params.source + '',
+                  target: params.target + '',
+                  type: 'promptCollectEdge',
+                  id: tempId,
                   markerEnd: {
                      type: MarkerType.ArrowClosed,
                      width: 16,
@@ -70,14 +108,18 @@ const DnDFlow: React.FC = () => {
                      color: '#333',
                   },
                },
-               eds
-            )
-         );
-      } else
-         setEdges((eds: Edge[]) =>
-            addEdge(
+            ];
+         });
+      } else {
+         setEdges((e) => {
+            return [
+               ...e,
                {
                   ...params,
+                  id: crypto.randomUUID(),
+                  source: params.source + '',
+                  target: params.target + '',
+                  type: 'promptCollectEdge',
                   markerEnd: {
                      type: MarkerType.ArrowClosed,
                      width: 16,
@@ -85,9 +127,9 @@ const DnDFlow: React.FC = () => {
                      color: '#333',
                   },
                },
-               eds
-            )
-         );
+            ];
+         });
+      }
    }, []);
 
    const deleteEdgeById = (id: string) => {
@@ -115,8 +157,6 @@ const DnDFlow: React.FC = () => {
          }
       }
    };
-
-   console.log(edges);
 
    const onDrop = useCallback(
       (event: React.DragEvent) => {
@@ -166,7 +206,6 @@ const DnDFlow: React.FC = () => {
       [reactFlowInstance]
    );
    // const nodeTypes = useMemo(() => (nodeTypesCustom), []);
-
    return (
       <div className="playReactNode">
          <ReactFlowProvider>
@@ -183,20 +222,32 @@ const DnDFlow: React.FC = () => {
                }}
                onOk={() => {
                   if (selectedEdgeId.current) {
-                     let objIndex = edges.findIndex((obj) => obj.id === selectedEdgeId.current);
-                     edges[objIndex] = {
-                        ...edges[objIndex],
-                        label: (
-                           <span>
-                              <b>{curValueCheckIntent?.condition}</b>: {curValueCheckIntent?.intent}
-                           </span>
-                        ),
-                        data: {
-                           curValueCheckIntent: curValueCheckIntent?.condition,
-                           intent: curValueCheckIntent?.intent,
-                        },
-                     };
+                     // let objIndex = edges.findIndex((obj) => obj.id === selectedEdgeId.current);
+
+                     const temp = edges.map((item) => {
+                        if (item.id === selectedEdgeId.current) {
+                           return {
+                              ...item,
+                              label: (
+                                 <span>
+                                    <b>{curValueCheckIntent?.condition}</b>:{' '}
+                                    {curValueCheckIntent?.intent}
+                                 </span>
+                              ),
+                              data: {
+                                 condition: curValueCheckIntent?.condition,
+                                 intent: curValueCheckIntent?.intent,
+                              },
+                           };
+                        }
+                        return item;
+                     });
+                     setEdges(temp);
+                     // edges[objIndex] = {
+                     //    ...edges[objIndex],
+                     // };
                   }
+                  setCurValueCheckIntent(null);
                   setOpenModalEditCheckIntent(false);
                }}
             />
@@ -207,32 +258,20 @@ const DnDFlow: React.FC = () => {
                   edgeTypes={edgeTypes}
                   nodes={nodes}
                   edges={edges}
-                  onEdgesDelete={(e) => {
-                     console.log(e);
-                  }}
-                  onEdgeUpdateStart={() => {
-                     console.log('start');
-                  }}
-                  onEdgeUpdate={() => {
-                     console.log('on e update');
-                  }}
-                  onEdgeUpdateEnd={() => {
-                     console.log('end');
-                  }}
+                  onEdgesDelete={(e) => {}}
                   onNodesChange={onNodesChange}
                   onEdgesChange={onEdgesChange}
                   onConnect={onConnect}
                   onInit={setReactFlowInstance}
                   onDrop={onDrop}
                   onDragOver={onDragOver}
+                  onEdgeDoubleClick={(_, e) => {
+                     e.type === '';
+                  }}
                   onNodeClick={(_, curNode) => {
-                     console.log(curNode);
-
                      // setSelectedNode(nodes.filter((nds) => nds.id === id)[0]);
                   }}
-                  onEdgeClick={() => {
-                     console.log(edges);
-                  }}>
+                  onEdgeClick={() => {}}>
                   <Controls showZoom={true} showFitView={true} position="bottom-right" />
                </ReactFlow>
             </div>

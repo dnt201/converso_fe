@@ -2,23 +2,26 @@ import React from 'react';
 import { BaseEdge, EdgeLabelRenderer, EdgeProps, getBezierPath } from 'reactflow';
 
 import './style.less';
+import { iValueEdgePromptCollect } from '@pages/PlayReactFlow/ModalEditCheckIntent';
 
 const onEdgeClick = (evt: React.MouseEvent, id: string) => {
    evt.stopPropagation();
    alert(`remove ${id}`);
 };
 
-const PromptCollectEdge: React.FC<EdgeProps> = ({
-   id,
-   sourceX,
-   sourceY,
-   targetX,
-   targetY,
-   sourcePosition,
-   targetPosition,
-   style = {},
-   markerEnd,
-}: EdgeProps) => {
+const PromptCollectEdge: React.FC<EdgeProps<iValueEdgePromptCollect>> = (props) => {
+   const {
+      id,
+      sourceX,
+      sourceY,
+      targetX,
+      targetY,
+      sourcePosition,
+      targetPosition,
+      style = {},
+      markerEnd,
+      data,
+   } = props;
    const [edgePath, labelX, labelY] = getBezierPath({
       sourceX,
       sourceY,
@@ -40,8 +43,8 @@ const PromptCollectEdge: React.FC<EdgeProps> = ({
                   pointerEvents: 'all',
                }}
                className="nodrag nopan">
-               <button className="edgebutton" onClick={(event) => onEdgeClick(event, id)}>
-                  ×
+               <button className="edge-button" onClick={(event) => onEdgeClick(event, id)}>
+                  <b>{data?.condition}</b> {data?.intent}
                </button>
             </div>
          </EdgeLabelRenderer>
