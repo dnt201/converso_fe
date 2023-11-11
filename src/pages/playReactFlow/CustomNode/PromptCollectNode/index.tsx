@@ -16,7 +16,7 @@ export interface PromptCollectData {
    intent: string;
 }
 
-export type SendAMessageNode = Node<PromptCollectData>;
+export type PromptCollectNode = Node<PromptCollectData>;
 
 const PromptCollectNode = () => {
    return (

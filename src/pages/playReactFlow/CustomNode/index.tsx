@@ -7,8 +7,8 @@ import {
 } from '@ant-design/icons';
 import FlowNode from '@pages/PlayReactFlow/CustomNode/Flow';
 import { ReactNode } from 'react';
-import SendAMessageNode from './SendAMessageNode';
-import PromptCollectNode from './PromptCollectNode';
+import SendAMessageNode, { SendAMessageData } from './SendAMessageNode';
+import PromptCollectNode, { PromptCollectData } from './PromptCollectNode';
 import StartNode from './StartNode';
 
 export const nodeTypes = {
@@ -32,5 +32,7 @@ export const listNodes: NodeType[] = [
    { icon: <MessageOutlined />, label: 'SendAMessage', value: 'sendAMessage' },
    { icon: <PhoneOutlined />, label: 'PromptCollect', value: 'promptCollect' },
 ];
+
+export type tListNodeData = SendAMessageData | PromptCollectData;
 
 export type ValidateType = 'yes-no' | 'number' | 'email' | 'phonenumber' | 'intent';

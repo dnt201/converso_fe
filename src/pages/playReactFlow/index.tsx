@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import ReactFlow, {
+   Node,
    ReactFlowProvider,
-   addEdge,
    useNodesState,
    useEdgesState,
    Controls,
@@ -9,16 +9,17 @@ import ReactFlow, {
    Edge,
    ReactFlowInstance,
    MarkerType,
-   EdgeProps,
 } from 'reactflow';
 import './style.less';
 import SideBar from '@pages/PlayReactFlow/SideBar';
 import 'reactflow/dist/style.css';
-import { nodeTypes } from '@pages/PlayReactFlow/CustomNode';
+import { nodeTypes, tListNodeData } from '@pages/PlayReactFlow/CustomNode';
 import { SendAMessageData, SendAMessageNode } from './CustomNode/SendAMessageNode';
 import {} from 'reactflow';
 import ModalEditCheckIntent, { iValueEdgePromptCollect } from './ModalEditCheckIntent';
 import { edgeTypes } from './CustomEdge/indext';
+import { PromptCollectNode } from './CustomNode/PromptCollectNode';
+import ModalEditNode from './ModalEditNode';
 
 const initialNodes = [
    {
@@ -70,14 +71,14 @@ let id = 0;
 const getId = () => `dndnode_${id++}`;
 const DnDFlow: React.FC = () => {
    const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
-   const [nodes, setNodes, onNodesChange] = useNodesState<SendAMessageData | { label: string }>(
+   const [nodes, setNodes, onNodesChange] = useNodesState<tListNodeData | { label: string }>(
       initialNodes
    );
    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
    const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
 
    const [openModalEditCheckIntent, setOpenModalEditCheckIntent] = useState<boolean>(false);
-   const [selectedNode, setSelectedNode] = useState(null);
+   const [selectedNode, setSelectedNode] = useState<Node<tListNodeData> | null>(null);
    const selectedEdgeId = useRef<string | null>(null);
    const [curValueCheckIntent, setCurValueCheckIntent] = useState<iValueEdgePromptCollect | null>(
       null
@@ -205,9 +206,16 @@ const DnDFlow: React.FC = () => {
       },
       [reactFlowInstance]
    );
+   console.log('rerender');
    // const nodeTypes = useMemo(() => (nodeTypesCustom), []);
    return (
       <div className="playReactNode">
+         <ModalEditNode
+            hidden={selectedNode ? false : true}
+            node={selectedNode ?? null}
+            setNode={(node) => setSelectedNode(node)}
+         />
+
          <ReactFlowProvider>
             <SideBar />
             <ModalEditCheckIntent
@@ -265,6 +273,9 @@ const DnDFlow: React.FC = () => {
                   onInit={setReactFlowInstance}
                   onDrop={onDrop}
                   onDragOver={onDragOver}
+                  onNodeDoubleClick={(event, curNode) => {
+                     if (curNode.type === 'promptCollect') setSelectedNode(curNode);
+                  }}
                   onEdgeDoubleClick={(_, e) => {
                      e.type === '';
                   }}
