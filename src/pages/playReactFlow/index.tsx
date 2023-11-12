@@ -20,6 +20,8 @@ import ModalEditCheckIntent, { iValueEdgePromptCollect } from './ModalEditCheckI
 import { ListEdgeType, edgeTypes } from './CustomEdge/indext';
 
 import ModalEditNode from './ModalEditNode';
+import { tPromptCollectNode } from './CustomNode/PromptCollectNode';
+import { tSubFlowNode } from './CustomNode/SubFlowNode/indext';
 
 const initialNodes = [
    {
@@ -188,38 +190,64 @@ const DnDFlow: React.FC = () => {
             // check if the dropped element is valid
             if (typeof type === 'undefined' || !type) {
                return;
-            }
-            const position = reactFlowInstance.project({
-               x: event.clientX - reactFlowBounds.left,
-               y: event.clientY - reactFlowBounds.top,
-            });
-
-            if (type === 'sendAMessage') {
-               let newNode = {
-                  id: getId(),
-                  type,
-                  position,
-                  data: {
-                     name: '',
-                     text: [],
-                     type: '',
-                     nextAction: '',
-                  },
-               } as SendAMessageNode;
-               setNodes((nds) => nds.concat(newNode));
-            } else if (type === 'promptCollect') {
-               let newNode = {
-                  id: getId(),
-                  type,
-                  position,
-                  data: {
-                     name: '',
-                     text: [],
-                     type: '',
-                     nextAction: '',
-                  },
-               } as SendAMessageNode;
-               setNodes((nds) => nds.concat(newNode));
+            } else {
+               const position = reactFlowInstance.project({
+                  x: event.clientX - reactFlowBounds.left,
+                  y: event.clientY - reactFlowBounds.top,
+               });
+               if (type === 'sendAMessage') {
+                  let newNode = {
+                     id: getId(),
+                     type,
+                     position,
+                     data: {
+                        name: '',
+                        text: [],
+                        type: '',
+                        nextAction: '',
+                     },
+                  } as SendAMessageNode;
+                  setNodes((nds) => nds.concat(newNode));
+               } else if (type === 'promptCollect') {
+                  let newNode = {
+                     id: getId(),
+                     type,
+                     position,
+                     data: {
+                        type: '',
+                        name: '',
+                        text: [],
+                        validateType: 'intent',
+                        answer: '',
+                        intent: '',
+                        nextAction: [],
+                     },
+                  } as tPromptCollectNode;
+                  setNodes((nds) => nds.concat(newNode));
+               } else if (type === 'subFlow') {
+                  let newNode = {
+                     id: getId(),
+                     type,
+                     position,
+                     data: {
+                        flowId: '',
+                        name: '',
+                        type: '',
+                        nextAction: '',
+                     },
+                  } as tSubFlowNode;
+                  setNodes((nds) => nds.concat(newNode));
+               } else {
+                  let newNode = {
+                     id: getId(),
+                     type,
+                     position,
+                     data: {
+                        label: type,
+                     },
+                  };
+                  setNodes((nds) => nds.concat(newNode));
+               }
             }
          }
       },

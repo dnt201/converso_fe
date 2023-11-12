@@ -1,7 +1,13 @@
 import React from 'react';
 import { Handle, Node, Position } from 'reactflow';
 import { ValidateType, tLanguage } from '..';
-import { CheckOutlined, CloseOutlined, PhoneFilled, PhoneOutlined } from '@ant-design/icons';
+import {
+   CheckOutlined,
+   CloseOutlined,
+   CustomerServiceFilled,
+   PhoneFilled,
+   PhoneOutlined,
+} from '@ant-design/icons';
 
 import './style.less';
 export interface PromptCollectData {
@@ -14,6 +20,10 @@ export interface PromptCollectData {
    validateType: ValidateType;
    answer: string;
    intent: string;
+   nextAction: {
+      case: string; //"label:{intent}" backend tự check
+      actionId: string;
+   }[];
 }
 
 export type tPromptCollectNode = Node<PromptCollectData>;
@@ -24,7 +34,7 @@ const PromptCollectNode = () => {
          <Handle className="handle-target" type="target" position={Position.Top} />
          <div className="content">
             <i className="icon">
-               <PhoneFilled />
+               <CustomerServiceFilled />
             </i>
             <label className="label" htmlFor="text">
                Prompt and Collect

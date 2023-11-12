@@ -29,14 +29,14 @@ const Dashboard = () => {
                <span className="title">Manage chanel</span>
             </div>
             <div className="action-item">
+               <i>tra</i>
+               <span className="title">Training</span>
+            </div>
+            <div className="action-item">
                <i>
                   <SettingFilled />
                </i>
                <span className="title">Settings</span>
-            </div>
-            <div className="action-item">
-               <i>tra</i>
-               <span className="title">Training</span>
             </div>
             <div className="action-item logout">
                <i>
