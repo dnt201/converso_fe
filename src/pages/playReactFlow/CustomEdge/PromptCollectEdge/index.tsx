@@ -43,9 +43,7 @@ const PromptCollectEdge: React.FC<EdgeProps<iValueEdgePromptCollect>> = (props) 
                   pointerEvents: 'all',
                }}
                className="nodrag nopan">
-               <button className="edge-button" onClick={(event) => onEdgeClick(event, id)}>
-                  <b>{data?.condition}</b> {data?.intent}
-               </button>
+               {props.label}
             </div>
          </EdgeLabelRenderer>
       </>

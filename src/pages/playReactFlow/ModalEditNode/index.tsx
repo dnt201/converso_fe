@@ -12,7 +12,6 @@ interface ModalEditNodeProps {
 }
 const ModalEditNode: React.FC<ModalEditNodeProps> = (props) => {
    const { node, setNode, hidden } = props;
-   console.log(node);
    return (
       <div className={'modalEditNode ' + (hidden ? 'hidden' : '')}>
          <Button className="close-btn" onClick={() => setNode(null)}>

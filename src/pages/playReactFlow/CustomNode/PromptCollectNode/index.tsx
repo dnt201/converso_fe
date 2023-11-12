@@ -16,7 +16,7 @@ export interface PromptCollectData {
    intent: string;
 }
 
-export type PromptCollectNode = Node<PromptCollectData>;
+export type tPromptCollectNode = Node<PromptCollectData>;
 
 const PromptCollectNode = () => {
    return (

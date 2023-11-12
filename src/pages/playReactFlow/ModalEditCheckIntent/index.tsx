@@ -2,17 +2,23 @@ import { iOption } from '@interfaces/index';
 import { Form, Input, Modal, ModalProps, Select } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import React, { useEffect, useState } from 'react';
+import { PromptCollectData } from '../CustomNode/PromptCollectNode';
+import { Edge, Node } from 'reactflow';
+import { ListEdgeType } from '../CustomEdge/indext';
+import { findOptionByValue } from '@utils/index';
 
 interface ModalEditCheckIntentProps extends ModalProps {
-   dataEdge: iValueEdgePromptCollect | null;
-   setDataEdge: (l: iValueEdgePromptCollect) => void;
+   edge: Edge<ListEdgeType> | null;
+   edges: Edge[];
+   setEdges: (edges: any) => void;
+   setShowModal: (b: boolean) => void;
 }
 export interface iValueEdgePromptCollect {
    condition: string;
    intent: string;
 }
 
-const listOption: iOption[] = [
+const listOptionTrue: iOption[] = [
    {
       value: 'equal',
       label: 'Equal',
@@ -51,19 +57,47 @@ const listOption: iOption[] = [
    },
 ];
 
+const listOptionFalse: iOption[] = [
+   {
+      value: 'else',
+      label: 'Else',
+   },
+];
+
 const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
-   const { dataEdge, setDataEdge, ...modalProps } = props;
+   const { edge, edges, setEdges, setShowModal, ...modalProps } = props;
    const [form] = useForm();
-
    const [submittable, setSubmittable] = useState(false);
-
    const formData = Form.useWatch([], form);
+   const [label, setLabel] = useState(
+      edge
+         ? edge.sourceHandle === 'prompt-and-collect-false'
+            ? listOptionFalse[0].label
+            : listOptionTrue[0].label
+         : listOptionTrue[0].label
+   );
+   const deleteEdgeById = (id: string) => {
+      setEdges(edges.filter((edge) => edge.id !== id));
+   };
+   let defaultValueSelect: string = '';
+   if (edge)
+      if (edge.sourceHandle === 'prompt-and-collect-false') {
+         defaultValueSelect =
+            edge.data?.condition && edge.data?.condition !== ''
+               ? findOptionByValue(edge.data.condition, listOptionFalse)?.value ?? ''
+               : listOptionFalse[0].value;
+      } else {
+         defaultValueSelect =
+            edge.data?.condition && edge.data?.condition !== ''
+               ? findOptionByValue(edge.data.condition, listOptionTrue)?.value ?? ''
+               : listOptionTrue[0].value;
+      }
+   useEffect(() => {
+      console.log('re chidlenr', edge);
+      form.setFieldValue('intent', edge?.data?.intent);
+   }, []);
 
    useEffect(() => {
-      setDataEdge({
-         condition: form.getFieldValue('condition'),
-         intent: form.getFieldValue('intent'),
-      });
       form.validateFields({ validateOnly: true }).then(
          () => {
             setSubmittable(true);
@@ -74,31 +108,72 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
       );
    }, [formData]);
 
-   return (
-      <Modal
-         title={<h2>Check Intent</h2>}
-         {...modalProps}
-         okButtonProps={{ disabled: !submittable }}
-         width={'50%'}
-         afterClose={() => form.resetFields()}>
-         <Form
-            initialValues={{ condition: listOption[0].value }}
-            form={form}
-            layout="vertical"
-            style={{ display: 'flex', gap: '16px' }}>
-            <Form.Item name={'condition'} label="Condition" style={{ flex: 1 }}>
-               <Select options={listOption} />
-            </Form.Item>
-            <Form.Item
-               name={'intent'}
-               label="Value"
-               style={{ flex: 2 }}
-               rules={[{ required: true }]}>
-               <Input />
-            </Form.Item>
-         </Form>
-      </Modal>
-   );
+   if (edge === null) {
+      return null;
+   } else
+      return (
+         <Modal
+            title={<h2>Check Intent</h2>}
+            {...modalProps}
+            okButtonProps={{ disabled: !submittable }}
+            width={'50%'}
+            onCancel={() => {
+               if (edge && (!form.getFieldValue('condition') || !form.getFieldValue('intent')))
+                  deleteEdgeById(edge.id);
+               setShowModal(false);
+            }}
+            afterClose={() => {
+               form.resetFields();
+            }}
+            onOk={() => {
+               const temp = edges.map((item) => {
+                  if (item.id === edge.id) {
+                     return {
+                        ...item,
+                        selected: false,
+                        label: (
+                           <span>
+                              <b>{label ?? form.getFieldValue('condition')}</b>
+                              {form.getFieldValue('intent')}
+                           </span>
+                        ),
+                        data: {
+                           condition: form.getFieldValue('condition'),
+                           intent: form.getFieldValue('intent'),
+                        },
+                     };
+                  }
+                  return item;
+               });
+               setEdges(temp);
+               setShowModal(false);
+            }}>
+            <Form
+               initialValues={{
+                  condition: defaultValueSelect,
+                  intent: edge?.data?.intent,
+               }}
+               form={form}
+               layout="vertical"
+               style={{ display: 'flex', gap: '16px' }}>
+               <Form.Item name={'condition'} label="Condition" style={{ flex: 1 }}>
+                  <Select
+                     onSelect={(_, e1) => {
+                        setLabel(e1.label);
+                     }}
+                     options={
+                        edge.sourceHandle === 'prompt-and-collect-false'
+                           ? listOptionFalse
+                           : listOptionTrue
+                     }
+                  />
+               </Form.Item>
+               <Form.Item name={'intent'} label="Value" style={{ flex: 2 }}>
+                  <Input />
+               </Form.Item>
+            </Form>
+         </Modal>
+      );
 };
 
 export default ModalEditCheckIntent;

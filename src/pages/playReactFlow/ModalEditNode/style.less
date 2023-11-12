@@ -1,13 +1,12 @@
 .modalEditNode {
-    &.hidden {
-        right: -100%;
-        transition: ease-out 0.5s;
-    }
-    transition: ease-in 0.5s;
+ 
     position: absolute;
-    right: 0;
+    overflow: hidden;
+    animation: slide 0.5;
     top:0;
-    height: 100vh;
+    right: 0;
+
+    height: 100%;
     width: 40vw;
     padding: 16px;
     background: white;
@@ -18,4 +17,9 @@
         right: 16px;
 
     }
+}
+
+@keyframes slide {
+    0%   {right: -100%}
+    100% {right: 0}
 }

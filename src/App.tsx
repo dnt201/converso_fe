@@ -7,6 +7,9 @@ import PlayReactFlow from '@pages/PlayReactFlow';
 import 'reactflow/dist/style.css';
 import AppearLayout from '@layouts/AppearLayout';
 import AuthPage from '@pages/auth';
+import PrivateLayout from '@layouts/PrivateLayout';
+import NotFound from '@pages/NotFound';
+import Dashboard from '@pages/Logged/Dashboard';
 
 function App() {
    return (
@@ -15,13 +18,14 @@ function App() {
             <Route element={<MainLayout />}>
                <Route element={<HomePage />} path={routerPath.HOME} />
             </Route>
-            <Route>
+            <Route element={<PrivateLayout />}>
+               <Route element={<Dashboard />} path={routerPath.DASHBOARD} />
                <Route element={<PlayReactFlow />} path={routerPath.PLAY} />
-
                <Route element={<AppearLayout />}>
                   <Route element={<AuthPage />} path={routerPath.AUTH} />
                </Route>
             </Route>
+            <Route path={routerPath.ANY} element={<NotFound />} />
          </Routes>
       </BrowserRouter>
    );

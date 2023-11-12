@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import NavTop from '@components/NavTop';
 
 import './style.less';
@@ -7,6 +7,8 @@ import './style.less';
 const { Content, Footer } = Layout;
 
 const MainLayout = () => {
+   const logged = true;
+   if (logged) return <Navigate to="/dashboard" replace />;
    return (
       <Layout className="main-layout">
          <NavTop />
