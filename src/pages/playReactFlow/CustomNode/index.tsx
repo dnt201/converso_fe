@@ -1,6 +1,7 @@
 import {
    ApartmentOutlined,
    ApiOutlined,
+   BuildFilled,
    CustomerServiceOutlined,
    FilterOutlined,
    MessageOutlined,
@@ -15,6 +16,7 @@ import PromptCollectNode, { PromptCollectData } from './PromptCollectNode';
 import StartNode from './StartNode';
 import SubFLowNode, { SubFlowData } from './SubFlowNode/indext';
 import CheckVariableNode, { CheckVariableData } from './CheckVariable';
+import HttpRequestNode, { HttpRequestData } from './HttpRequestNode/indext';
 
 export const nodeTypes = {
    start: StartNode,
@@ -23,6 +25,7 @@ export const nodeTypes = {
    promptCollect: PromptCollectNode,
    subFlow: SubFLowNode,
    checkVariable: CheckVariableNode,
+   httpRequest: HttpRequestNode,
 };
 
 export type tLanguage = 'vn' | 'en';
@@ -38,8 +41,14 @@ export const listNodes: NodeType[] = [
    { icon: <CustomerServiceOutlined />, label: 'Prompt collect', value: 'promptCollect' },
    { icon: <ApiOutlined />, label: 'Subflow', value: 'subFlow' },
    { icon: <ApartmentOutlined />, label: 'Check variable', value: 'checkVariable' },
+   { icon: <BuildFilled />, label: 'Http request', value: 'httpRequest' },
 ];
 
-export type tListNodeData = SendAMessageData | PromptCollectData | SubFlowData | CheckVariableData;
+export type tListNodeData =
+   | SendAMessageData
+   | PromptCollectData
+   | SubFlowData
+   | CheckVariableData
+   | HttpRequestData;
 
 export type ValidateType = 'yes-no' | 'number' | 'email' | 'phonenumber' | 'intent';

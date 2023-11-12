@@ -22,13 +22,15 @@ import { ListEdgeType, edgeTypes } from './CustomEdge/indext';
 import ModalEditNode from './ModalEditNode';
 import { tPromptCollectNode } from './CustomNode/PromptCollectNode';
 import { tSubFlowNode } from './CustomNode/SubFlowNode/indext';
+import NavTop from '@components/NavTop';
+import NavTopChatbot from './NavTop';
 
 const initialNodes = [
    {
       id: 'start-node',
       type: 'start',
       data: { label: 'Start point' },
-      position: { x: 250, y: 5 },
+      position: { x: 250, y: 70 },
       deletable: false,
    },
    {
@@ -138,7 +140,7 @@ const DnDFlow: React.FC = () => {
                   id: crypto.randomUUID(),
                   source: params.source + '',
                   target: params.target + '',
-                  type: 'promptCollectEdge',
+                  // type: 'promptCollectEdge',
                   markerEnd: {
                      type: MarkerType.ArrowClosed,
                      width: 16,
@@ -164,7 +166,6 @@ const DnDFlow: React.FC = () => {
       event.dataTransfer.dropEffect = 'move';
    }, []);
 
-   console.log(nodes, edges);
    const onKeyDown = (event: React.KeyboardEvent) => {
       if (event.key === 'Delete' || event.key === 'Backspace') {
          const selectedEdges = edges.filter((el) => el.selected);
@@ -275,6 +276,7 @@ const DnDFlow: React.FC = () => {
                />
             ) : null}
             <ReactFlowProvider>
+               <NavTopChatbot />
                <SideBar />
 
                <div className="reactflow-wrapper" ref={reactFlowWrapper}>
@@ -300,13 +302,14 @@ const DnDFlow: React.FC = () => {
                      }}
                      zoomOnDoubleClick
                      onEdgeDoubleClick={(_, e) => {
+                        console.log('double clij');
                         if (e.type === 'promptCollectEdge') {
                            setSelectedEdge(e);
                            setOpenModalEditCheckIntent(true);
                         }
                      }}
                      onEdgeClick={(_, e) => {
-                        setSelectedEdge(e);
+                        // setSelectedEdge(e);
                      }}>
                      <Controls showZoom={true} showFitView={true} position="bottom-right" />
                   </ReactFlow>

@@ -1,5 +1,5 @@
 import { iOption } from '@interfaces/index';
-import { Form, Input, Modal, ModalProps, Select } from 'antd';
+import { Button, Form, Input, Modal, ModalProps, Select } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import React, { useEffect, useState } from 'react';
 import { PromptCollectData } from '../CustomNode/PromptCollectNode';
@@ -118,7 +118,12 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
             okButtonProps={{ disabled: !submittable }}
             width={'50%'}
             onCancel={() => {
-               if (edge && (!form.getFieldValue('condition') || !form.getFieldValue('intent')))
+               if (
+                  edge &&
+                  (form.getFieldValue('condition').length <= 0 ||
+                     (edge.sourceHandle !== 'prompt-and-collect-false' &&
+                        !form.getFieldValue('intent')))
+               )
                   deleteEdgeById(edge.id);
                setShowModal(false);
             }}
@@ -126,26 +131,35 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                form.resetFields();
             }}
             onOk={() => {
-               const temp = edges.map((item) => {
-                  if (item.id === edge.id) {
-                     return {
-                        ...item,
-                        selected: false,
-                        label: (
-                           <span>
-                              <b>{label ?? form.getFieldValue('condition')}</b>
-                              {form.getFieldValue('intent')}
-                           </span>
-                        ),
-                        data: {
-                           condition: form.getFieldValue('condition'),
-                           intent: form.getFieldValue('intent'),
-                        },
-                     };
-                  }
-                  return item;
-               });
-               setEdges(temp);
+               if (
+                  edge &&
+                  (form.getFieldValue('condition').length <= 0 ||
+                     (edge.sourceHandle !== 'prompt-and-collect-false' &&
+                        !form.getFieldValue('intent')))
+               )
+                  deleteEdgeById(edge.id);
+               else {
+                  const temp = edges.map((item) => {
+                     if (item.id === edge.id) {
+                        return {
+                           ...item,
+                           selected: false,
+                           label: (
+                              <span>
+                                 <b>{label ?? form.getFieldValue('condition')}</b>{' '}
+                                 {form.getFieldValue('intent')}
+                              </span>
+                           ),
+                           data: {
+                              condition: form.getFieldValue('condition'),
+                              intent: form.getFieldValue('intent'),
+                           },
+                        };
+                     }
+                     return item;
+                  });
+                  setEdges(temp);
+               }
                setShowModal(false);
             }}>
             <Form
@@ -168,9 +182,11 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                      }
                   />
                </Form.Item>
-               <Form.Item name={'intent'} label="Value" style={{ flex: 2 }}>
-                  <Input />
-               </Form.Item>
+               {edge.sourceHandle === 'prompt-and-collect-false' ? null : (
+                  <Form.Item name={'intent'} label="Value" style={{ flex: 2 }}>
+                     <Input />
+                  </Form.Item>
+               )}
             </Form>
          </Modal>
       );

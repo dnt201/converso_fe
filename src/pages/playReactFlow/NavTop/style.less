@@ -1,0 +1,99 @@
+.nav-top-chatbot {
+   > .breadcrumb {
+      position: absolute;
+      top: 16px;
+      left: 25px;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      background-color: white;
+      width: fit-content;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      height: 40px;
+      gap: 4px;
+      .btn-back-create-page {
+         color: var(--color-disable);
+         transition-duration: 0.1s;
+         &:hover {
+            cursor: pointer;
+            color: var(--color-disable-hover);
+         }
+      }
+      .icon {
+         color: var(--color-disable);
+      }
+   }
+   > .menu-right {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      top: 16px;
+      right: 25px;
+      z-index: 4;
+      > .tool-list {
+         display: flex;
+         align-items: center;
+         background-color: white;
+         width: fit-content;
+         padding: 8px;
+         border-radius: 8px;
+         font-size: 14px;
+         font-weight: bold;
+         gap: 8px;
+         height: fit-content;
+
+         > .tool-item {
+            padding: 0px 12px;
+            height: 32px;
+            border-radius: 10px;
+            font-size: 20px;
+
+            &:hover {
+               cursor: pointer;
+               background-color: var(--color-hover);
+
+            }
+            &:disabled:hover {
+               cursor: not-allowed;
+            }
+         }
+      }
+      > .action-list {
+         display: flex;
+         align-items: center;
+         background-color: white;
+         width: fit-content;
+         padding: 8px;
+         border-radius: 8px;
+         font-size: 14px;
+         font-weight: bold;
+         gap: 8px;
+         height: fit-content;
+
+         .action-item {
+            padding: 0px 12px;
+            height: 32px;
+            font-weight: 500;
+            &.--test-your-bot {
+               border-radius: 8px;
+               background: #fff;
+               border: 2px solid #22272d;
+               color: #22272d;
+               &:hover {
+                  background-color: var(--color-hover);
+               }
+            }
+            &:hover {
+               cursor: pointer;
+            }
+            &:disabled:hover {
+               cursor: not-allowed;
+            }
+         }
+      }
+   }
+}
