@@ -93,7 +93,6 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                : listOptionTrue[0].value;
       }
    useEffect(() => {
-      console.log('re chidlenr', edge);
       form.setFieldValue('intent', edge?.data?.intent);
    }, []);
 

@@ -1,6 +1,6 @@
 import { ApiFilled } from '@ant-design/icons';
 import './style.less';
-import { Handle, Node, Position } from 'reactflow';
+import { Handle, Node, NodeProps, Position } from 'reactflow';
 export interface SubFlowData {
    type: string;
    name: string;
@@ -8,9 +8,10 @@ export interface SubFlowData {
    nextAction: string;
 }
 
+export type tSubFlowNodeProps = NodeProps<SubFlowData>;
 export type tSubFlowNode = Node<SubFlowData>;
 
-const SubFLowNode = () => {
+const SubFLowNode: React.FC<tSubFlowNodeProps> = () => {
    return (
       <div className="node sub-flow-node">
          <Handle className="handle-target" id="target-top" type="target" position={Position.Top} />
@@ -55,7 +56,7 @@ const SubFLowNode = () => {
             <i className="icon">
                <ApiFilled />
             </i>
-            <label className="label">Send A Message</label>
+            <label className="label">Subflow</label>
          </div>
       </div>
    );

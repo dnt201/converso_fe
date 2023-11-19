@@ -1,5 +1,5 @@
 import React from 'react';
-import { Handle, Node, Position } from 'reactflow';
+import { Handle, Node, NodeProps, Position } from 'reactflow';
 import { ValidateType, tLanguage } from '..';
 import {
    CheckOutlined,
@@ -14,6 +14,7 @@ export interface PromptCollectData {
    type: string;
    name: string;
    text: {
+      key: string | number;
       language: tLanguage;
       message: string;
    }[];
@@ -26,9 +27,10 @@ export interface PromptCollectData {
    }[];
 }
 
+export type tPromptCollectNodeProps = NodeProps<PromptCollectData>;
 export type tPromptCollectNode = Node<PromptCollectData>;
 
-const PromptCollectNode = () => {
+const PromptCollectNode: React.FC<tPromptCollectNodeProps> = (props) => {
    return (
       <div className="node prompt-collect-node">
          <Handle className="handle-target" type="target" position={Position.Top} />
@@ -37,7 +39,7 @@ const PromptCollectNode = () => {
                <CustomerServiceFilled />
             </i>
             <label className="label" htmlFor="text">
-               Prompt and Collect
+               {props.data.name}
             </label>
          </div>
          <Handle

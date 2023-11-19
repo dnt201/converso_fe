@@ -3,29 +3,23 @@ import {
    ApiOutlined,
    BuildFilled,
    CustomerServiceOutlined,
-   FilterOutlined,
    MessageOutlined,
-   PhoneOutlined,
-   WechatFilled,
-   WechatOutlined,
 } from '@ant-design/icons';
-import FlowNode from '@pages/PlayReactFlow/CustomNode/Flow';
 import { ReactNode } from 'react';
 import SendAMessageNode, { SendAMessageData } from './SendAMessageNode';
 import PromptCollectNode, { PromptCollectData } from './PromptCollectNode';
-import StartNode from './StartNode';
 import SubFLowNode, { SubFlowData } from './SubFlowNode/indext';
 import CheckVariableNode, { CheckVariableData } from './CheckVariable';
 import HttpRequestNode, { HttpRequestData } from './HttpRequestNode/indext';
+import StartNode, { StartNodeData } from './StartNode';
 
 export const nodeTypes = {
    start: StartNode,
-   flow: FlowNode,
-   sendAMessage: SendAMessageNode,
-   promptCollect: PromptCollectNode,
-   subFlow: SubFLowNode,
-   checkVariable: CheckVariableNode,
-   httpRequest: HttpRequestNode,
+   message: SendAMessageNode,
+   promptandcollect: PromptCollectNode,
+   subflow: SubFLowNode,
+   checkattribute: CheckVariableNode,
+   http: HttpRequestNode,
 };
 
 export type tLanguage = 'vn' | 'en';
@@ -37,14 +31,15 @@ interface NodeType {
 }
 
 export const listNodes: NodeType[] = [
-   { icon: <MessageOutlined />, label: 'Send a message', value: 'sendAMessage' },
-   { icon: <CustomerServiceOutlined />, label: 'Prompt collect', value: 'promptCollect' },
-   { icon: <ApiOutlined />, label: 'Subflow', value: 'subFlow' },
-   { icon: <ApartmentOutlined />, label: 'Check variable', value: 'checkVariable' },
-   { icon: <BuildFilled />, label: 'Http request', value: 'httpRequest' },
+   { icon: <MessageOutlined />, label: 'Send a message', value: 'message' },
+   { icon: <CustomerServiceOutlined />, label: 'Prompt collect', value: 'promptandcollect' },
+   { icon: <ApiOutlined />, label: 'Subflow', value: 'subflow' },
+   { icon: <ApartmentOutlined />, label: 'Check variable', value: 'checkattribute' },
+   { icon: <BuildFilled />, label: 'Http request', value: 'http' },
 ];
 
 export type tListNodeData =
+   | StartNodeData
    | SendAMessageData
    | PromptCollectData
    | SubFlowData

@@ -28,9 +28,10 @@ export interface HttpRequestData {
    }[];
 }
 
+export type tHttpRequestProps = NodeProps<HttpRequestData>;
 export type tHttpRequestNode = Node<HttpRequestData>;
 
-const HttpRequestNode = () => {
+const HttpRequestNode: React.FC<tHttpRequestProps> = () => {
    return (
       <div className="node http-request-node">
          <Handle className="handle-target" id="target-top" type="target" position={Position.Top} />

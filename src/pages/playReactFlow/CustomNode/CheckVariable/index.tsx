@@ -1,6 +1,6 @@
 import { ApartmentOutlined, FilterFilled } from '@ant-design/icons';
 import React from 'react';
-import { Handle, Node, Position } from 'reactflow';
+import { Handle, Node, NodeProps, Position } from 'reactflow';
 
 export interface CheckVariableData {
    type: string;
@@ -12,9 +12,10 @@ export interface CheckVariableData {
    }[];
 }
 
+export type tCheckVariableProps = NodeProps<CheckVariableData>;
 export type tCheckVariableNode = Node<CheckVariableData>;
 
-const CheckVariableNode = () => {
+const CheckVariableNode: React.FC<tCheckVariableProps> = (props) => {
    return (
       <div className="node sub-flow-node">
          <Handle className="handle-target" id="target-top" type="target" position={Position.Top} />
@@ -59,7 +60,7 @@ const CheckVariableNode = () => {
             <i className="icon">
                <ApartmentOutlined />
             </i>
-            <label className="label">Check variable</label>
+            <label className="label">{props.data.name}</label>
          </div>
       </div>
    );

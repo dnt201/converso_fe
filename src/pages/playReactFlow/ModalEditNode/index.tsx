@@ -1,9 +1,9 @@
 import React from 'react';
 import { Node } from 'reactflow';
 import './style.less';
-import { Button, Input } from 'antd';
 import { tListNodeData } from '../CustomNode';
-import { CloseOutlined } from '@ant-design/icons';
+import PromptCollectMenu from './PromptAndCollectMenu';
+import { PromptCollectData } from '../CustomNode/PromptCollectNode';
 
 interface ModalEditNodeProps {
    node: Node<tListNodeData> | null;
@@ -13,14 +13,23 @@ interface ModalEditNodeProps {
 const ModalEditNode: React.FC<ModalEditNodeProps> = (props) => {
    const { node, setNode, hidden } = props;
    return (
-      <div className={'modalEditNode ' + (hidden ? 'hidden' : '')}>
-         <Button className="close-btn" onClick={() => setNode(null)}>
-            <CloseOutlined />
-         </Button>
+      <div className={'modal-edit-node-response ' + (hidden || !node ? 'hidden' : '')}>
+         <div
+            className="overlay"
+            onClick={(e) => {
+               setNode(null);
+            }}
+         />
+
          {node ? (
-            node.type === 'promptCollect' ? (
-               <div>{node.data.name}</div>
-            ) : node.type === 'another' ? (
+            node.type === 'promptandcollect' ? (
+               <PromptCollectMenu
+                  setNode={(curNode) => setNode(curNode)}
+                  closeModal={() => setNode(null)}
+                  promptCollect={node as Node<PromptCollectData>}
+               />
+            ) : // <div>{node.data}</div>
+            node.type === 'another' ? (
                <></>
             ) : null
          ) : null}

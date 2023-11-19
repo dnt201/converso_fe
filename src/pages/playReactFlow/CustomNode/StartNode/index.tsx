@@ -6,11 +6,16 @@ import { Popover, Space } from 'antd';
 
 //User Input
 
-export interface StartNodeData {}
+export interface StartNodeData {
+   name: string;
+   label: string;
+   type: string;
+}
 
-export type StartNode = Node<StartNodeData>;
+export type tStartNodeProps = NodeProps<StartNodeData>;
+export type tStartNode = Node<StartNodeData>;
 
-const StartNode: React.FC<NodeProps<StartNodeData>> = () => (
+const StartNode: React.FC<tStartNodeProps> = () => (
    <Popover
       content={
          <p style={{ fontSize: '12px', width: '250px', textAlign: 'center' }}>

@@ -14,9 +14,10 @@ export interface SendAMessageData {
    // number: number;
 }
 
-export type SendAMessageNode = Node<SendAMessageData>;
+export type tSendAMessageNodeProps = NodeProps<SendAMessageData>;
+export type tSendAMessageNode = Node<SendAMessageData>;
 
-const SendAMessageNode = (props: any) => {
+const SendAMessageNode: React.FC<tSendAMessageNodeProps> = (props: any) => {
    return (
       <div className="node send-a-message-node">
          <Handle className="handle-target" id="target-top" type="target" position={Position.Top} />

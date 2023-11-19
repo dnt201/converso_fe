@@ -14,44 +14,45 @@ import './style.less';
 import SideBar from '@pages/PlayReactFlow/SideBar';
 import 'reactflow/dist/style.css';
 import { nodeTypes, tListNodeData } from '@pages/PlayReactFlow/CustomNode';
-import { SendAMessageNode } from './CustomNode/SendAMessageNode';
 
-import ModalEditCheckIntent, { iValueEdgePromptCollect } from './ModalEditCheckIntent';
+import ModalEditCheckIntent from './ModalEditCheckIntent';
 import { ListEdgeType, edgeTypes } from './CustomEdge/indext';
 
 import ModalEditNode from './ModalEditNode';
 import { tPromptCollectNode } from './CustomNode/PromptCollectNode';
 import { tSubFlowNode } from './CustomNode/SubFlowNode/indext';
-import NavTop from '@components/NavTop';
 import NavTopChatbot from './NavTop';
+import { tCheckVariableNode } from './CustomNode/CheckVariable';
+import { tHttpRequestNode } from './CustomNode/HttpRequestNode/indext';
+import { tSendAMessageNode } from './CustomNode/SendAMessageNode';
+import { tStartNode } from './CustomNode/StartNode';
 
 const initialNodes = [
    {
       id: 'start-node',
       type: 'start',
-      data: { label: 'Start point' },
+      data: { label: 'Start point', name: 'Start point', type: 'start' },
       position: { x: 250, y: 70 },
       deletable: false,
-   },
-   {
-      id: 'prompt',
-      type: 'promptCollect',
-      data: { label: 'promptCollect' },
-      position: { x: 250, y: 150 },
-      deletable: false,
-   },
-   {
-      id: 'message',
-      type: 'sendAMessage',
-      data: { label: 'sendAMessage' },
-      position: { x: 250, y: 250 },
-      deletable: false,
-   },
+   } as tStartNode,
+   // {
+   //    id: 'prompt',
+   //    type: 'promptCollect',
+   //    data: { label: 'promptCollect' },
+   //    position: { x: 250, y: 150 },
+   //    deletable: false,
+   // },
+   // {
+   //    id: 'message',
+   //    type: 'sendAMessage',
+   //    data: { label: 'sendAMessage' },
+   //    position: { x: 250, y: 250 },
+   //    deletable: false,
+   // },
 ];
 const initialEdges = [
    {
       data: { intent: '1', condition: 'equal' },
-
       id: 'e1-2',
       source: 'prompt',
       sourceHandle: 'prompt-and-collect-true',
@@ -61,7 +62,6 @@ const initialEdges = [
    },
    {
       data: { intent: '51', condition: 'equal' },
-
       id: 'e22',
       source: 'prompt',
       sourceHandle: 'prompt-and-collect-true',
@@ -71,8 +71,6 @@ const initialEdges = [
    },
 ];
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
 const DnDFlow: React.FC = () => {
    const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
    const [nodes, setNodes, onNodesChange] = useNodesState<tListNodeData | { label: string }>(
@@ -93,6 +91,16 @@ const DnDFlow: React.FC = () => {
       }
    }, [selectedEdge]);
 
+   useEffect(() => {
+      setNodes((nds) =>
+         nds.map((node) => {
+            if (node.id === selectedNode?.id) {
+               node = selectedNode;
+            }
+            return node;
+         })
+      );
+   }, [selectedNode]);
    const onConnect = useCallback(async (params: Edge | Connection) => {
       if (params?.sourceHandle?.includes('prompt-and-collect')) {
          // setSelectedEdge(params)
@@ -169,8 +177,6 @@ const DnDFlow: React.FC = () => {
    const onKeyDown = (event: React.KeyboardEvent) => {
       if (event.key === 'Delete' || event.key === 'Backspace') {
          const selectedEdges = edges.filter((el) => el.selected);
-         console.log(selectedEdges);
-
          if (selectedEdges.length > 0) {
             deleteEdgeById(selectedEdges[0].id);
          }
@@ -196,27 +202,27 @@ const DnDFlow: React.FC = () => {
                   x: event.clientX - reactFlowBounds.left,
                   y: event.clientY - reactFlowBounds.top,
                });
-               if (type === 'sendAMessage') {
+               if (type === 'message') {
                   let newNode = {
-                     id: getId(),
+                     id: crypto.randomUUID(),
                      type,
                      position,
                      data: {
-                        name: '',
+                        name: 'Send A Message',
                         text: [],
-                        type: '',
+                        type: type,
                         nextAction: '',
                      },
-                  } as SendAMessageNode;
+                  } as tSendAMessageNode;
                   setNodes((nds) => nds.concat(newNode));
-               } else if (type === 'promptCollect') {
+               } else if (type === 'promptandcollect') {
                   let newNode = {
-                     id: getId(),
+                     id: crypto.randomUUID(),
                      type,
                      position,
                      data: {
-                        type: '',
-                        name: '',
+                        type: type,
+                        name: 'Prompt & Collect',
                         text: [],
                         validateType: 'intent',
                         answer: '',
@@ -225,30 +231,71 @@ const DnDFlow: React.FC = () => {
                      },
                   } as tPromptCollectNode;
                   setNodes((nds) => nds.concat(newNode));
-               } else if (type === 'subFlow') {
+               } else if (type === 'subflow') {
                   let newNode = {
-                     id: getId(),
+                     id: crypto.randomUUID(),
                      type,
                      position,
                      data: {
                         flowId: '',
-                        name: '',
-                        type: '',
+                        name: 'Subflow',
+                        type: type,
                         nextAction: '',
                      },
                   } as tSubFlowNode;
                   setNodes((nds) => nds.concat(newNode));
-               } else {
+               } else if (type === 'checkattribute') {
                   let newNode = {
-                     id: getId(),
+                     id: crypto.randomUUID(),
                      type,
                      position,
                      data: {
-                        label: type,
+                        type: type,
+                        name: 'Check Variable',
+                        attribute: 'string',
+                        nextAction: [],
                      },
-                  };
+                  } as tCheckVariableNode;
+                  setNodes((nds) => nds.concat(newNode));
+               } else if (type === 'http') {
+                  let newNode = {
+                     id: crypto.randomUUID(),
+                     type,
+                     position,
+                     data: {
+                        type: type,
+                        name: 'HTTP Request',
+                        method: 'string',
+                        url: 'string',
+                        body: 'string',
+                        headers: {
+                           key: 'string',
+                        },
+                        params: {
+                           key: 'string',
+                        },
+                        bodyType: 'string',
+                        nextAction: [
+                           {
+                              case: 'string',
+                              actionId: 'string',
+                           },
+                        ],
+                     },
+                  } as tHttpRequestNode;
                   setNodes((nds) => nds.concat(newNode));
                }
+               // else {
+               //    let newNode = {
+               //       id: crypto.randomUUID(),
+               //       type,
+               //       position,
+               //       data: {
+               //          label: type,
+               //       },
+               //    };
+               //    setNodes((nds) => nds.concat(newNode));
+               // }
             }
          }
       },
@@ -268,13 +315,12 @@ const DnDFlow: React.FC = () => {
             />
          ) : null}
          <div className="playReactNode">
-            {selectedNode ? (
-               <ModalEditNode
-                  hidden={selectedNode ? false : true}
-                  node={selectedNode ?? null}
-                  setNode={(node) => setSelectedNode(node)}
-               />
-            ) : null}
+            <ModalEditNode
+               hidden={selectedNode ? false : true}
+               node={selectedNode ?? null}
+               setNode={(node) => setSelectedNode(node)}
+            />
+
             <ReactFlowProvider>
                <NavTopChatbot />
                <SideBar />

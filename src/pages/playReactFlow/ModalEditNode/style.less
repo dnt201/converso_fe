@@ -1,25 +1,27 @@
-.modalEditNode {
- 
-    position: absolute;
-    overflow: hidden;
-    animation: slide 0.5;
-    top:0;
+.modal-edit-node-response {
     right: 0;
-
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
     height: 100%;
-    width: 40vw;
-    padding: 16px;
-    background: white;
-    z-index: 10;
-    .close-btn {
+    padding: 25px;
+    pointer-events: all;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+    .overlay {
+        height: 100%;
+        left: 0;
         position: absolute;
-        top: 16px;
-        right: 16px;
-
+        top: 0;
+        width: 100vw;
+        background-color: #00000050;
     }
-}
+    &.hidden {
+        right: -100%;
+        transition: ease-out 0.5s;
+    }
+    transition: ease-in 0.5s;
 
-@keyframes slide {
-    0%   {right: -100%}
-    100% {right: 0}
 }

@@ -4,12 +4,7 @@ import './style.less';
 import {
    CaretRightOutlined,
    ClockCircleOutlined,
-   CodeFilled,
    CodeOutlined,
-   FieldTimeOutlined,
-   InteractionFilled,
-   RightOutlined,
-   SettingFilled,
    SettingOutlined,
 } from '@ant-design/icons';
 import { Button, Popover } from 'antd';
