@@ -4,6 +4,10 @@ import './style.less';
 import { tListNodeData } from '../CustomNode';
 import PromptCollectMenu from './PromptAndCollectMenu';
 import { PromptCollectData } from '../CustomNode/PromptCollectNode';
+import SubflowMenu from './SubflowMenu';
+import { SubFlowData } from '../CustomNode/SubFlowNode/indext';
+import SendAMessageMenu from './SendAMessageMenu';
+import { SendAMessageData } from '../CustomNode/SendAMessageNode';
 
 interface ModalEditNodeProps {
    node: Node<tListNodeData> | null;
@@ -20,7 +24,6 @@ const ModalEditNode: React.FC<ModalEditNodeProps> = (props) => {
                setNode(null);
             }}
          />
-
          {node ? (
             node.type === 'promptandcollect' ? (
                <PromptCollectMenu
@@ -29,10 +32,25 @@ const ModalEditNode: React.FC<ModalEditNodeProps> = (props) => {
                   promptCollect={node as Node<PromptCollectData>}
                />
             ) : // <div>{node.data}</div>
-            node.type === 'another' ? (
+            node.type === 'subflow' ? (
+               <SubflowMenu
+                  setNode={(curNode) => setNode(curNode)}
+                  closeModal={() => setNode(null)}
+                  promptCollect={node as Node<SubFlowData>}
+               />
+            ) : node.type === 'message' ? (
+               <SendAMessageMenu
+                  setNode={(curNode) => setNode(curNode)}
+                  closeModal={() => setNode(null)}
+                  promptCollect={node as Node<SendAMessageData>}
+               />
+            ) : node.type === 'checkattribute' ? (
+               <></>
+            ) : node.type === 'http' ? (
                <></>
             ) : null
          ) : null}
+
          {/* <h6>
             <Input
                defaultValue={props.node.data.label}

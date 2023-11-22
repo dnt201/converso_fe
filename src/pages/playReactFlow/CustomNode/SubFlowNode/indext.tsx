@@ -11,7 +11,7 @@ export interface SubFlowData {
 export type tSubFlowNodeProps = NodeProps<SubFlowData>;
 export type tSubFlowNode = Node<SubFlowData>;
 
-const SubFLowNode: React.FC<tSubFlowNodeProps> = () => {
+const SubFLowNode: React.FC<tSubFlowNodeProps> = (props) => {
    return (
       <div className="node sub-flow-node">
          <Handle className="handle-target" id="target-top" type="target" position={Position.Top} />
@@ -56,7 +56,7 @@ const SubFLowNode: React.FC<tSubFlowNodeProps> = () => {
             <i className="icon">
                <ApiFilled />
             </i>
-            <label className="label">Subflow</label>
+            <label className="label">{props.data.name}</label>
          </div>
       </div>
    );

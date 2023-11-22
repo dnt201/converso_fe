@@ -1,14 +1,9 @@
 import React from 'react';
 import './style.less';
 import { ChatBotLogo } from '@assets/icons';
-import {
-   CloseSquareFilled,
-   LogoutOutlined,
-   PlusSquareFilled,
-   SettingFilled,
-   SlidersFilled,
-} from '@ant-design/icons';
+import { LogoutOutlined, PlusSquareFilled, SettingFilled, SlidersFilled } from '@ant-design/icons';
 import { Button } from 'antd';
+import { CpuChipIcon } from '@heroicons/react/20/solid';
 const Dashboard = () => {
    return (
       <div className="dashboard-container">
@@ -29,7 +24,9 @@ const Dashboard = () => {
                <span className="title">Manage chanel</span>
             </div>
             <div className="action-item">
-               <i>tra</i>
+               <i>
+                  <CpuChipIcon></CpuChipIcon>
+               </i>
                <span className="title">Training</span>
             </div>
             <div className="action-item">

@@ -10,7 +10,7 @@ import {
    SettingOutlined,
 } from '@ant-design/icons';
 import { PromptCollectData } from '@pages/PlayReactFlow/CustomNode/PromptCollectNode';
-import { Button, Form, Input, Space } from 'antd';
+import { Button, Form, Input, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 
@@ -63,8 +63,8 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
       <div className="edit-mode" onClick={(e) => e.preventDefault()}>
          <div className="node-header">
             <div className="top">
-               <Space style={{ fontSize: 18, color: 'var(--color-disable)' }}>
-                  <CustomerServiceOutlined />
+               <Space style={{ fontSize: 18, color: 'var(--color-main-blue)' }} align="center">
+                  <CustomerServiceOutlined style={{ fontSize: 24 }} />
                   <span>Prompt And Collect</span>
                </Space>
                <Button
@@ -126,50 +126,75 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                      <span className="text">Grammar</span>
                   </div>
                </div>
-               <div className="title">
-                  <MessageOutlined />
-                  <span>Chatbot answer</span>
-               </div>
-               {innerNode.data.text.map((item, index) => {
-                  return (
-                     <UpdateText
-                        index={index}
-                        innerNode={innerNode}
-                        item={item}
-                        setInnerNode={(n) => setInnerNode(n)}
-                        key={index}
-                     />
-                  );
-               })}
-
-               <Form<FormChatbotResponse>
-                  form={formChatbotResponse}
-                  onFinish={formChatbotResponseFinish}>
-                  <Form.Item
-                     name="chatbotResponse"
-                     rules={[{ required: true, message: 'Chatbot response is null' }]}>
-                     <div className="input-container add">
-                        <Input.TextArea
-                           onKeyDown={(e) => {
-                              if (e.code === 'Enter') {
-                                 formChatbotResponse.submit();
-                                 e.currentTarget.blur();
-                              }
-                           }}
-                           placeholder="Enter your chatbot response"
-                           style={{
-                              padding: '10px 8px',
-                           }}
-                           autoSize={{ minRows: 1, maxRows: 6 }}
-                        />
-                        <div className="actions">
-                           <i className="item" onClick={() => formChatbotResponse.submit()}>
-                              <PlusOutlined />
-                           </i>
-                        </div>
+               {keyTab === 'general' ? (
+                  <>
+                     <div className="title">
+                        <MessageOutlined />
+                        <span>Chatbot answer</span>
                      </div>
-                  </Form.Item>
-               </Form>
+                     {innerNode.data.text.map((item, index) => {
+                        return (
+                           <UpdateText
+                              index={index}
+                              innerNode={innerNode}
+                              item={item}
+                              setInnerNode={(n) => setInnerNode(n)}
+                              key={index}
+                           />
+                        );
+                     })}
+
+                     <Form<FormChatbotResponse>
+                        form={formChatbotResponse}
+                        onFinish={formChatbotResponseFinish}>
+                        <Form.Item
+                           name="chatbotResponse"
+                           rules={[{ required: true, message: 'Chatbot response is null' }]}>
+                           <div className="input-container add">
+                              <Input.TextArea
+                                 onKeyDown={(e) => {
+                                    if (e.code === 'Enter') {
+                                       formChatbotResponse.submit();
+                                       e.currentTarget.blur();
+                                    }
+                                 }}
+                                 placeholder="Enter your chatbot response"
+                                 style={{
+                                    padding: '10px 8px',
+                                 }}
+                                 autoSize={{ minRows: 1, maxRows: 6 }}
+                              />
+                              <div className="actions">
+                                 <i className="item" onClick={() => formChatbotResponse.submit()}>
+                                    <PlusOutlined />
+                                 </i>
+                              </div>
+                           </div>
+                        </Form.Item>
+                     </Form>
+                  </>
+               ) : keyTab === 'settings' ? (
+                  <></>
+               ) : (
+                  <>
+                     <div className="settings">
+                        <Form layout="vertical">
+                           <Form.Item label="Grammar type">
+                              <Select />
+                           </Form.Item>
+                           <Form.Item label="Grammar">
+                              <Select />
+                           </Form.Item>
+                           <Form.Item label="Assign Chatbot Response">
+                              <Select />
+                           </Form.Item>
+                           <Form.Item label="Assign Intent">
+                              <Select />
+                           </Form.Item>
+                        </Form>
+                     </div>
+                  </>
+               )}
             </div>
          </div>
       </div>

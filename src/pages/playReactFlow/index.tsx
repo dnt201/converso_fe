@@ -26,6 +26,7 @@ import { tCheckVariableNode } from './CustomNode/CheckVariable';
 import { tHttpRequestNode } from './CustomNode/HttpRequestNode/indext';
 import { tSendAMessageNode } from './CustomNode/SendAMessageNode';
 import { tStartNode } from './CustomNode/StartNode';
+import { Modal } from 'antd';
 
 const initialNodes = [
    {
@@ -72,25 +73,34 @@ const initialEdges = [
 ];
 
 const DnDFlow: React.FC = () => {
-   const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
+   //Todo: State - ReactFlow
    const [nodes, setNodes, onNodesChange] = useNodesState<tListNodeData | { label: string }>(
       initialNodes
    );
    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
    const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
-
-   const [openModalEditCheckIntent, setOpenModalEditCheckIntent] = useState<boolean>(false);
    const [selectedNode, setSelectedNode] = useState<Node<tListNodeData> | null>(null);
    const [selectedEdge, setSelectedEdge] = useState<Edge<ListEdgeType> | null>(null);
    const selectedEdgeId = useRef<string | null>(null);
 
+   //Todo: State - Another: modal,...
+   const [openModalEditCheckIntent, setOpenModalEditCheckIntent] = useState<boolean>(false);
+   const [openModalSettings, setOpenModalSettings] = useState<boolean>(false);
+   const [openModalVariable, setOpenModalVariable] = useState<boolean>(false);
+
+   //Todo: Ref
+   const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
+
+   //Todo: Api
+
+   //Handle foreach edge type
    useEffect(() => {
-      // console.log(edges);
       if (selectedEdge && selectedEdge.type === 'promptCollectEdge') {
          setOpenModalEditCheckIntent(true);
       }
    }, [selectedEdge]);
 
+   //Update node when change in children
    useEffect(() => {
       setNodes((nds) =>
          nds.map((node) => {
@@ -101,6 +111,9 @@ const DnDFlow: React.FC = () => {
          })
       );
    }, [selectedNode]);
+
+   //#region Util of reactflow connect, delete, drag, keydown,...
+
    const onConnect = useCallback(async (params: Edge | Connection) => {
       if (params?.sourceHandle?.includes('prompt-and-collect')) {
          // setSelectedEdge(params)
@@ -301,8 +314,8 @@ const DnDFlow: React.FC = () => {
       },
       [reactFlowInstance]
    );
+   //#endregion
 
-   // const nodeTypes = useMemo(() => (nodeTypesCustom), []);
    return (
       <>
          {openModalEditCheckIntent ? (
@@ -314,17 +327,28 @@ const DnDFlow: React.FC = () => {
                setEdges={(edges) => setEdges(edges)}
             />
          ) : null}
+         <Modal
+            title={<h2>Settings</h2>}
+            open={openModalSettings}
+            onCancel={() => setOpenModalSettings(false)}
+         />
+         <Modal
+            title={<h2>List Variable</h2>}
+            open={openModalVariable}
+            onCancel={() => setOpenModalVariable(false)}
+         />
          <div className="playReactNode">
             <ModalEditNode
                hidden={selectedNode ? false : true}
                node={selectedNode ?? null}
                setNode={(node) => setSelectedNode(node)}
             />
-
             <ReactFlowProvider>
-               <NavTopChatbot />
+               <NavTopChatbot
+                  setOpenSettings={(b) => setOpenModalSettings(b)}
+                  setOpenVariable={(b) => setOpenModalVariable(b)}
+               />
                <SideBar />
-
                <div className="reactflow-wrapper" ref={reactFlowWrapper}>
                   <ReactFlow
                      onKeyDown={onKeyDown}

@@ -8,7 +8,14 @@ import {
    SettingOutlined,
 } from '@ant-design/icons';
 import { Button, Popover } from 'antd';
-const NavTopChatbot: React.FC = () => {
+
+type NavTopChatbotProps = {
+   setOpenVariable: (b: boolean) => void;
+   setOpenSettings: (b: boolean) => void;
+};
+
+const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
+   const { setOpenSettings, setOpenVariable } = props;
    return (
       <div className={'nav-top-chatbot'}>
          <div className="breadcrumb">
@@ -23,22 +30,22 @@ const NavTopChatbot: React.FC = () => {
          </span> */}
          <div className="menu-right">
             <div className="tool-list">
-               <button className="tool-item">
-                  <Popover placement="bottom" content={<h6>List variable</h6>}>
+               <Popover placement="bottom" content={<h6>List variable</h6>}>
+                  <button className="tool-item" onClick={() => setOpenVariable(true)}>
                      <CodeOutlined />
-                  </Popover>
-               </button>
-               <button className="tool-item">
-                  <Popover placement="bottom" content={<h6>Versions</h6>}>
+                  </button>
+               </Popover>
+               <Popover placement="bottom" content={<h6>Versions</h6>}>
+                  <button className="tool-item">
                      <ClockCircleOutlined />
-                  </Popover>
-               </button>
+                  </button>
+               </Popover>
 
-               <button className="tool-item">
-                  <Popover placement="bottom" content={<h6>Settings</h6>}>
+               <Popover placement="bottom" content={<h6>Settings</h6>}>
+                  <button className="tool-item" onClick={() => setOpenSettings(true)}>
                      <SettingOutlined />
-                  </Popover>
-               </button>
+                  </button>
+               </Popover>
             </div>
             <div className="action-list">
                <Button className="action-item --test-your-bot">Test your bot</Button>
