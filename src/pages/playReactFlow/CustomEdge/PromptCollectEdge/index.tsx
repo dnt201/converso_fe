@@ -2,7 +2,7 @@ import React from 'react';
 import { BaseEdge, EdgeLabelRenderer, EdgeProps, getBezierPath } from 'reactflow';
 
 import './style.less';
-import { iValueEdgePromptCollect } from '@pages/PlayReactFlow/ModalEditCheckIntent';
+import { iValueEdgePromptCollect } from '@pages/PlayReactFlow/CustomEdge/ModalEditCheckIntent';
 
 const onEdgeClick = (evt: React.MouseEvent, id: string) => {
    evt.stopPropagation();

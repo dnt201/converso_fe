@@ -2,13 +2,13 @@ import { PromptCollectData } from '@pages/PlayReactFlow/CustomNode/PromptCollect
 import React, { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 
-import './style.less';
 import { useForm } from 'antd/es/form/Form';
 import { Button, Form, Input, Select, Space } from 'antd';
 import { ApiOutlined, CloseOutlined } from '@ant-design/icons';
 import FormItem from 'antd/es/form/FormItem';
 import { SubFlowData } from '@pages/PlayReactFlow/CustomNode/SubFlowNode/indext';
 type tKeyTab = 'general' | 'settings' | 'grammar';
+import './style.less';
 
 interface SubflowMenuProps {
    promptCollect: Node<SubFlowData>;
@@ -30,7 +30,7 @@ const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
    }, [innerNode]);
 
    return (
-      <div className="edit-mode" onClick={(e) => e.preventDefault()}>
+      <div className="edit-mode-subflow" onClick={(e) => e.preventDefault()}>
          <div className="node-header">
             <div className="top">
                <Space style={{ fontSize: 18, color: 'var(--color-main-blue)' }} align="center">

@@ -10,6 +10,8 @@
     top: 0;
     width: 100%;
     z-index: 5;
+    opacity: 1;
+    transition: ease-in 0.5s;
     .overlay {
         height: 100%;
         left: 0;
@@ -19,9 +21,9 @@
         background-color: #00000050;
     }
     &.hidden {
-        right: -100%;
+        opacity: 0;
+        display: none;
         transition: ease-out 0.5s;
     }
-    transition: ease-in 0.5s;
 
 }

@@ -14,12 +14,12 @@ import { Button, Form, Input, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 
-import './style.less';
 import FormItem from 'antd/es/form/FormItem';
 import { useForm } from 'antd/es/form/Form';
 import UpdateText from './UpdateText';
 
 type tKeyTab = 'general' | 'settings' | 'grammar';
+import './style.less';
 
 interface PromptCollectMenuProps {
    promptCollect: Node<PromptCollectData>;
@@ -60,7 +60,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
    }, [innerNode]);
 
    return (
-      <div className="edit-mode" onClick={(e) => e.preventDefault()}>
+      <div className="edit-mode-prompt-and-collect" onClick={(e) => e.preventDefault()}>
          <div className="node-header">
             <div className="top">
                <Space style={{ fontSize: 18, color: 'var(--color-main-blue)' }} align="center">

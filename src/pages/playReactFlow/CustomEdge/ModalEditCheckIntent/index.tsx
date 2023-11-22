@@ -2,9 +2,9 @@ import { iOption } from '@interfaces/index';
 import { Button, Form, Input, Modal, ModalProps, Select } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import React, { useEffect, useState } from 'react';
-import { PromptCollectData } from '../CustomNode/PromptCollectNode';
+import { PromptCollectData } from '../../CustomNode/PromptCollectNode';
 import { Edge, Node } from 'reactflow';
-import { ListEdgeType } from '../CustomEdge/indext';
+import { ListEdgeType } from '../indext';
 import { findOptionByValue } from '@utils/index';
 
 interface ModalEditCheckIntentProps extends ModalProps {

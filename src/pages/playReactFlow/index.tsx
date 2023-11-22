@@ -15,7 +15,7 @@ import SideBar from '@pages/PlayReactFlow/SideBar';
 import 'reactflow/dist/style.css';
 import { nodeTypes, tListNodeData } from '@pages/PlayReactFlow/CustomNode';
 
-import ModalEditCheckIntent from './ModalEditCheckIntent';
+import ModalEditCheckIntent from './CustomEdge/ModalEditCheckIntent';
 import { ListEdgeType, edgeTypes } from './CustomEdge/indext';
 
 import ModalEditNode from './ModalEditNode';

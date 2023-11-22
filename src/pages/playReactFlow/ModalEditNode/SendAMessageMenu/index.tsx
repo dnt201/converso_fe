@@ -20,7 +20,7 @@ const SendAMessageMenu: React.FC<SendAMessageMenuProps> = (props) => {
    }, [innerNode]);
 
    return (
-      <div className="edit-mode" onClick={(e) => e.preventDefault()}>
+      <div className="edit-mode-send-a-message" onClick={(e) => e.preventDefault()}>
          <div className="node-header">
             <div className="top">
                <Space style={{ fontSize: 18, color: 'var(--color-main-blue)' }} align="center">

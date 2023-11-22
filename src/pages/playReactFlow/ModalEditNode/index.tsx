@@ -1,6 +1,5 @@
 import React from 'react';
 import { Node } from 'reactflow';
-import './style.less';
 import { tListNodeData } from '../CustomNode';
 import PromptCollectMenu from './PromptAndCollectMenu';
 import { PromptCollectData } from '../CustomNode/PromptCollectNode';
@@ -8,6 +7,7 @@ import SubflowMenu from './SubflowMenu';
 import { SubFlowData } from '../CustomNode/SubFlowNode/indext';
 import SendAMessageMenu from './SendAMessageMenu';
 import { SendAMessageData } from '../CustomNode/SendAMessageNode';
+import './style.less';
 
 interface ModalEditNodeProps {
    node: Node<tListNodeData> | null;
