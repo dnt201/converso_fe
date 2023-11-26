@@ -22,7 +22,28 @@ export const nodeTypes = {
    http: HttpRequestNode,
 };
 
-export type tLanguage = 'vn' | 'en';
+export type tLanguage =
+   | 'vn'
+   | 'en'
+   | 'es'
+   | 'fr'
+   | 'de'
+   | 'zh'
+   | 'ar'
+   | 'ru'
+   | 'ja'
+   | 'pt'
+   | 'hi'
+   | 'bn'
+   | 'ur'
+   | 'id'
+   | 'tr'
+   | 'it'
+   | 'nl'
+   | 'pl'
+   | 'sv'
+   | 'vi'
+   | 'ko';
 
 interface NodeType {
    icon: ReactNode; // Assuming icon is a ReactNode

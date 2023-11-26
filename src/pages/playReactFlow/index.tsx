@@ -13,7 +13,7 @@ import ReactFlow, {
 import './style.less';
 import SideBar from '@pages/PlayReactFlow/SideBar';
 import 'reactflow/dist/style.css';
-import { nodeTypes, tListNodeData } from '@pages/PlayReactFlow/CustomNode';
+import { nodeTypes, tLanguage, tListNodeData } from '@pages/PlayReactFlow/CustomNode';
 
 import ModalEditCheckIntent from './CustomEdge/ModalEditCheckIntent';
 import { ListEdgeType, edgeTypes } from './CustomEdge/indext';
@@ -27,6 +27,9 @@ import { tHttpRequestNode } from './CustomNode/HttpRequestNode/indext';
 import { tSendAMessageNode } from './CustomNode/SendAMessageNode';
 import { tStartNode } from './CustomNode/StartNode';
 import { Modal } from 'antd';
+import { atom, useAtom } from 'jotai';
+import SettingsMenu from './SettingsModal';
+import SettingsModal from './SettingsModal';
 
 const initialNodes = [
    {
@@ -71,6 +74,32 @@ const initialEdges = [
       type: 'promptCollectEdge',
    },
 ];
+export const listLanguageSystem: { value: tLanguage; label: string }[] = [
+   { value: 'en', label: 'English' },
+   { value: 'es', label: 'Spanish' },
+   { value: 'fr', label: 'French' },
+   { value: 'de', label: 'German' },
+   { value: 'zh', label: 'Mandarin Chinese' },
+   { value: 'ar', label: 'Arabic' },
+   { value: 'ru', label: 'Russian' },
+   { value: 'ja', label: 'Japanese' },
+   { value: 'pt', label: 'Portuguese' },
+   { value: 'hi', label: 'Hindi' },
+   { value: 'bn', label: 'Bengali' },
+   { value: 'ur', label: 'Urdu' },
+   { value: 'id', label: 'Indonesian' },
+   { value: 'tr', label: 'Turkish' },
+   { value: 'it', label: 'Italian' },
+   { value: 'nl', label: 'Dutch' },
+   { value: 'pl', label: 'Polish' },
+   { value: 'sv', label: 'Swedish' },
+   { value: 'vi', label: 'Vietnamese' },
+   { value: 'ko', label: 'Korean' },
+];
+
+export const languagesAtom = atom<{ value: tLanguage; default: boolean }[]>([
+   { value: 'en', default: true },
+]);
 
 const DnDFlow: React.FC = () => {
    //Todo: State - ReactFlow
@@ -82,6 +111,8 @@ const DnDFlow: React.FC = () => {
    const [selectedNode, setSelectedNode] = useState<Node<tListNodeData> | null>(null);
    const [selectedEdge, setSelectedEdge] = useState<Edge<ListEdgeType> | null>(null);
    const selectedEdgeId = useRef<string | null>(null);
+
+   const [languages, setLanguages] = useAtom(languagesAtom);
 
    //Todo: State - Another: modal,...
    const [openModalEditCheckIntent, setOpenModalEditCheckIntent] = useState<boolean>(false);
@@ -327,10 +358,10 @@ const DnDFlow: React.FC = () => {
                setEdges={(edges) => setEdges(edges)}
             />
          ) : null}
-         <Modal
+         <SettingsModal
+            setShowModal={(b) => setOpenModalSettings(b)}
             title={<h2>Settings</h2>}
             open={openModalSettings}
-            onCancel={() => setOpenModalSettings(false)}
          />
          <Modal
             title={<h2>List Variable</h2>}
