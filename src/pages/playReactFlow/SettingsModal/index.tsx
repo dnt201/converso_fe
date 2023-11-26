@@ -18,6 +18,7 @@ const listMenu: ListMenu = [{ label: 'Language settings', value: 'language' }];
 const SettingsModal: React.FC<SettingsModalProps> = (props) => {
    const { setShowModal, ...propsModal } = props;
    const [curSettings, setCurSettings] = useState<SettingState>('language');
+   const [curSelectLanguage, setCurSelectLanguage] = useState<tLanguage>();
    const [languages, setLanguages] = useAtom(languagesAtom);
 
    const [listExistLanguage, setListExistLanguage] = useState<iOption[]>([]);
@@ -53,7 +54,12 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
                {curSettings === 'language' ? (
                   <>
                      <span>Select language</span>
-                     <Select options={listExistLanguage} />
+                     <Select<tLanguage>
+                        options={listExistLanguage}
+                        onSelect={(e) => {
+                           setCurSelectLanguage(e);
+                        }}
+                     />
                   </>
                ) : null}
             </div>
