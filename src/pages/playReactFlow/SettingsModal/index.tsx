@@ -1,10 +1,11 @@
-import { Modal, ModalProps, Select } from 'antd';
+import { Button, Modal, ModalProps, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './style.less';
 import { useAtom } from 'jotai';
 import { languagesAtom, listLanguageSystem } from '..';
 import { tLanguage } from '../CustomNode';
 import { iOption } from '@interfaces/index';
+import { PlusOutlined } from '@ant-design/icons';
 
 interface SettingsModalProps extends ModalProps {
    setShowModal: (b: boolean) => void;
@@ -18,9 +19,9 @@ const listMenu: ListMenu = [{ label: 'Language settings', value: 'language' }];
 const SettingsModal: React.FC<SettingsModalProps> = (props) => {
    const { setShowModal, ...propsModal } = props;
    const [curSettings, setCurSettings] = useState<SettingState>('language');
-   const [curSelectLanguage, setCurSelectLanguage] = useState<tLanguage>();
-   const [languages, setLanguages] = useAtom(languagesAtom);
+   const [curLanguage, setCurLanguage] = useState<tLanguage>();
 
+   const [languages, setLanguages] = useAtom(languagesAtom);
    const [listExistLanguage, setListExistLanguage] = useState<iOption[]>([]);
    useEffect(() => {
       let tempOption: { value: string; label: string }[] = [];
@@ -32,6 +33,10 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
       console.log(tempOption);
       setListExistLanguage(tempOption);
    }, [languages]);
+
+   const filterOption = (input: string, option?: { label: string; value: string }) =>
+      (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+
    return (
       <Modal
          {...propsModal}
@@ -53,13 +58,29 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
             <div className="content">
                {curSettings === 'language' ? (
                   <>
-                     <span>Select language</span>
-                     <Select<tLanguage>
-                        options={listExistLanguage}
-                        onSelect={(e) => {
-                           setCurSelectLanguage(e);
-                        }}
-                     />
+                     <div className="select-language">
+                        <span>Select language</span>
+                        <Space direction="horizontal" className="space">
+                           <Select<tLanguage>
+                              style={{ flex: 1 }}
+                              options={listExistLanguage}
+                              placeholder="Select a language"
+                              // filterOption={(input: string, option?: { label: string; value: string }) => {
+                              //    return (option?.label ?? '').toLowerCase().includes(input.toLowerCase());}
+                              // }
+
+                              onSelect={(e) => {
+                                 setCurLanguage(e);
+                              }}
+                           />
+                           <Button type="dashed">
+                              <i>
+                                 <PlusOutlined />
+                              </i>
+                              Add
+                           </Button>
+                        </Space>
+                     </div>
                   </>
                ) : null}
             </div>

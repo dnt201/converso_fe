@@ -31,6 +31,22 @@
          display: flex;
          overflow: auto;
          flex-direction: column;
+         .select-language {
+            display: flex;
+            gap: 4px;
+            flex-direction: column;
+            :first-child.ant-space-item {
+               flex:1;
+               .ant-select {
+                  width: 100%;
+               }
+            }
+            .ant-btn {
+               color: var(--color-main-blue);
+               border-color: var(--color-main-blue);
+               margin-right: 6px;
+            }
+         }
       }
    }
 }
