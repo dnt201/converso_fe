@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import { Navigate, Outlet } from 'react-router-dom';
-import NavTop from '@components/NavTop';
+import Navtop from '@components/Navtop';
 import './style.less';
 import { getCurrentUser } from '@utils/localStorage';
 
@@ -15,7 +15,7 @@ const MainLayout = () => {
          localStorage.clear();
          return (
             <Layout className="main-layout">
-               <NavTop />
+               <Navtop />
                <Content className="content">
                   <Layout>
                      <Content style={{ minHeight: '100vh' }}>
@@ -33,7 +33,7 @@ const MainLayout = () => {
       localStorage.clear();
       return (
          <Layout className="main-layout">
-            <NavTop />
+            <Navtop />
             <Content className="content">
                <Layout>
                   <Content style={{ minHeight: '100vh' }}>
