@@ -10,7 +10,7 @@ import SendAMessageNode, { SendAMessageData } from './SendAMessageNode';
 import PromptCollectNode, { PromptCollectData } from './PromptCollectNode';
 import SubFLowNode, { SubFlowData } from './SubFlowNode/indext';
 import CheckVariableNode, { CheckVariableData } from './CheckVariable';
-import HttpRequestNode, { HttpRequestData } from './HttpRequestNode/indext';
+import HttpRequestNode, { HttpRequestData } from './HttpRequestNode';
 import StartNode, { StartNodeData } from './StartNode';
 
 export const nodeTypes = {

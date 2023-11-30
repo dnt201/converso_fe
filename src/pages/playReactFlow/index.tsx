@@ -23,7 +23,7 @@ import { tPromptCollectNode } from './CustomNode/PromptCollectNode';
 import { tSubFlowNode } from './CustomNode/SubFlowNode/indext';
 import NavTopChatbot from './NavTop';
 import { tCheckVariableNode } from './CustomNode/CheckVariable';
-import { tHttpRequestNode } from './CustomNode/HttpRequestNode/indext';
+import { tHttpRequestNode } from './CustomNode/HttpRequestNode';
 import { tSendAMessageNode } from './CustomNode/SendAMessageNode';
 import { tStartNode } from './CustomNode/StartNode';
 import { Modal } from 'antd';
