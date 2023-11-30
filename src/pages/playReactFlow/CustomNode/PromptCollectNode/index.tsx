@@ -5,8 +5,6 @@ import {
    CheckOutlined,
    CloseOutlined,
    CustomerServiceFilled,
-   PhoneFilled,
-   PhoneOutlined,
 } from '@ant-design/icons';
 
 import './style.less';

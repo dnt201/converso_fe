@@ -3,7 +3,6 @@ import { Navigate, Outlet } from 'react-router-dom';
 import NavTop from '@components/NavTop';
 
 import './style.less';
-import { useEffect, useState } from 'react';
 import { getCurrentUser } from '@utils/localStorage';
 
 const { Content, Footer } = Layout;

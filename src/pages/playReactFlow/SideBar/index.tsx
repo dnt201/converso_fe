@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { listNodes, nodeTypes } from '../CustomNode';
+import { listNodes } from '../CustomNode';
 
 import './style.less';
 import { CaretRightOutlined } from '@ant-design/icons';

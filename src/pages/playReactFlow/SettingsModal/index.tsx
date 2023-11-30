@@ -4,10 +4,8 @@ import './style.less';
 import { useAtom } from 'jotai';
 import { iLanguageOption, languagesAtom, listLanguageSystem } from '..';
 import { tLanguage } from '../CustomNode';
-import { iOption } from '@interfaces/index';
 import {
    CheckCircleFilled,
-   CheckOutlined,
    DeleteOutlined,
    EditOutlined,
    PlusOutlined,
@@ -30,7 +28,7 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
    const [languages, setLanguages] = useAtom(languagesAtom);
    const [listExistLanguage, setListExistLanguage] = useState<iLanguageOption[]>([]);
    useEffect(() => {
-      let tempOption: { value: tLanguage; label: string }[] = listLanguageSystem.filter(
+      const tempOption: { value: tLanguage; label: string }[] = listLanguageSystem.filter(
          (langSystem) => !languages.some((langSelect) => langSelect.value === langSystem.value)
       );
       console.log(tempOption);
@@ -77,7 +75,7 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
                               disabled={!curLanguage}
                               onClick={() => {
                                  if (curLanguage) {
-                                    let temp = { ...curLanguage, default: false };
+                                    const temp = { ...curLanguage, default: false };
                                     console.log(temp);
                                     setLanguages([...languages, temp]);
                                  }

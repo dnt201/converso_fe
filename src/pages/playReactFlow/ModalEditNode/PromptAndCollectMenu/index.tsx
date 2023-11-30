@@ -2,7 +2,6 @@ import {
    CheckOutlined,
    CloseOutlined,
    CustomerServiceOutlined,
-   DeleteOutlined,
    EditOutlined,
    MenuUnfoldOutlined,
    MessageOutlined,
@@ -14,7 +13,6 @@ import { Button, Form, Input, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 
-import FormItem from 'antd/es/form/FormItem';
 import { useForm } from 'antd/es/form/Form';
 import UpdateText from './UpdateText';
 
@@ -38,7 +36,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
    const [listAnswer, setListAnswer] = useState<string[]>(fakeList);
    const [formChatbotResponse] = useForm();
    const formChatbotResponseFinish = (formChatbotResponseValue: FormChatbotResponse) => {
-      let newListText = innerNode.data.text.concat({
+      const newListText = innerNode.data.text.concat({
          key: innerNode.data.text.length + 1,
          message: formChatbotResponseValue.chatbotResponse,
          language: 'vn',

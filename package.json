@@ -13,6 +13,7 @@
    "dependencies": {
       "@ant-design/icons": "^5.2.6",
       "@heroicons/react": "^2.0.18",
+      "eslint-plugin-unused-imports": "^3.0.0",
       "jotai": "^2.5.1",
       "query-string": "^8.1.0",
       "react": "^18.2.0",

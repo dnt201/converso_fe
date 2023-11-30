@@ -1,4 +1,4 @@
-import { ApartmentOutlined, FilterFilled } from '@ant-design/icons';
+import { ApartmentOutlined } from '@ant-design/icons';
 import React from 'react';
 import { Handle, Node, NodeProps, Position } from 'reactflow';
 

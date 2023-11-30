@@ -2,7 +2,7 @@ import React from 'react';
 import './style.less';
 import { ChatBotLogo } from '@assets/icons';
 import { LogoutOutlined, RobotFilled, SettingFilled, SlidersFilled } from '@ant-design/icons';
-import { Button, notification } from 'antd';
+import { notification } from 'antd';
 import { CpuChipIcon } from '@heroicons/react/20/solid';
 import AppearLayout from '@layouts/AppearLayout';
 import { useNavigate } from 'react-router-dom';

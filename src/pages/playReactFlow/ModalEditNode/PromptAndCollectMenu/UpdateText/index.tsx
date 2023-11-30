@@ -17,7 +17,7 @@ const UpdateText: React.FC<UpdateTextProps> = (props) => {
    const [curText, setCurText] = useState(item.message);
 
    const updateTextByIndex = (value: string, index: number) => {
-      let arr = innerNode.data.text.map(function (item, i) {
+      const arr = innerNode.data.text.map(function (item, i) {
          if (index === i) {
             return { ...item, message: value };
          } else return item;
@@ -32,7 +32,7 @@ const UpdateText: React.FC<UpdateTextProps> = (props) => {
    };
 
    const removeTextByIndex = (index: number) => {
-      let arr = innerNode.data.text.filter(function (_, i) {
+      const arr = innerNode.data.text.filter(function (_, i) {
          return index !== i;
       });
       setInnerNode({

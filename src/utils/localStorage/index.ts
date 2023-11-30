@@ -5,7 +5,7 @@ export const setCurrentUser = (curUser: tCurrentUser) => {
 };
 
 export const getCurrentUser = () => {
-   let temp = localStorage.getItem('curUser');
+   const temp = localStorage.getItem('curUser');
    return temp !== null ? (JSON.parse(temp) as tCurrentUser) : undefined;
 };
 

@@ -5,7 +5,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainLayout from '@layouts/MainLayout';
 import PlayReactFlow from '@pages/PlayReactFlow';
 import 'reactflow/dist/style.css';
-import AppearLayout from '@layouts/AppearLayout';
 import AuthPage from '@pages/auth';
 import PrivateLayout from '@layouts/PrivateLayout';
 import NotFound from '@pages/NotFound';

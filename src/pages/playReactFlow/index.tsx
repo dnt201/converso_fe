@@ -251,7 +251,7 @@ const DnDFlow: React.FC = () => {
                   y: event.clientY - reactFlowBounds.top,
                });
                if (type === 'message') {
-                  let newNode = {
+                  const newNode = {
                      id: crypto.randomUUID(),
                      type,
                      position,
@@ -264,7 +264,7 @@ const DnDFlow: React.FC = () => {
                   } as tSendAMessageNode;
                   setNodes((nds) => nds.concat(newNode));
                } else if (type === 'promptandcollect') {
-                  let newNode = {
+                  const newNode = {
                      id: crypto.randomUUID(),
                      type,
                      position,
@@ -280,7 +280,7 @@ const DnDFlow: React.FC = () => {
                   } as tPromptCollectNode;
                   setNodes((nds) => nds.concat(newNode));
                } else if (type === 'subflow') {
-                  let newNode = {
+                  const newNode = {
                      id: crypto.randomUUID(),
                      type,
                      position,
@@ -293,7 +293,7 @@ const DnDFlow: React.FC = () => {
                   } as tSubFlowNode;
                   setNodes((nds) => nds.concat(newNode));
                } else if (type === 'checkattribute') {
-                  let newNode = {
+                  const newNode = {
                      id: crypto.randomUUID(),
                      type,
                      position,
@@ -306,7 +306,7 @@ const DnDFlow: React.FC = () => {
                   } as tCheckVariableNode;
                   setNodes((nds) => nds.concat(newNode));
                } else if (type === 'http') {
-                  let newNode = {
+                  const newNode = {
                      id: crypto.randomUUID(),
                      type,
                      position,

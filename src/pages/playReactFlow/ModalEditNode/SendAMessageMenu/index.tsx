@@ -1,6 +1,5 @@
 import { CloseOutlined, MessageFilled } from '@ant-design/icons';
 import { SendAMessageData } from '@pages/PlayReactFlow/CustomNode/SendAMessageNode';
-import { SubFlowData } from '@pages/PlayReactFlow/CustomNode/SubFlowNode/indext';
 import { Button, Form, Input, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Node } from 'reactflow';

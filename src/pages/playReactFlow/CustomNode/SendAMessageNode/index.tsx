@@ -1,8 +1,7 @@
 import { Handle, Node, NodeProps, Position } from 'reactflow';
 import { tLanguage } from '..';
 import './style.less';
-import { MessageFilled, MessageOutlined } from '@ant-design/icons';
-import { Space } from 'antd';
+import { MessageFilled } from '@ant-design/icons';
 
 //User Input
 

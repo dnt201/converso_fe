@@ -1,5 +1,5 @@
 import './style.less';
-import { Button, Col, Divider, Form, Input, InputNumber, Row } from 'antd';
+import { Button, Col, Divider, Form, Input, Row } from 'antd';
 import ListOptionRegister from './ListOptionRegister';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useForm } from 'antd/es/form/Form';
