@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import { Navigate, Outlet } from 'react-router-dom';
-import Navtop from '@components/Navtop';
+import Navtop from '../../components/Navtop';
 import './style.less';
 import { getCurrentUser } from '@utils/localStorage';
 
