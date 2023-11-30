@@ -2,10 +2,16 @@ import { Button, Modal, ModalProps, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './style.less';
 import { useAtom } from 'jotai';
-import { languagesAtom, listLanguageSystem } from '..';
+import { iLanguageOption, languagesAtom, listLanguageSystem } from '..';
 import { tLanguage } from '../CustomNode';
 import { iOption } from '@interfaces/index';
-import { PlusOutlined } from '@ant-design/icons';
+import {
+   CheckCircleFilled,
+   CheckOutlined,
+   DeleteOutlined,
+   EditOutlined,
+   PlusOutlined,
+} from '@ant-design/icons';
 
 interface SettingsModalProps extends ModalProps {
    setShowModal: (b: boolean) => void;
@@ -19,17 +25,14 @@ const listMenu: ListMenu = [{ label: 'Language settings', value: 'language' }];
 const SettingsModal: React.FC<SettingsModalProps> = (props) => {
    const { setShowModal, ...propsModal } = props;
    const [curSettings, setCurSettings] = useState<SettingState>('language');
-   const [curLanguage, setCurLanguage] = useState<tLanguage>();
+   const [curLanguage, setCurLanguage] = useState<iLanguageOption>();
 
    const [languages, setLanguages] = useAtom(languagesAtom);
-   const [listExistLanguage, setListExistLanguage] = useState<iOption[]>([]);
+   const [listExistLanguage, setListExistLanguage] = useState<iLanguageOption[]>([]);
    useEffect(() => {
-      let tempOption: { value: string; label: string }[] = [];
-      listLanguageSystem.forEach((item) => {
-         languages.forEach((curLanguage) => {
-            if (curLanguage.value !== item.value) tempOption = tempOption.concat(item);
-         });
-      });
+      let tempOption: { value: tLanguage; label: string }[] = listLanguageSystem.filter(
+         (langSystem) => !languages.some((langSelect) => langSelect.value === langSystem.value)
+      );
       console.log(tempOption);
       setListExistLanguage(tempOption);
    }, [languages]);
@@ -61,25 +64,57 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
                      <div className="select-language">
                         <span>Select language</span>
                         <Space direction="horizontal" className="space">
-                           <Select<tLanguage>
+                           <Select
                               style={{ flex: 1 }}
                               options={listExistLanguage}
                               placeholder="Select a language"
-                              // filterOption={(input: string, option?: { label: string; value: string }) => {
-                              //    return (option?.label ?? '').toLowerCase().includes(input.toLowerCase());}
-                              // }
-
-                              onSelect={(e) => {
-                                 setCurLanguage(e);
+                              onSelect={(_, e2: iLanguageOption) => {
+                                 setCurLanguage(e2);
                               }}
                            />
-                           <Button type="dashed">
-                              <i>
-                                 <PlusOutlined />
-                              </i>
-                              Add
+                           <Button
+                              type="dashed"
+                              disabled={!curLanguage}
+                              onClick={() => {
+                                 if (curLanguage) {
+                                    let temp = { ...curLanguage, default: false };
+                                    console.log(temp);
+                                    setLanguages([...languages, temp]);
+                                 }
+                              }}>
+                              <Space size={4}>
+                                 <i>
+                                    <PlusOutlined />
+                                 </i>
+                                 Add
+                              </Space>
                            </Button>
                         </Space>
+                     </div>
+                     <div className="list-language">
+                        <span>List chatbot language</span>
+                        {languages.map((item) => {
+                           return (
+                              <div className="item" key={item.value}>
+                                 <div className="name">
+                                    <span>{item.label}</span>
+                                    {item.default && <span className="default">default</span>}
+                                 </div>
+                                 <div className="actions">
+                                    <i className="check">
+                                       <CheckCircleFilled />
+                                    </i>
+
+                                    <i className="edit">
+                                       <EditOutlined />
+                                    </i>
+                                    <i className="delete">
+                                       <DeleteOutlined />
+                                    </i>
+                                 </div>
+                              </div>
+                           );
+                        })}
                      </div>
                   </>
                ) : null}

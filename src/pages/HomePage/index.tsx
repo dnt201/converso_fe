@@ -1,13 +1,14 @@
+import AppearLayout from '@layouts/AppearLayout';
 import BenefitListSection from './BenefitListSection';
 import SignUpSection from './SignUpSection';
 import './style.less';
 
 const HomePage = () => {
    return (
-      <div className="home-page">
+      <AppearLayout className="home-page">
          <SignUpSection />
          <BenefitListSection />
-      </div>
+      </AppearLayout>
    );
 };
 

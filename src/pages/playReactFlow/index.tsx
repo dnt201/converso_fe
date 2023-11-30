@@ -28,7 +28,6 @@ import { tSendAMessageNode } from './CustomNode/SendAMessageNode';
 import { tStartNode } from './CustomNode/StartNode';
 import { Modal } from 'antd';
 import { atom, useAtom } from 'jotai';
-import SettingsMenu from './SettingsModal';
 import SettingsModal from './SettingsModal';
 
 const initialNodes = [
@@ -74,7 +73,12 @@ const initialEdges = [
       type: 'promptCollectEdge',
    },
 ];
-export const listLanguageSystem: { value: tLanguage; label: string }[] = [
+
+export interface iLanguageOption {
+   value: tLanguage;
+   label: string;
+}
+export const listLanguageSystem: iLanguageOption[] = [
    { value: 'en', label: 'English' },
    { value: 'es', label: 'Spanish' },
    { value: 'fr', label: 'French' },
@@ -97,8 +101,8 @@ export const listLanguageSystem: { value: tLanguage; label: string }[] = [
    { value: 'ko', label: 'Korean' },
 ];
 
-export const languagesAtom = atom<{ value: tLanguage; default: boolean }[]>([
-   { value: 'en', default: true },
+export const languagesAtom = atom<{ value: tLanguage; label: string; default: boolean }[]>([
+   { value: 'en', label: 'English', default: true },
 ]);
 
 const DnDFlow: React.FC = () => {

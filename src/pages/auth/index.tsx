@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { ChatBotLogo } from '@assets/icons';
 import Login from './Login';
 import Register from './Register';
+import AppearLayout from '@layouts/AppearLayout';
 const AuthPage = () => {
    const navigate = useNavigate();
    const [searchParam] = useSearchParams();
@@ -19,7 +20,7 @@ const AuthPage = () => {
       }
    }, [window.location.search]);
    return (
-      <div className="auth">
+      <AppearLayout className="auth">
          <AuthLeftElement
             title={
                action === 'login' ? (
@@ -53,7 +54,7 @@ const AuthPage = () => {
                </span>
             }
          </div>
-      </div>
+      </AppearLayout>
    );
 };
 

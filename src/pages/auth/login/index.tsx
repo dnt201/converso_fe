@@ -1,25 +1,47 @@
 import './style.less';
-import { Link, useNavigate } from 'react-router-dom';
+
 import { Button, Divider, Form, Input, notification } from 'antd';
 import ListOptionLogin from './ListOptionLogin';
 import { tLoginParams, useMutationLogin } from '@hooks/auth';
-import { IError } from '@interfaces/index';
+import { useEffect, useState } from 'react';
+import { useForm } from 'antd/es/form/Form';
+import { setCurrentUser } from '@utils/localStorage';
+import { useNavigate } from 'react-router-dom';
+import { routerPath } from '@config/router/path';
 const Login: React.FC<{}> = () => {
    const mutationLogin = useMutationLogin();
+   const navigate = useNavigate();
    const formLoginSubmit = (formValue: tLoginParams) => {
-      mutationLogin.mutate(
-         formValue
-         // onError(error: IError) {
-         //    notification.error({ message: error.message });
-         // },
-      );
+      mutationLogin.mutate(formValue, {
+         onSuccess: (value) => {
+            setCurrentUser(value.data);
+            navigate(routerPath.DASHBOARD, { replace: true });
+            notification.success({ message: 'Login success!' });
+         },
+      });
    };
+
+   // Watch all values
+   const [form] = useForm();
+   const [submittable, setSubmittable] = useState(false);
+   const values = Form.useWatch([], form);
+
+   useEffect(() => {
+      form.validateFields({ validateOnly: true }).then(
+         () => {
+            setSubmittable(true);
+         },
+         () => {
+            setSubmittable(false);
+         }
+      );
+   }, [values]);
    return (
       <>
          <Form<tLoginParams>
             layout={'vertical'}
+            form={form}
             onFinish={formLoginSubmit}
-            //  wrapperCol={{ span: 4 }}
             style={{ minWidth: 360, marginTop: '16px' }}>
             <Form.Item<string>
                label="User Name"
@@ -48,9 +70,11 @@ const Login: React.FC<{}> = () => {
             </Form.Item>
             <Form.Item className="btn">
                <Button
-                  style={{ width: '100%', marginBottom: '0px' }}
+                  loading={mutationLogin.isLoading}
+                  style={{ width: '100%', marginBottom: '0px', height: 40 }}
                   type="primary"
-                  htmlType="submit">
+                  htmlType="submit"
+                  disabled={!submittable}>
                   Log in
                </Button>
             </Form.Item>

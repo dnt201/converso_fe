@@ -4,6 +4,7 @@ import ListOptionRegister from './ListOptionRegister';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useForm } from 'antd/es/form/Form';
 import { tRegister, useMutationRegister } from '@hooks/auth';
+import { useEffect, useState } from 'react';
 
 const Register = () => {
    const [form] = useForm<tRegister>();
@@ -12,6 +13,22 @@ const Register = () => {
    const formRegisterSubmit = (formValue: tRegister) => {
       mutationRegister.mutate(formValue, {});
    };
+
+   // Watch all values
+   const [submittable, setSubmittable] = useState(false);
+   const values = Form.useWatch([], form);
+
+   useEffect(() => {
+      form.validateFields({ validateOnly: true }).then(
+         () => {
+            setSubmittable(true);
+         },
+         () => {
+            setSubmittable(false);
+         }
+      );
+   }, [values]);
+
    return (
       <>
          <Form
@@ -54,18 +71,19 @@ const Register = () => {
                            required: true,
                            message: 'Phone number is required',
                         },
-                        {
-                           len: 10,
-                           message: 'Length must be 10 characters',
-                           type: 'number',
-                           transform(value) {
-                              return value + '';
+                        ({}) => ({
+                           validator(_, value) {
+                              console.log(parseInt(value));
+                              if (!value || +value.toString().length === 10) {
+                                 return Promise.resolve();
+                              }
+                              return Promise.reject(new Error('The phonenumber is 10 numbers!'));
                            },
-                        },
+                        }),
                      ]}>
-                     <InputNumber
+                     <Input
                         maxLength={10}
-                        controls={false}
+                        // controls={false}
                         className="phone"
                         type="phone"
                         placeholder="Enter your phone number"
@@ -91,7 +109,8 @@ const Register = () => {
                <Button
                   style={{ width: '100%', marginBottom: '0px', height: 38 }}
                   type="primary"
-                  htmlType="submit">
+                  htmlType="submit"
+                  disabled={!submittable}>
                   Create Account
                </Button>
             </Form.Item>

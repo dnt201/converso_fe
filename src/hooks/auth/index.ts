@@ -1,14 +1,30 @@
 import { mutationPost } from '@config/api';
 import { apiPath } from '@config/api/path';
 import { IError, IResponse } from '@interfaces/index';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { notification } from 'antd';
 
 type tLogin = {
    username: string;
    password: string;
 };
-type tLoginResponse = IResponse<tLogin> & {};
+
+export type tCurrentUser = {
+   id: number;
+   username: string;
+   name: string;
+   avatar: string;
+   phonenumber: string;
+   email: string;
+   address: string;
+   extendData: string;
+   roleId: number;
+   slug: string;
+   createdAt: string;
+   updatedAt: string;
+   token: string;
+};
+type tLoginResponse = IResponse<tCurrentUser>;
 export type tLoginParams = {
    username: string;
    password: string;
@@ -23,7 +39,9 @@ export const useMutationLogin = () => {
          });
       },
       onError: (error: IError) => {
-         notification.error({ message: error.error || 'Unknown error, please try again!' });
+         notification.error({
+            message: 'Wrong username or password!' || 'Unknown error, please try again!',
+         });
       },
    });
 };
@@ -60,7 +78,7 @@ export const useMutationRegister = () => {
             body: registerParams,
          });
       },
-      onSuccess: (data) => {},
+      // onSuccess: (data) => {},
       onError: (error: IError) => {
          notification.error({ message: error.error || 'Unknown error, please try again!' });
       },

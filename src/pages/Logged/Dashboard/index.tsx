@@ -1,31 +1,39 @@
 import React from 'react';
 import './style.less';
 import { ChatBotLogo } from '@assets/icons';
-import { LogoutOutlined, PlusSquareFilled, SettingFilled, SlidersFilled } from '@ant-design/icons';
-import { Button } from 'antd';
+import { LogoutOutlined, RobotFilled, SettingFilled, SlidersFilled } from '@ant-design/icons';
+import { Button, notification } from 'antd';
 import { CpuChipIcon } from '@heroicons/react/20/solid';
+import AppearLayout from '@layouts/AppearLayout';
+import { useNavigate } from 'react-router-dom';
+import { routerPath } from '@config/router/path';
 const Dashboard = () => {
+   const navigate = useNavigate();
    return (
-      <div className="dashboard-container">
+      <AppearLayout className="dashboard-container">
          <div className="logo">
             <ChatBotLogo />
          </div>
          <div className="list-action">
-            <div className="action-item create-chat-bot">
+            <div
+               className="action-item create-chat-bot"
+               onClick={() => {
+                  navigate(routerPath.MANAGE_CHATBOT);
+               }}>
                <i>
-                  <PlusSquareFilled />
+                  <RobotFilled />
                </i>
-               <span className="title">Create Chat Bot</span>
+               <span className="title">Manage ChatBot</span>
             </div>
             <div className="action-item">
                <i>
                   <SlidersFilled />
                </i>
-               <span className="title">Manage chanel</span>
+               <span className="title">Manage Chanel</span>
             </div>
             <div className="action-item">
-               <i>
-                  <CpuChipIcon></CpuChipIcon>
+               <i className=" lazy">
+                  <CpuChipIcon height={40} width={40} />
                </i>
                <span className="title">Training</span>
             </div>
@@ -35,14 +43,20 @@ const Dashboard = () => {
                </i>
                <span className="title">Settings</span>
             </div>
-            <div className="action-item logout">
+            <div
+               className="action-item logout"
+               onClick={() => {
+                  localStorage.clear();
+                  notification.success({ message: 'Logout success!' });
+                  navigate('/auth?action=login', { replace: true });
+               }}>
                <i>
                   <LogoutOutlined />
                </i>
                <span className="title">Logout</span>
             </div>
          </div>
-      </div>
+      </AppearLayout>
    );
 };
 

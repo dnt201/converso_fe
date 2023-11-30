@@ -1,6 +1,6 @@
 .settings-modal {
    color: var(--color-disable);
-   top:5vh;
+   top: 5vh;
    max-height: 80vh;
    .container {
       margin-top: 16px;
@@ -19,9 +19,9 @@
                cursor: pointer;
                opacity: 0.6;
             }
-         &.active {
-            color: var(--color-main-blue);
-         }
+            &.active {
+               color: var(--color-main-blue);
+            }
          }
       }
       .content {
@@ -36,15 +36,61 @@
             gap: 4px;
             flex-direction: column;
             :first-child.ant-space-item {
-               flex:1;
+               flex: 1;
                .ant-select {
                   width: 100%;
                }
             }
             .ant-btn {
-               color: var(--color-main-blue);
-               border-color: var(--color-main-blue);
                margin-right: 6px;
+               &:enabled {
+                  color: var(--color-main-blue);
+                  border-color: var(--color-main-blue);
+               }
+            }
+         }
+         .list-language {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            > .item {
+               display: flex;
+               font-weight: 400;
+               align-items: center;
+               padding: 8px 1px;
+               border-bottom: 1px solid var(--color-hover);
+               > .name {
+                  flex: 1;
+                  display: flex;
+                  align-items: center;
+                  gap: 4px;
+                  .default {
+                     font-size: 9px;
+                     background-color: var(--color-main-blue);
+                     color: white;
+                     padding: 4px;
+                     border-radius: 40px;
+                  }
+               }
+               .actions {
+                  display: flex;
+                  align-items: center;
+                  gap: 4px;
+                  color: var(--color-main-blue);
+                  transition-duration: 0.25s;
+                  cursor: pointer;
+
+                  .delete {
+                     color: var(--color-red);
+                  }
+                  .delete,.edit,.check {
+                     &:hover {
+                  transition-duration: 0.25s;
+
+                        opacity: 0.2;
+                     }
+                  }
+               }
             }
          }
       }

@@ -2,10 +2,11 @@ import { NotFoundIcon } from '@assets/icons';
 import './style.less';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import AppearLayout from '@layouts/AppearLayout';
 const NotFound = () => {
    const navigate = useNavigate();
    return (
-      <div className="not-found-container">
+      <AppearLayout className="not-found-container">
          <NotFoundIcon height={300} width={300} />
          <div className="note">
             <b>Maybe you got lost</b>
@@ -18,7 +19,7 @@ const NotFound = () => {
             }}>
             Go Home
          </Button>
-      </div>
+      </AppearLayout>
    );
 };
 

@@ -1,10 +1,10 @@
-import { Outlet } from 'react-router-dom';
-
 import './style.less';
-const AppearLayout = () => {
+import { HTMLProps } from 'react';
+interface AppearLayoutProps extends HTMLProps<HTMLDivElement> {}
+const AppearLayout: React.FC<AppearLayoutProps> = (props) => {
    return (
-      <div className="appear-layout">
-         <Outlet />
+      <div {...props} className={'appear-layout ' + props.className}>
+         {props.children}
       </div>
    );
 };

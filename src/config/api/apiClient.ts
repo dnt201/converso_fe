@@ -7,6 +7,10 @@ const apiClient = axios.create({
    },
 });
 
+apiClient.interceptors.request.use((config) => {
+   // config.timeout = ; // Wait for 5 seconds before timing out
+   return config;
+});
 apiClient.interceptors.response.use(
    (response) => {
       if (response && (response.status === 403 || response.status === 401)) {
@@ -21,6 +25,10 @@ apiClient.interceptors.response.use(
       return response;
    },
    (error) => {
+      if (error.code === 'ECONNABORTED' && error.message.includes('timeout')) {
+         console.log('Request timed out');
+         return Promise.reject(error);
+      }
       if (error.response && (error.response.status === 403 || error.response.status === 401)) {
          if (localStorage.getItem('currentUser') !== null) {
             localStorage.clear();

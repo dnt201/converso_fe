@@ -110,7 +110,7 @@ const NavTop = () => {
 
    return (
       <Header className="navTop" id="navTop" ref={navTopRef}>
-         <button className="logo">
+         <button className="logo" onClick={() => navigate('/')}>
             <ChatBotLogo />
          </button>
          {/* <Menu mode="horizontal" items={items1} /> */}
