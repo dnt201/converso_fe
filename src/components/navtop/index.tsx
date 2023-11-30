@@ -88,7 +88,7 @@ const items2: MenuProps['items'] = [
       key: '4',
    },
 ];
-const NavTop = () => {
+const Navtop = () => {
    const navTopRef = useRef<HTMLDivElement>(null);
    const navigate = useNavigate();
    useEffect(() => {
@@ -153,4 +153,4 @@ const NavTop = () => {
    );
 };
 
-export default NavTop;
+export default Navtop;

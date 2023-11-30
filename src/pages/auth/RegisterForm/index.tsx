@@ -6,7 +6,7 @@ import { useForm } from 'antd/es/form/Form';
 import { tRegister, useMutationRegister } from '@hooks/auth';
 import { useEffect, useState } from 'react';
 
-const Register = () => {
+const RegisterForm = () => {
    const [form] = useForm<tRegister>();
    const mutationRegister = useMutationRegister();
 
@@ -125,4 +125,4 @@ const Register = () => {
    );
 };
 
-export default Register;
+export default RegisterForm;

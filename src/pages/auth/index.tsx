@@ -4,8 +4,8 @@ import './style.less';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { ChatBotLogo } from '@assets/icons';
-import Login from './Login';
-import Register from './Register';
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 import AppearLayout from '@layouts/AppearLayout';
 const AuthPage = () => {
    const navigate = useNavigate();
@@ -44,7 +44,7 @@ const AuthPage = () => {
                {action === 'login' ? 'Login' : 'Create your free account'}
             </span>
 
-            {action === 'login' ? <Login /> : <Register />}
+            {action === 'login' ? <LoginForm /> : <RegisterForm />}
             {
                <span className="sign-up">
                   {action === 'login' ? 'Need new account?' : 'Already have an account?'}

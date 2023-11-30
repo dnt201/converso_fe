@@ -8,7 +8,7 @@ import { useForm } from 'antd/es/form/Form';
 import { setCurrentUser } from '@utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import { routerPath } from '@config/router/path';
-const Login: React.FC<{}> = () => {
+const LoginForm: React.FC<{}> = () => {
    const mutationLogin = useMutationLogin();
    const navigate = useNavigate();
    const formLoginSubmit = (formValue: tLoginParams) => {
@@ -85,4 +85,4 @@ const Login: React.FC<{}> = () => {
    );
 };
 
-export default Login;
+export default LoginForm;
