@@ -15,7 +15,7 @@ const BenefitItem: React.FC<iBenefitItem> = (props) => {
          <img src={image} />
          <h2>{title}</h2>
          <div className="list-content">
-            {listContent.map((item, index) => {
+            {listContent.map((item) => {
                return (
                   <div key={item}>
                      <CheckOutlined style={{ fontSize: 10, fontWeight: 'bold', marginTop: 6 }} />

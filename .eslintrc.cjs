@@ -10,16 +10,11 @@ module.exports = {
    plugins: ['react-refresh', 'unused-imports'],
    rules: {
       'react-refresh/only-export-components': 'warn',
-      'no-unused-vars': 'off',
+      'no-unused-vars': 'warn',
       'unused-imports/no-unused-imports': 'warn',
       'unused-imports/no-unused-vars': [
          'warn',
-         {
-            vars: 'all',
-            varsIgnorePattern: '^_',
-            args: 'after-used',
-            argsIgnorePattern: '^_',
-         },
+         { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
       ],
    },
 };

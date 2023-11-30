@@ -4,11 +4,6 @@ import { IError, IResponse } from '@interfaces/index';
 import { useMutation } from '@tanstack/react-query';
 import { notification } from 'antd';
 
-type tLogin = {
-   username: string;
-   password: string;
-};
-
 export type tCurrentUser = {
    id: number;
    username: string;
@@ -38,7 +33,7 @@ export const useMutationLogin = () => {
             body: loginParams,
          });
       },
-      onError: (error: IError) => {
+      onError: () => {
          notification.error({
             message: 'Wrong username or password!' || 'Unknown error, please try again!',
          });

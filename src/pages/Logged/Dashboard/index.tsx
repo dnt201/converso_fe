@@ -1,4 +1,3 @@
-import React from 'react';
 import './style.less';
 import { ChatBotLogo } from '@assets/icons';
 import { LogoutOutlined, RobotFilled, SettingFilled, SlidersFilled } from '@ant-design/icons';

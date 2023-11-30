@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './style.less';
 import { FacebookFilled, MessageFilled, PlusSquareFilled } from '@ant-design/icons';
 import { routerPath } from '@config/router/path';
+import Loader from '@components/Loader';
 
 const listChatbot = [
    {
@@ -108,12 +109,29 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
          <div className="logo">
             <ChatBotLogo />
          </div>
+
+         <span className="title">Template</span>
          <div className="list-chatbot">
             <div className="action-item create-chat-bot">
                <i>{<PlusSquareFilled />}</i>
                <p className="title">Create Chatbot</p>
             </div>
             <div className="slider" />
+            <div className="action-item create-chat-bot">
+               <i>{<PlusSquareFilled />}</i>
+               <p className="title">Template A</p>
+            </div>
+            <div className="action-item create-chat-bot">
+               <i>{<PlusSquareFilled />}</i>
+               <p className="title">Template B</p>
+            </div>
+            <div className="action-item create-chat-bot">
+               <i>{<PlusSquareFilled />}</i>
+               <p className="title">Template C</p>
+            </div>
+         </div>
+         <span className="title">List chatbot</span>
+         <div className="list-chatbot">
             {listChatbot.map((e) => {
                return (
                   <div

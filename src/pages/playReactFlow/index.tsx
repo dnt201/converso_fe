@@ -52,32 +52,32 @@ const initialNodes = [
    //    position: { x: 250, y: 250 },
    //    deletable: false,
    // },
+   // ];
+   // const initialEdges = [
+   //    {
+   //       data: { intent: '1', condition: 'equal' },
+   //       id: 'e1-2',
+   //       source: 'prompt',
+   //       sourceHandle: 'prompt-and-collect-true',
+   //       target: 'message',
+   //       targetHandle: 'target-top',
+   //       type: 'promptCollectEdge',
+   //    },
+   //    {
+   //       data: { intent: '51', condition: 'equal' },
+   //       id: 'e22',
+   //       source: 'prompt',
+   //       sourceHandle: 'prompt-and-collect-true',
+   //       target: 'message',
+   //       targetHandle: 'target-top',
+   //       type: 'promptCollectEdge',
+   //    },
 ];
-const initialEdges = [
-   {
-      data: { intent: '1', condition: 'equal' },
-      id: 'e1-2',
-      source: 'prompt',
-      sourceHandle: 'prompt-and-collect-true',
-      target: 'message',
-      targetHandle: 'target-top',
-      type: 'promptCollectEdge',
-   },
-   {
-      data: { intent: '51', condition: 'equal' },
-      id: 'e22',
-      source: 'prompt',
-      sourceHandle: 'prompt-and-collect-true',
-      target: 'message',
-      targetHandle: 'target-top',
-      type: 'promptCollectEdge',
-   },
-];
-
 export interface iLanguageOption {
    value: tLanguage;
    label: string;
 }
+
 export const listLanguageSystem: iLanguageOption[] = [
    { value: 'en', label: 'English' },
    { value: 'es', label: 'Spanish' },
