@@ -1,17 +1,25 @@
-import { CloseOutlined, MessageFilled } from '@ant-design/icons';
-import { SendAMessageData } from '@pages/PlayReactFlow/CustomNode/SendAMessageNode';
-import { Button, Form, Input, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
+
+import { Button, Form, Input, Select, Space } from 'antd';
+import { ApiOutlined, CloseOutlined } from '@ant-design/icons';
+import { SubFlowData } from '@pages/DetailChatBot/CustomNode/SubFlowNode/indext';
+type tKeyTab = 'general' | 'settings' | 'grammar';
 import './style.less';
-interface SendAMessageMenuProps {
-   promptCollect: Node<SendAMessageData>;
+
+interface SubflowMenuProps {
+   promptCollect: Node<SubFlowData>;
    closeModal: () => void;
    setNode: (curNode: Node | null) => void;
 }
-const SendAMessageMenu: React.FC<SendAMessageMenuProps> = (props) => {
+// interface SubflowMenuProps {
+//    chatbotResponse: string;
+// }
+
+const fakeList = ['Hello', '12412412', 'aaaa', 'bbbb'];
+const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
    const { closeModal, promptCollect, setNode } = props;
-   const [innerNode, setInnerNode] = useState<Node<SendAMessageData>>(promptCollect);
+   const [innerNode, setInnerNode] = useState<Node<SubFlowData>>(promptCollect);
 
    useEffect(() => {
       //   console.log(innerNode.data.text);
@@ -19,12 +27,12 @@ const SendAMessageMenu: React.FC<SendAMessageMenuProps> = (props) => {
    }, [innerNode]);
 
    return (
-      <div className="edit-mode-send-a-message" onClick={(e) => e.preventDefault()}>
+      <div className="edit-mode-subflow" onClick={(e) => e.preventDefault()}>
          <div className="node-header">
             <div className="top">
                <Space style={{ fontSize: 18, color: 'var(--color-main-blue)' }} align="center">
-                  <MessageFilled style={{ fontSize: 24 }} />
-                  <span>Send A Message</span>
+                  <ApiOutlined style={{ fontSize: 24 }} />
+                  <span>Prompt And Collect</span>
                </Space>
                <Button
                   className="close-btn"
@@ -69,4 +77,4 @@ const SendAMessageMenu: React.FC<SendAMessageMenuProps> = (props) => {
    );
 };
 
-export default SendAMessageMenu;
+export default SubflowMenu;

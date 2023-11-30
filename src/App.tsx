@@ -3,7 +3,7 @@ import './App.less';
 import HomePage from '@pages/HomePage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainLayout from '@layouts/MainLayout';
-import PlayReactFlow from '@pages/PlayReactFlow';
+import PlayReactFlow from '@pages/DetailChatBot';
 import 'reactflow/dist/style.css';
 import AuthPage from '@pages/auth';
 import PrivateLayout from '@layouts/PrivateLayout';

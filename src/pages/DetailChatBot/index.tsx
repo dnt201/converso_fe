@@ -11,9 +11,9 @@ import ReactFlow, {
    MarkerType,
 } from 'reactflow';
 import './style.less';
-import SideBar from '@pages/PlayReactFlow/SideBar';
+import SideBar from '@pages/DetailChatBot/SideBar';
 import 'reactflow/dist/style.css';
-import { nodeTypes, tLanguage, tListNodeData } from '@pages/PlayReactFlow/CustomNode';
+import { nodeTypes, tLanguage, tListNodeData } from '@pages/DetailChatBot/CustomNode';
 
 import ModalEditCheckIntent from './CustomEdge/ModalEditCheckIntent';
 import { ListEdgeType, edgeTypes } from './CustomEdge/indext';

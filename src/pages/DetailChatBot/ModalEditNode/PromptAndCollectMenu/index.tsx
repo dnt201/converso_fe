@@ -8,7 +8,7 @@ import {
    PlusOutlined,
    SettingOutlined,
 } from '@ant-design/icons';
-import { PromptCollectData } from '@pages/PlayReactFlow/CustomNode/PromptCollectNode';
+import { PromptCollectData } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
 import { Button, Form, Input, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Node } from 'reactflow';

@@ -1,6 +1,6 @@
 import { CheckOutlined, DeleteOutlined } from '@ant-design/icons';
-import { tLanguage } from '@pages/PlayReactFlow/CustomNode';
-import { PromptCollectData } from '@pages/PlayReactFlow/CustomNode/PromptCollectNode';
+import { tLanguage } from '@pages/DetailChatBot/CustomNode';
+import { PromptCollectData } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
 import { Input } from 'antd';
 import React, { useState } from 'react';
 import { Node } from 'reactflow';
