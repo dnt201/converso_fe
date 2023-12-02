@@ -24,7 +24,11 @@ const Dashboard = () => {
                </i>
                <span className="title">Manage ChatBot</span>
             </div>
-            <div className="action-item">
+            <div
+               className="action-item"
+               onClick={() => {
+                  navigate(routerPath.MANAGE_CHANEL);
+               }}>
                <i>
                   <SlidersFilled />
                </i>

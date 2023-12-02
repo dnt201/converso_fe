@@ -5,7 +5,7 @@ import ListOptionLogin from './ListOptionLogin';
 import { tLoginParams, useMutationLogin } from '@hooks/auth';
 import { useEffect, useState } from 'react';
 import { useForm } from 'antd/es/form/Form';
-import { setCurrentUser } from '@utils/localStorage';
+import { setAccessToken, setCurrentUser } from '@utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import { routerPath } from '@config/router/path';
 const LoginForm: React.FC<{}> = () => {
@@ -14,9 +14,16 @@ const LoginForm: React.FC<{}> = () => {
    const formLoginSubmit = (formValue: tLoginParams) => {
       mutationLogin.mutate(formValue, {
          onSuccess: (value) => {
-            setCurrentUser(value.data);
-            navigate(routerPath.DASHBOARD, { replace: true });
-            notification.success({ message: 'Login success!' });
+            if (value.data.token) {
+               setCurrentUser(value.data);
+               setAccessToken(value.data.token);
+               navigate(routerPath.DASHBOARD, { replace: true });
+               notification.success({ message: 'Login success!' });
+            } else {
+               notification.error({
+                  message: 'Oops!!! Internal error, please call Admin System to get help.',
+               });
+            }
          },
       });
    };

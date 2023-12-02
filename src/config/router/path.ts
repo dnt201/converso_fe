@@ -8,6 +8,7 @@ export const routerPath = {
    EMPLOYEE_DETAIL: '/employee-detail/:employeeID',
    MANAGE_CHATBOT: '/manage-chatbot',
    MANAGE_CHATBOT_BY_ID: '/manage-chatbot/:chatbotId',
+   MANAGE_CHANEL: '/manage-chanel',
    NOT_FOUND: '/notfound',
    ANY: '*',
 };

@@ -3,7 +3,15 @@ import AppearLayout from '@layouts/AppearLayout';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './style.less';
-import { FacebookFilled, MessageFilled, PlusSquareFilled } from '@ant-design/icons';
+import {
+   FacebookFilled,
+   MessageFilled,
+   NotificationFilled,
+   NotificationOutlined,
+   PlusSquareFilled,
+   ShoppingFilled,
+   ToolFilled,
+} from '@ant-design/icons';
 import { routerPath } from '@config/router/path';
 import Loader from '@components/Loader';
 
@@ -118,16 +126,20 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
             </div>
             <div className="slider" />
             <div className="action-item create-chat-bot">
-               <i>{<PlusSquareFilled />}</i>
-               <p className="title">Template A</p>
+               <i>{<ShoppingFilled />}</i>
+               <p className="title">Shopping Template</p>
             </div>
             <div className="action-item create-chat-bot">
-               <i>{<PlusSquareFilled />}</i>
-               <p className="title">Template B</p>
+               <i>
+                  <ToolFilled />
+               </i>
+               <p className="title">Support Template</p>
             </div>
             <div className="action-item create-chat-bot">
-               <i>{<PlusSquareFilled />}</i>
-               <p className="title">Template C</p>
+               <i>
+                  <NotificationFilled />
+               </i>
+               <p className="title">Marketing Template</p>
             </div>
          </div>
          <span className="title">List chatbot</span>

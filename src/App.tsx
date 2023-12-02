@@ -10,6 +10,7 @@ import PrivateLayout from '@layouts/PrivateLayout';
 import NotFound from '@pages/NotFound';
 import Dashboard from '@pages/Logged/Dashboard';
 import ChatbotManagement from '@pages/Logged/ChatbotManagement';
+import ManageChanel from '@pages/Logged/ManageChanel';
 
 function App() {
    return (
@@ -23,6 +24,7 @@ function App() {
                <Route element={<Dashboard />} path={routerPath.DASHBOARD} />
                <Route element={<DetailChatBot />} path={routerPath.MANAGE_CHATBOT_BY_ID} />
                <Route element={<ChatbotManagement />} path={routerPath.MANAGE_CHATBOT} />
+               <Route element={<ManageChanel />} path={routerPath.MANAGE_CHANEL} />
             </Route>
             <Route path={routerPath.ANY} element={<NotFound />} />
          </Routes>

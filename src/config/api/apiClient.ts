@@ -1,4 +1,5 @@
-import axios from 'axios';
+import { getAccessToken } from '@utils/localStorage';
+import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 
 const apiClient = axios.create({
    baseURL: import.meta.env.VITE_BACK_END_ENDPOINT,
@@ -7,9 +8,10 @@ const apiClient = axios.create({
    },
 });
 
-apiClient.interceptors.request.use((config) => {
-   // config.timeout = ; // Wait for 5 seconds before timing out
-   return config;
+apiClient.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
+   const accessToken = await getAccessToken();
+   if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
+   return await config;
 });
 apiClient.interceptors.response.use(
    (response) => {
