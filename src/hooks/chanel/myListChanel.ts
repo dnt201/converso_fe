@@ -3,7 +3,7 @@ import { getData } from '@config/api';
 import { apiPath } from '@config/api/path';
 import { useQuery } from '@tanstack/react-query';
 
-interface iChanel {
+export interface iChanel {
    id: number;
    contactId: string;
    contactName: string;

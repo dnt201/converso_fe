@@ -1,5 +1,5 @@
 import './style.less';
-import IMAGE from '/public/favicon.ico';
+import IMAGE from '/src/favicon.ico';
 const Loader = () => {
    return (
       <div className="loader-wrapper">

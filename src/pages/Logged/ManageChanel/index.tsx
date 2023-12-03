@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './style.less';
 import AppearLayout from '@layouts/AppearLayout';
@@ -7,13 +7,27 @@ import { Button, Divider, Empty, Input, Skeleton, Space } from 'antd';
 import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { routerPath } from '@config/router/path';
-import { useMyListChanel } from '@hooks/chanel/myListChanel';
+import { iChanel, useMyListChanel } from '@hooks/chanel/myListChanel';
+import ModalAddChanel from './ModalAddChanel';
+import ModalEditChanel from './ModalEditChanel';
 
 const ManageChanel = () => {
    const navigate = useNavigate();
+
+   const [openAddChanel, setOpenAddChanel] = useState(false);
+   const [openEditChanel, setOpenEditChanel] = useState<iChanel>();
+
+   //Todo: Api
    const { data: listChanelData, isLoading: listChanelLoading } = useMyListChanel();
+
    return (
       <AppearLayout className="manage-chanel-container">
+         <ModalAddChanel open={openAddChanel} setCloseModal={(b) => setOpenAddChanel(b)} />
+         <ModalEditChanel
+            open={openEditChanel ? true : false}
+            setCloseModal={() => setOpenEditChanel(undefined)}
+            chanelProps={openEditChanel}
+         />
          <div className="nav-top">
             <Space size={4} align="center">
                <ChatBotLogo />
@@ -37,10 +51,6 @@ const ManageChanel = () => {
                   <h2 className="title">Manage Chanel</h2>
                </Space>
                <div className="actions">
-                  {/* <Button type="primary">
-                     Add new chanel
-                     <PlusOutlined />
-                  </Button> */}
                   <Input.Search
                      width={'300px'}
                      style={{ width: 260 }}
@@ -49,7 +59,7 @@ const ManageChanel = () => {
                </div>
             </div>
             <div className="list-chanel">
-               <div className="chanel">
+               <div className="chanel" onClick={() => setOpenAddChanel(true)}>
                   <Space direction="vertical" align="center">
                      <PlusOutlined className="icon" />
                      <span className="title">Add new chanel</span>
@@ -70,7 +80,10 @@ const ManageChanel = () => {
                   <>
                      {listChanelData.data.map((item) => {
                         return (
-                           <div className="chanel" key={item.id}>
+                           <div
+                              className="chanel"
+                              key={item.id}
+                              onClick={() => setOpenEditChanel(item)}>
                               {item.contactName}
                            </div>
                         );
