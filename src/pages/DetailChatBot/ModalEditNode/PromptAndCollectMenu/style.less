@@ -11,7 +11,7 @@
    outline: none;
    padding: 0;
    border: 0;
-   >.node-header {
+   > .node-header {
       display: flex;
       flex-direction: column;
       background-color: #fff;
@@ -20,12 +20,12 @@
       height: 140px;
       padding: 35px 28px 0;
       width: 100%;
-      >.top {
+      > .top {
          display: flex;
          justify-content: space-between;
          align-items: center;
          margin-bottom: 12px;
-         >.close-btn{
+         > .close-btn {
             transform: translateX(16px);
          }
       }
@@ -34,7 +34,7 @@
          gap: 4px;
       }
    }
-   >.content {
+   > .content {
       background-color: var(--color-background-edit-node);
       border-radius: 0 0 4px 4px;
       padding: 24px 28px 0;
@@ -42,7 +42,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       width: calc(100%);
-      .response {
+      >.response {
          box-sizing: border-box;
          margin: 0;
          outline: none;
@@ -50,17 +50,15 @@
          display: flex;
          flex-direction: column;
          gap: 8px;
-         .title {
+         >.title {
             font-size: 16px;
             gap: 4px;
             display: flex;
             align-items: center;
             margin-bottom: 8px;
-            
-
          }
          .input-container {
-            gap: 8px;  
+            gap: 8px;
             position: relative;
             .actions {
                display: flex;
@@ -72,7 +70,7 @@
                z-index: 1;
                font-size: 14px;
 
-               >i.item {
+               > i.item {
                   display: flex;
                   justify-content: center;
                   align-items: center;
@@ -85,10 +83,10 @@
                   transition-duration: 0.5s;
                   &:hover {
                      cursor: pointer;
-                     background-color:var(--color-main-blue) ;
+                     background-color: var(--color-main-blue);
                      color: white;
                   }
-                  &.save{
+                  &.save {
                      color: var(--color-disable);
                      background-color: var(--color-disable-hover);
                      cursor: not-allowed;
@@ -111,14 +109,12 @@
                      background: #fff;
                      &:hover {
                         cursor: pointer;
-                        background-color:var(--color-main-blue) ;
+                        background-color: var(--color-main-blue);
                         color: white;
                         background-color: var(--color-red);
                      }
                   }
-                  
                }
-              
             }
          }
          .step-menu {
@@ -141,6 +137,7 @@
                font-size: 16px;
                width: 100%;
             }
+
             .item {
                display: flex;
                flex-direction: column;
@@ -154,7 +151,7 @@
                   width: 100%;
                   border: 1px solid #ccc;
                   border-radius: 4px;
-                  padding: 16px 0px;
+                  padding: 16px 4px;
                }
                .text {
                   color: #59687b;
@@ -170,7 +167,6 @@
                   }
                   .text {
                      color: var(--color-main-blue);
-                     
                   }
                }
                &.selected {
@@ -183,54 +179,83 @@
                   }
                }
             }
-         }
-      }
-      
-   }
-}
-
-.modal-prompt-collect {
-      background: #dcdcdc;
-      border-radius: 4px;
-      height: calc(100vh - 50px);
-      max-width: 100%;
-      position: absolute;
-      width: 480px;
-      right: 0;
-     
-      .prompt-collect-menu {
-         .input-edit-name {
-            width: calc(100% - 56px);
-            margin-left: 28px;
-            margin-bottom: 24px;
-            height: 43px;
-         }
-         .bottom-menu {
-            flex: 1;
-            height: auto;
-            background-color: var(--color-background-edit-node);
-            padding: 38px 28px 50px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-
-            
-            .general-form {
+            .list-element {
                display: flex;
-               flex-direction: column;
-               gap: 8px;
-               .title {
+               justify-content: center;
+               padding: 16px 8px;
+               border: dashed 1px var(--color-disable);
+               border-top: 0;
+               > .product-element {
+                  width: 100%;
                   display: flex;
-                  gap: 4px;
+                  flex-direction: column;
                   align-items: center;
-                  font-size: 16px;
-                  margin-bottom: 8px;
-               }
-               .input-answer-container {
-                  display: flex;
-                  align-items: center;
+
+                  > .image {
+                     height: 60px;
+                     width: 100%;
+                     background-color: #59687b;
+                  }
+                  > .title {
+                     align-self: flex-start;
+                  }
+                  > .quantity {
+                     align-self: flex-start;
+                  }
+                  > .size {
+                     align-self: flex-start;
+                  }
+                  > .color {
+                     align-self: flex-start;
+                  }
                }
             }
          }
       }
+   }
+}
+
+.modal-prompt-collect {
+   background: #dcdcdc;
+   border-radius: 4px;
+   height: calc(100vh - 50px);
+   max-width: 100%;
+   position: absolute;
+   width: 480px;
+   right: 0;
+
+   .prompt-collect-menu {
+      .input-edit-name {
+         width: calc(100% - 56px);
+         margin-left: 28px;
+         margin-bottom: 24px;
+         height: 43px;
+      }
+      .bottom-menu {
+         flex: 1;
+         height: auto;
+         background-color: var(--color-background-edit-node);
+         padding: 38px 28px 50px;
+         display: flex;
+         flex-direction: column;
+         position: relative;
+
+         .general-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            .title {
+               display: flex;
+               gap: 4px;
+               align-items: center;
+               font-size: 16px;
+               margin-bottom: 8px;
+            }
+            .input-answer-container {
+               display: flex;
+               align-items: center;
+            }
+         }
+      }
+   }
 }

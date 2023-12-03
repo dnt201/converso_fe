@@ -99,22 +99,33 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                   <div className="header">
                      Edit node <EditOutlined />
                   </div>
-                  <div
-                     className={'item ' + (keyTab === 'general' ? ' selected' : '')}
-                     onClick={() => setKeyTab('general')}>
-                     <i className="icon">
-                        <MenuUnfoldOutlined />
-                     </i>
-                     <span className="text">General</span>
+                  <div>
+                     <div
+                        className={'item ' + (keyTab === 'general' ? ' selected' : '')}
+                        onClick={() => setKeyTab('general')}>
+                        <i className="icon">
+                           <MenuUnfoldOutlined />
+                        </i>
+                        <span className="text">General</span>
+                     </div>
+                     <div className="list-element">
+                        <div className="product-element">
+                           <div className="image" />
+                           <span className="title">title</span>
+                           <span className="quantity">quantity</span>
+                           <span className="size">size</span>
+                           <span className="color">color</span>
+                        </div>
+                     </div>
                   </div>
-                  <div
+                  {/* <div
                      className={'item ' + (keyTab === 'settings' ? ' selected' : '')}
                      onClick={() => setKeyTab('settings')}>
                      <i className="icon">
                         <SettingOutlined />
                      </i>
                      <span className="text">Settings</span>
-                  </div>
+                  </div> */}
                   <div
                      className={'item ' + (keyTab === 'grammar' ? ' selected' : '')}
                      onClick={() => setKeyTab('grammar')}>
