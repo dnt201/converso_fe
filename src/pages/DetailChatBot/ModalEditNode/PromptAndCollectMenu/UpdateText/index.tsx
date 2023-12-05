@@ -9,16 +9,14 @@ interface UpdateTextProps {
    item: { key: string | number; language: tLanguage; message: string };
    innerNode: Node<PromptCollectData>;
    setInnerNode: (node: Node<PromptCollectData>) => void;
-   index: number;
 }
 const UpdateText: React.FC<UpdateTextProps> = (props) => {
-   const { item, innerNode, setInnerNode, index } = props;
-
+   const { item, innerNode, setInnerNode } = props;
    const [curText, setCurText] = useState(item.message);
 
-   const updateTextByIndex = (value: string, index: number) => {
-      const arr = innerNode.data.text.map(function (item, i) {
-         if (index === i) {
+   const updateTextByKey = (value: string, key: string | number) => {
+      const arr = innerNode.data.text.map(function (item) {
+         if (key === item.key) {
             return { ...item, message: value };
          } else return item;
       });
@@ -31,9 +29,9 @@ const UpdateText: React.FC<UpdateTextProps> = (props) => {
       });
    };
 
-   const removeTextByIndex = (index: number) => {
-      const arr = innerNode.data.text.filter(function (_, i) {
-         return index !== i;
+   const removeTextByKey = (key: string | number) => {
+      const arr = innerNode.data.text.filter(function (i) {
+         return key !== i.key;
       });
       setInnerNode({
          ...innerNode,
@@ -44,7 +42,7 @@ const UpdateText: React.FC<UpdateTextProps> = (props) => {
       });
    };
    return (
-      <div className="input-container" key={item.key + '' + index}>
+      <div className="input-container" key={item.key}>
          <Input.TextArea
             placeholder="Enter your chatbot response"
             defaultValue={item.message}
@@ -54,13 +52,14 @@ const UpdateText: React.FC<UpdateTextProps> = (props) => {
             onChange={(e) => {
                setCurText(e.target.value);
             }}
-            autoSize={{ minRows: 1, maxRows: 6 }}
+            autoSize={{ minRows: 1, maxRows: 3 }}
             onKeyDown={(e) => {
-               console.log(e);
                if (e.key === 'Enter') {
-                  console.log('enter');
-                  if (curText.length <= 0) removeTextByIndex(index);
-                  else updateTextByIndex(curText, index);
+                  if (curText.length <= 0) removeTextByKey(item.key);
+                  else {
+                     updateTextByKey(curText, item.key);
+                     e.currentTarget.blur();
+                  }
                }
             }}
          />
@@ -68,16 +67,15 @@ const UpdateText: React.FC<UpdateTextProps> = (props) => {
             <i
                className={'item save' + (curText !== item.message ? ' active' : '')}
                onClick={() => {
-                  //   updateTextByIndex(index);
-                  if (curText.length <= 0) removeTextByIndex(index);
-                  else updateTextByIndex(curText, index);
+                  if (curText.length <= 0) removeTextByKey(item.key);
+                  else updateTextByKey(curText, item.key);
                }}>
                <CheckOutlined />
             </i>
             <i
                className="item  delete"
                onClick={() => {
-                  removeTextByIndex(index);
+                  removeTextByKey(item.key);
                }}>
                <DeleteOutlined />
             </i>

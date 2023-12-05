@@ -37,7 +37,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
    const [formChatbotResponse] = useForm();
    const formChatbotResponseFinish = (formChatbotResponseValue: FormChatbotResponse) => {
       const newListText = innerNode.data.text.concat({
-         key: innerNode.data.text.length + 1,
+         key: crypto.randomUUID(),
          message: formChatbotResponseValue.chatbotResponse,
          language: 'vn',
       });
@@ -141,14 +141,13 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                         <MessageOutlined />
                         <span>Chatbot answer</span>
                      </div>
-                     {innerNode.data.text.map((item, index) => {
+                     {innerNode.data.text.map((item) => {
                         return (
                            <UpdateText
-                              index={index}
                               innerNode={innerNode}
                               item={item}
                               setInnerNode={(n) => setInnerNode(n)}
-                              key={index}
+                              key={item.key}
                            />
                         );
                      })}

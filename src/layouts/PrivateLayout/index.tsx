@@ -4,12 +4,15 @@ import { Navigate, Outlet } from 'react-router-dom';
 import './style.less';
 import { getCurrentUser } from '@utils/localStorage';
 
+
 const { Content } = Layout;
 
 const PrivateLayout = () => {
    //Logged true?
    // const [logged, setLogged] = useState(getCurrentUser() !== null ? true : false);
+
    const currentUser = getCurrentUser();
+
    try {
       if (currentUser) {
          if (currentUser && currentUser.token)

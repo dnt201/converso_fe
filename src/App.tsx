@@ -1,16 +1,18 @@
-import { routerPath } from '@config/router/path';
-import './App.less';
-import HomePage from '@pages/HomePage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { routerPath } from '@config/router/path';
+
+import HomePage from '@pages/HomePage';
 import MainLayout from '@layouts/MainLayout';
 import DetailChatBot from '@pages/DetailChatBot';
-import 'reactflow/dist/style.css';
 import AuthPage from '@pages/auth';
-import PrivateLayout from '@layouts/PrivateLayout';
 import NotFound from '@pages/NotFound';
 import Dashboard from '@pages/Logged/Dashboard';
-import ChatbotManagement from '@pages/Logged/ChatbotManagement';
 import ManageChanel from '@pages/Logged/ManageChanel';
+import ChatbotManagement from '@pages/Logged/ChatbotManagement';
+import PrivateLayout from '@layouts/PrivateLayout';
+import Loader from '@components/Loader';
+import './App.less';
+import 'reactflow/dist/style.css';
 
 function App() {
    return (
@@ -25,6 +27,7 @@ function App() {
                <Route element={<DetailChatBot />} path={routerPath.MANAGE_CHATBOT_BY_ID} />
                <Route element={<ChatbotManagement />} path={routerPath.MANAGE_CHATBOT} />
                <Route element={<ManageChanel />} path={routerPath.MANAGE_CHANEL} />
+               <Route element={<Loader />} path={'/abc'} />
             </Route>
             <Route path={routerPath.ANY} element={<NotFound />} />
          </Routes>

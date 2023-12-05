@@ -4,9 +4,7 @@ const Loader = () => {
    return (
       <div className="loader-wrapper">
          <img src={IMAGE} />
-         <svg>
-            <rect x="1" y="1"></rect>
-         </svg>
+         <div className="dot-flashing"></div>
       </div>
    );
 };
