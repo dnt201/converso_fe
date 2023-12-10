@@ -3,9 +3,10 @@ import { PromptCollectData, tProduct } from '@pages/DetailChatBot/CustomNode/Pro
 import React, { useState } from 'react';
 
 import './style.less';
-import { Button, Popconfirm, Space } from 'antd';
+import { Button, Image, Popconfirm, Space } from 'antd';
 import { Node } from 'reactflow';
 import ModalUpdate from './ModalUpdate';
+import { extractInfo } from '@utils/string';
 type UpdateProductProps = tProduct & {
    index: number;
    innerNode: Node<PromptCollectData>;
@@ -13,7 +14,10 @@ type UpdateProductProps = tProduct & {
 };
 const UpdateProduct: React.FC<UpdateProductProps> = (props) => {
    const { innerNode, setInnerNode, index } = props;
+   const curExtendData = innerNode.data.extend[index];
+   const { color, quantity, size } = extractInfo(curExtendData.subtitle);
    const [openModalUpdate, setOpenModalUpdate] = useState(false);
+   console.log(innerNode);
    return (
       <div className="update-product-container">
          <ModalUpdate
@@ -25,11 +29,51 @@ const UpdateProduct: React.FC<UpdateProductProps> = (props) => {
             }}
             open={openModalUpdate}
          />
-         <div className="img">
-            <FileImageFilled />
+         <div
+            className="img"
+            style={{
+               backgroundColor:
+                  curExtendData.image_url && curExtendData.image_url.length > 0 && 'transparent',
+            }}>
+            {curExtendData.image_url && curExtendData.image_url.length > 0 ? (
+               <Image src={curExtendData.image_url} style={{ height: '100%', width: '100%' }} />
+            ) : (
+               <FileImageFilled />
+            )}
          </div>
-         <div className="title" />
-         <div className="title" />
+         {curExtendData.title && curExtendData.title.length > 0 ? (
+            <div className="title-container-content">
+               <span className="title">{curExtendData.title}</span>
+               {quantity ? (
+                  <span className="quantity">
+                     <Space size={4}>
+                        <b>Quantity:</b>
+                        {quantity}
+                     </Space>
+                  </span>
+               ) : null}
+               {size ? (
+                  <span className="size">
+                     <Space size={4}>
+                        <b>Size:</b>
+                        {size}
+                     </Space>
+                  </span>
+               ) : null}
+               {color ? (
+                  <span className="color">
+                     <Space size={4}>
+                        <b>Color: </b> {color}
+                     </Space>
+                  </span>
+               ) : null}
+            </div>
+         ) : (
+            <div className="title-container-skeleton">
+               <div className="title" />
+               <div className="title" />
+            </div>
+         )}
          <Space className="list-btn" align="center" size={4}>
             <Button style={{ width: '100%' }} onClick={() => setOpenModalUpdate(true)}>
                <EditOutlined />

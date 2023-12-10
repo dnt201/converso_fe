@@ -1,13 +1,11 @@
 import React from 'react';
 import { Handle, Node, NodeProps, Position } from 'reactflow';
 import { ValidateType, tLanguage } from '..';
-import {
-   CheckOutlined,
-   CloseOutlined,
-   CustomerServiceFilled,
-} from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, QuestionCircleFilled } from '@ant-design/icons';
 
 import './style.less';
+
+export type PROMPT_COLLECT_TYPE = 'address_template' | 'template' | 'normal';
 export interface PromptCollectData {
    type: string;
    name: string;
@@ -24,6 +22,7 @@ export interface PromptCollectData {
       actionId: string;
    }[];
    extend: tProduct[];
+   prompt_type: PROMPT_COLLECT_TYPE;
 }
 export type tProduct = {
    title: string;
@@ -53,7 +52,7 @@ const PromptCollectNode: React.FC<tPromptCollectNodeProps> = (props) => {
          <Handle className="handle-target" type="target" position={Position.Top} />
          <div className="content">
             <i className="icon">
-               <CustomerServiceFilled />
+               <QuestionCircleFilled />
             </i>
             <label className="label" htmlFor="text">
                {props.data.name}

@@ -74,8 +74,8 @@ const ManageChanel = () => {
                      <Skeleton.Button active className="chanel-skeleton" />
                      <Skeleton.Button active className="chanel-skeleton" />
                   </>
-               ) : !listChanelData ? (
-                  <Empty />
+               ) : !listChanelData || !listChanelData.data.length ? (
+                  <Empty description={<h5>You have no chanel...</h5>} />
                ) : (
                   <>
                      {listChanelData.data.map((item) => {
