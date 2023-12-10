@@ -42,7 +42,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       width: calc(100%);
-      >.response {
+      > .response {
          box-sizing: border-box;
          margin: 0;
          outline: none;
@@ -50,12 +50,56 @@
          display: flex;
          flex-direction: column;
          gap: 8px;
-         >.title {
+         .step-menu-title {
             font-size: 16px;
             gap: 4px;
             display: flex;
             align-items: center;
             margin-bottom: 8px;
+         }
+         .list-product-container {
+            position: relative;
+            scroll-behavior: smooth;
+            > i.left-btn {
+               position: absolute;
+               z-index: 2;
+               left: 4px;
+               top: 50%;
+               transform: translateY(-50%);
+               transition-duration: 0.25s;
+               padding: 8px;
+               border-radius: 50%;
+               &:hover {
+                  cursor: pointer;
+                  opacity: 0.9;
+                  background-color: var(--color-hover);
+               }
+            }
+            > i.right-btn {
+               position: absolute;
+               z-index: 2;
+               right: 4px;
+               top: 50%;
+               transform: translateY(-50%);
+               transition-duration: 0.25s;
+               padding: 8px;
+               border-radius: 50%;
+               &:hover {
+                  cursor: pointer;
+                  opacity: 0.9;
+                  background-color: var(--color-hover);
+               }
+            }
+         .list-product {
+            display: flex;
+            overflow: auto;
+            scroll-behavior: smooth;
+
+            margin: 8px 0px;
+            gap: 8px;
+            padding-bottom: 4px;
+          
+         }
          }
          .input-container {
             gap: 8px;
@@ -182,36 +226,66 @@
             .list-element {
                display: flex;
                justify-content: center;
-               padding: 16px 8px;
-               border: dashed 1px var(--color-disable);
-               border-top: 0;
+               margin-top: 8px;
+               padding: 0px 8px 16px;
+               border-bottom: dashed 1px var(--color-disable);
+               border-bottom-right-radius: 4px;
+               border-bottom-left-radius: 4px;
                > .product-element {
                   width: 100%;
                   display: flex;
                   flex-direction: column;
                   align-items: center;
+                  animation: heightAppear 0.25s alternate;
 
+                  &:hover {
+                     cursor: pointer;
+                     opacity: 0.75;
+                  }
                   > .image {
-                     height: 60px;
+                     height: 100px;
                      width: 100%;
-                     background-color: #59687b;
+                     background-color: #ccc;
+                     font-size: 24px;
+                     display: flex;
+                     align-items: center;
+                     justify-content: center;
+                     color: var(--color-disable);
                   }
-                  > .title {
+                  > .information {
+                     height: 8px;
+                     margin-top: 4px;
+                     width: 36px;
+                     background-color: #ccc;
                      align-self: flex-start;
                   }
-                  > .quantity {
-                     align-self: flex-start;
-                  }
-                  > .size {
-                     align-self: flex-start;
-                  }
-                  > .color {
+                  > .btn {
+                     height: 8px;
+                     margin-top: 4px;
+                     width: 100%;
+                     background-color: #ccc;
                      align-self: flex-start;
                   }
                }
             }
          }
       }
+   }
+}
+
+@keyframes heightAppear {
+   0% {
+      max-height: 0%;
+      opacity: 0;
+   }
+   25% {
+      max-height: 25%;
+   }
+   50% {
+      max-height: 50%;
+   }
+   100% {
+      max-height: fit-content;
    }
 }
 
@@ -244,7 +318,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            .title {
+            > .title {
                display: flex;
                gap: 4px;
                align-items: center;

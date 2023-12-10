@@ -1,16 +1,19 @@
 import {
+   ArrowLeftOutlined,
+   ArrowRightOutlined,
    CheckOutlined,
    CloseOutlined,
    CustomerServiceOutlined,
    EditOutlined,
+   FileImageFilled,
    MenuUnfoldOutlined,
    MessageOutlined,
    PlusOutlined,
    SettingOutlined,
 } from '@ant-design/icons';
 import { PromptCollectData } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
-import { Button, Form, Input, Select, Space } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Button, Form, Image, Input, Select, Space, Tooltip, notification } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import { Node } from 'reactflow';
 
 import { useForm } from 'antd/es/form/Form';
@@ -18,6 +21,8 @@ import UpdateText from './UpdateText';
 
 type tKeyTab = 'general' | 'settings' | 'grammar';
 import './style.less';
+import AppearLayout from '@layouts/AppearLayout';
+import UpdateProduct from './UpdateProduct';
 
 interface PromptCollectMenuProps {
    promptCollect: Node<PromptCollectData>;
@@ -53,9 +58,34 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
    };
 
    useEffect(() => {
-      console.log(innerNode.data.text);
       setNode(innerNode);
    }, [innerNode]);
+
+   const addProduct = () => {
+      if (innerNode.data.extend.length <= 9) {
+         setInnerNode({
+            ...innerNode,
+            data: {
+               ...innerNode.data,
+               extend: [
+                  ...innerNode.data.extend,
+                  {
+                     title: crypto.randomUUID(),
+                     subtitle: '',
+                     image_url: '',
+                     buttons: [],
+                     default_action: {
+                        url: 'https://converso.site',
+                        type: 'web_url',
+                        webview_height_ratio: 'tall',
+                     },
+                  },
+               ],
+            },
+         });
+      } else notification.info({ message: 'Response with item has max 10 item!' });
+   };
+   const refListProduct = useRef<HTMLDivElement>();
 
    return (
       <div className="edit-mode-prompt-and-collect" onClick={(e) => e.preventDefault()}>
@@ -108,24 +138,25 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                         </i>
                         <span className="text">General</span>
                      </div>
-                     <div className="list-element">
-                        <div className="product-element">
-                           <div className="image" />
-                           <span className="title">title</span>
-                           <span className="quantity">quantity</span>
-                           <span className="size">size</span>
-                           <span className="color">color</span>
+                     {keyTab === 'general' ? (
+                        <div className="list-element">
+                           <Tooltip title={'Click to add response with product'}>
+                              <div className="product-element" onClick={() => addProduct()}>
+                                 <div className="image">
+                                    <i>
+                                       <FileImageFilled />
+                                    </i>
+                                 </div>
+                                 <div className="information" />
+                                 <div className="information" />
+                                 <div className="information" />
+                                 <div className="btn" />
+                              </div>
+                           </Tooltip>
                         </div>
-                     </div>
+                     ) : null}
                   </div>
-                  {/* <div
-                     className={'item ' + (keyTab === 'settings' ? ' selected' : '')}
-                     onClick={() => setKeyTab('settings')}>
-                     <i className="icon">
-                        <SettingOutlined />
-                     </i>
-                     <span className="text">Settings</span>
-                  </div> */}
+
                   <div
                      className={'item ' + (keyTab === 'grammar' ? ' selected' : '')}
                      onClick={() => setKeyTab('grammar')}>
@@ -136,10 +167,43 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                   </div>
                </div>
                {keyTab === 'general' ? (
-                  <>
-                     <div className="title">
+                  <AppearLayout>
+                     <div className="step-menu-title">
                         <MessageOutlined />
                         <span>Chatbot answer</span>
+                     </div>
+                     <div className="list-product-container">
+                        {innerNode.data.extend.length &&
+                        refListProduct.current &&
+                        refListProduct.current.scrollWidth > refListProduct.current.clientWidth ? (
+                           <>
+                              <i
+                                 className="left-btn"
+                                 onClick={() => (refListProduct.current.scrollLeft -= 200)}>
+                                 <ArrowLeftOutlined />
+                              </i>
+                              <i
+                                 className="right-btn"
+                                 onClick={() => (refListProduct.current.scrollLeft += 200)}>
+                                 <ArrowRightOutlined />
+                              </i>
+                           </>
+                        ) : null}
+                        <div className="list-product" ref={refListProduct}>
+                           {innerNode.data.extend.map((item, index) => {
+                              return (
+                                 <UpdateProduct
+                                    index={index}
+                                    {...item}
+                                    key={crypto.randomUUID()}
+                                    innerNode={innerNode}
+                                    // item={item}
+                                    setInnerNode={(n) => setInnerNode(n)}
+                                    // key={item.key}
+                                 />
+                              );
+                           })}
+                        </div>
                      </div>
                      {innerNode.data.text.map((item) => {
                         return (
@@ -180,11 +244,11 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                            </div>
                         </Form.Item>
                      </Form>
-                  </>
+                  </AppearLayout>
                ) : keyTab === 'settings' ? (
                   <></>
                ) : (
-                  <>
+                  <AppearLayout>
                      <div className="settings">
                         <Form layout="vertical">
                            <Form.Item label="Grammar type">
@@ -201,7 +265,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                            </Form.Item>
                         </Form>
                      </div>
-                  </>
+                  </AppearLayout>
                )}
             </div>
          </div>

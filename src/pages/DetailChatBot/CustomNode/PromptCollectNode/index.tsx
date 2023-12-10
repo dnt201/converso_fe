@@ -23,7 +23,26 @@ export interface PromptCollectData {
       case: string; //"label:{intent}" backend tự check
       actionId: string;
    }[];
+   extend: tProduct[];
 }
+export type tProduct = {
+   title: string;
+   subtitle: string;
+   image_url: string;
+   default_action: {
+      url: string;
+      type: string;
+      webview_height_ratio: string;
+   };
+   buttons: tButtonInProduct[];
+};
+export type tButtonInProduct = {
+   type: tTypeButtonInProduct;
+   title: string;
+   payload: string;
+};
+
+export type tTypeButtonInProduct = 'web_url' | 'postback' | 'phone_number';
 
 export type tPromptCollectNodeProps = NodeProps<PromptCollectData>;
 export type tPromptCollectNode = Node<PromptCollectData>;

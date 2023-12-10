@@ -276,6 +276,7 @@ const DnDFlow: React.FC = () => {
                         answer: '',
                         intent: '',
                         nextAction: [],
+                        extend: [],
                      },
                   } as tPromptCollectNode;
                   setNodes((nds) => nds.concat(newNode));
@@ -407,7 +408,6 @@ const DnDFlow: React.FC = () => {
                      }}
                      zoomOnDoubleClick
                      onEdgeDoubleClick={(_, e) => {
-                        console.log('double clij');
                         if (e.type === 'promptCollectEdge') {
                            setSelectedEdge(e);
                            setOpenModalEditCheckIntent(true);
