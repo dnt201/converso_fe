@@ -12,7 +12,7 @@ const ChannelTypes = [
    { value: 3, label: 'Line' },
 ];
 
-const MessengerCredentials: React.FC<iMessengerCredentials> = () => {
+const MessengerCredentials: React.FC<any> = () => {
    return (
       <>
          <Form.Item name="PageToken" label="Page Token">
@@ -47,7 +47,16 @@ const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
          title="Add New Chanel"
          className="modal-add-chanel">
          <Form<
-            Pick<iChanel, 'contactId' | 'contactName' | 'flowId' | 'credentials' | 'channelTypeId'>
+            Pick<
+               iChanel,
+               | 'contactId'
+               | 'contactName'
+               | 'flowId'
+               | 'credentials'
+               | 'channelTypeId'
+               | 'PageToken'
+               | 'WebhookSecret'
+            >
          >
             layout="vertical"
             form={formAddChanel}

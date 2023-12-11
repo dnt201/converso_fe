@@ -16,7 +16,6 @@ export const useCreateChanel = () => {
                WebhookSecret: chanel.WebhookSecret,
             };
          }
-         console.log(chanel);
          return mutationPost<tLoginResponse>({
             url: `${apiPath.CHANEL.CREATE}`,
             body: chanel,
