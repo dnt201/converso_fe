@@ -277,6 +277,7 @@ const DnDFlow: React.FC = () => {
                         intent: '',
                         nextAction: [],
                         extend: [],
+                        prompt_type: 'normal',
                      },
                   } as tPromptCollectNode;
                   setNodes((nds) => nds.concat(newNode));
