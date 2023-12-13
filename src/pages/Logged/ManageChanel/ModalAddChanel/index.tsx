@@ -25,6 +25,19 @@ const MessengerCredentials: React.FC<any> = () => {
    );
 };
 
+const LineCredentials: React.FC<any> = () => {
+   return (
+      <>
+         <Form.Item name="LineToken" label="Line Access Token">
+            <Input.TextArea
+               autoSize={{ minRows: 1, maxRows: 2 }}
+               placeholder="Enter Line Access Token"
+            />
+         </Form.Item>
+      </>
+   );
+};
+
 const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
    const { setCloseModal, ...modalProps } = props;
    const [formAddChanel] = useForm();
@@ -33,6 +46,7 @@ const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
 
    const renderCredentialsForm = () => {
       if (type == 2) return <MessengerCredentials />;
+      if (type == 3) return <LineCredentials />;
 
       return <></>;
    };
@@ -43,6 +57,7 @@ const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
          onCancel={() => setCloseModal(false)}
          onOk={() => {
             formAddChanel.submit();
+            setCloseModal();
          }}
          title="Add New Chanel"
          className="modal-add-chanel">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './style.less';
 import AppearLayout from '@layouts/AppearLayout';
@@ -14,11 +14,25 @@ import ModalEditChanel from './ModalEditChanel';
 const ManageChanel = () => {
    const navigate = useNavigate();
 
+   const { data: listChanelData, isLoading: listChanelLoading } = useMyListChanel();
+
    const [openAddChanel, setOpenAddChanel] = useState(false);
    const [openEditChanel, setOpenEditChanel] = useState<iChanel>();
+   const [channelsArray, setChannels] = useState<any>([]);
 
-   //Todo: Api
-   const { data: listChanelData, isLoading: listChanelLoading } = useMyListChanel();
+   useEffect(() => {
+      setChannels(listChanelData?.data);
+   }, [listChanelData]);
+
+   const filterChannels = (search) => {
+      if (!search || search == '') return setChannels(listChanelData?.data);
+
+      setChannels(
+         listChanelData.data.filter((e) =>
+            e.contactName.toLowerCase().includes(search.toLowerCase())
+         )
+      );
+   };
 
    return (
       <AppearLayout className="manage-chanel-container">
@@ -55,6 +69,7 @@ const ManageChanel = () => {
                      width={'300px'}
                      style={{ width: 260 }}
                      placeholder={`Enter your chanel's name to find`}
+                     onChange={(e) => filterChannels(e.target.value)}
                   />
                </div>
             </div>
@@ -74,20 +89,21 @@ const ManageChanel = () => {
                      <Skeleton.Button active className="chanel-skeleton" />
                      <Skeleton.Button active className="chanel-skeleton" />
                   </>
-               ) : !listChanelData ? (
+               ) : !channelsArray ? (
                   <Empty />
                ) : (
                   <>
-                     {listChanelData.data.map((item) => {
-                        return (
-                           <div
-                              className="chanel"
-                              key={item.id}
-                              onClick={() => setOpenEditChanel(item)}>
-                              {item.contactName}
-                           </div>
-                        );
-                     })}
+                     {channelsArray.length &&
+                        channelsArray.map((item) => {
+                           return (
+                              <div
+                                 className="chanel"
+                                 key={item.id}
+                                 onClick={() => setOpenEditChanel(item)}>
+                                 {item.contactName}
+                              </div>
+                           );
+                        })}
                   </>
                )}
             </div>

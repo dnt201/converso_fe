@@ -8,11 +8,73 @@ type ModalEditChanelProps = ModalProps & {
    chanelProps: iChanel | undefined;
 };
 
+const MessengerCredentials: React.FC<any> = () => {
+   return (
+      <>
+         <Form.Item name="PageToken" label="Page Token">
+            <Input.TextArea autoSize={{ minRows: 1, maxRows: 2 }} placeholder="Enter Page token" />
+         </Form.Item>
+         <Form.Item name="WebhookSecret" label="Secret">
+            <Input.TextArea autoSize={{ minRows: 1, maxRows: 2 }} placeholder="Enter your Secret" />
+         </Form.Item>
+      </>
+   );
+};
+
+const LineCredentials: React.FC<any> = () => {
+   return (
+      <>
+         <Form.Item name="LineToken" label="Line Access Token">
+            <Input.TextArea
+               autoSize={{ minRows: 1, maxRows: 2 }}
+               placeholder="Enter Line Access Token"
+            />
+         </Form.Item>
+      </>
+   );
+};
+
 const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
    const { setCloseModal, chanelProps, ...modalProps } = props;
    const [formEditChanel] = useForm();
    const initFormValue: iChanel = chanelProps;
    const editChanel = useEditChanel(chanelProps?.id ?? -1);
+
+   useEffect(() => {
+      const { channelTypeId, credentials, contactId, contactName, flowId, id } = chanelProps || {};
+
+      let cres = credentials;
+
+      if (credentials && typeof credentials == 'string') {
+         try {
+            cres = JSON.parse(credentials);
+         } catch (e) {
+            console.log('Can not parse credentials: ' + e.message);
+         }
+      }
+
+      const { PageToken, WebhookSecret, LineToken } = cres || {};
+
+      formEditChanel.setFieldValue('id', id);
+      formEditChanel.setFieldValue('contactId', contactId);
+      formEditChanel.setFieldValue('contactName', contactName);
+      formEditChanel.setFieldValue('flowId', flowId);
+
+      formEditChanel.setFieldValue('PageToken', PageToken);
+      formEditChanel.setFieldValue('WebhookSecret', WebhookSecret);
+      formEditChanel.setFieldValue('channelTypeId', channelTypeId);
+      formEditChanel.setFieldValue('LineToken', LineToken);
+   }, [formEditChanel, chanelProps]);
+
+   const renderCredentialsForm = () => {
+      if (!chanelProps) return <></>;
+
+      if (chanelProps?.channelTypeId == 2) return <MessengerCredentials />;
+
+      if (chanelProps?.channelTypeId == 3) return <LineCredentials />;
+
+      return <></>;
+   };
 
    return (
       <Modal
@@ -23,27 +85,30 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
          okButtonProps={{ loading: editChanel.isLoading }}
          onOk={() => {
             formEditChanel.submit();
+            setCloseModal();
          }}>
          <Form<iChanel>
             initialValues={initFormValue}
             layout="vertical"
             form={formEditChanel}
             onFinish={(form) => editChanel.mutate(form)}>
+            <Form.Item name="contactId" required label="Contact id">
+               <Input.TextArea
+                  autoSize={{ minRows: 1, maxRows: 2 }}
+                  placeholder={`Enter contact id`}
+               />
+            </Form.Item>
             <Form.Item name="contactName" required label="Contact name">
                <Input.TextArea
                   autoSize={{ minRows: 1, maxRows: 2 }}
                   placeholder={`Enter contact name`}
                />
             </Form.Item>
-            <Form.Item name="flowId" required label="Chose Flow reference">
+            <Form.Item name="flowId" label="Flow reference">
                <Select placeholder={'Select flow'} />
             </Form.Item>
-            <Form.Item name="credentials" required label="Credentials">
-               <Input.TextArea
-                  autoSize={{ minRows: 2, maxRows: 6 }}
-                  placeholder="Enter credentials"
-               />
-            </Form.Item>
+            <h2>Credentials</h2>
+            {renderCredentialsForm()}
          </Form>
       </Modal>
    );

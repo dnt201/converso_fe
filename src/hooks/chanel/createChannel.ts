@@ -16,13 +16,18 @@ export const useCreateChanel = () => {
                WebhookSecret: chanel.WebhookSecret,
             };
          }
+         if (chanel.channelTypeId == 3) {
+            chanel.credentials = {
+               LineToken: chanel?.LineToken,
+            };
+         }
          return mutationPost<tLoginResponse>({
             url: `${apiPath.CHANEL.CREATE}`,
             body: chanel,
          });
       },
       onSuccess: (success) => {
-         notification.success({ message: success.message });
+         notification.success({ message: 'Saved' });
       },
       onError: (error: IResponse<any>) => {
          notification.error({
