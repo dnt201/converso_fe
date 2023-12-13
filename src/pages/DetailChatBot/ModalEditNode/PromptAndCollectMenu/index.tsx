@@ -1,6 +1,8 @@
 import {
+   ArrowDownOutlined,
    ArrowLeftOutlined,
    ArrowRightOutlined,
+   CaretDownFilled,
    CheckOutlined,
    CloseOutlined,
    CustomerServiceOutlined,
@@ -27,14 +29,15 @@ type tKeyTab = 'general' | 'settings' | 'grammar';
 import './style.less';
 import AppearLayout from '@layouts/AppearLayout';
 import UpdateProduct from './UpdateProduct';
+import { useAtom } from 'jotai';
+import { languagesAtom } from '@pages/DetailChatBot';
+import { tLanguage } from '@pages/DetailChatBot/CustomNode';
+import ListUpdate from './ListUpdate';
 
 interface PromptCollectMenuProps {
    promptCollect: Node<PromptCollectData>;
    closeModal: () => void;
    setNode: (curNode: Node | null) => void;
-}
-interface FormChatbotResponse {
-   chatbotResponse: string;
 }
 // 'address_template' | 'template' | 'normal';
 const list_type_selection = [
@@ -42,29 +45,11 @@ const list_type_selection = [
    { value: 'address_template', label: 'Address template' },
    { value: 'template', label: 'Product template' },
 ];
-const fakeList = ['Hello', '12412412', 'aaaa', 'bbbb'];
 const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
    const { closeModal, promptCollect, setNode } = props;
    const [innerNode, setInnerNode] = useState<Node<PromptCollectData>>(promptCollect);
    const [keyTab, setKeyTab] = useState<tKeyTab>('general');
-   const [listAnswer, setListAnswer] = useState<string[]>(fakeList);
-   const [formChatbotResponse] = useForm();
-   const formChatbotResponseFinish = (formChatbotResponseValue: FormChatbotResponse) => {
-      const newListText = innerNode.data.text.concat({
-         key: crypto.randomUUID(),
-         message: formChatbotResponseValue.chatbotResponse,
-         language: 'vn',
-      });
-
-      setInnerNode({
-         ...innerNode,
-         data: {
-            ...innerNode.data,
-            text: newListText,
-         },
-      });
-      formChatbotResponse.resetFields();
-   };
+   const [languages, setLanguages] = useAtom(languagesAtom);
 
    useEffect(() => {
       setNode(innerNode);
@@ -248,48 +233,15 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                      ) : innerNode.data.prompt_type === 'address_template' ? (
                         <>Address</>
                      ) : innerNode.data.prompt_type === 'normal' ? (
-                        <>
-                           {innerNode.data.text.map((item) => {
-                              return (
-                                 <UpdateText
-                                    innerNode={innerNode}
-                                    item={item}
-                                    setInnerNode={(n) => setInnerNode(n)}
-                                    key={item.key}
-                                 />
-                              );
-                           })}
-                           <Form<FormChatbotResponse>
-                              form={formChatbotResponse}
-                              onFinish={formChatbotResponseFinish}>
-                              <Form.Item
-                                 name="chatbotResponse"
-                                 rules={[{ required: true, message: 'Chatbot response is null' }]}>
-                                 <div className="input-container add">
-                                    <Input.TextArea
-                                       onKeyDown={(e) => {
-                                          if (e.code === 'Enter') {
-                                             formChatbotResponse.submit();
-                                             e.currentTarget.blur();
-                                          }
-                                       }}
-                                       placeholder="Enter your chatbot response"
-                                       style={{
-                                          padding: '10px 8px',
-                                       }}
-                                       autoSize={{ minRows: 1, maxRows: 6 }}
-                                    />
-                                    <div className="actions">
-                                       <i
-                                          className="item"
-                                          onClick={() => formChatbotResponse.submit()}>
-                                          <PlusOutlined />
-                                       </i>
-                                    </div>
-                                 </div>
-                              </Form.Item>
-                           </Form>
-                        </>
+                        languages.map((item) => {
+                           return (
+                              <ListUpdate
+                                 innerNode={innerNode}
+                                 setInnerNode={setInnerNode}
+                                 {...item}
+                              />
+                           );
+                        })
                      ) : null}
                   </AppearLayout>
                ) : keyTab === 'settings' ? (
