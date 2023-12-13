@@ -1,13 +1,11 @@
 .edit-mode-prompt-and-collect {
    background: white;
    border-radius: 8px;
-   max-height: calc(100vh - 50px);
-   max-width: 100%;
    position: relative;
-   height: 100%;
    width: 40vw;
    box-sizing: border-box;
    margin: 0;
+   height: calc(100% - 50px);
    outline: none;
    padding: 0;
    border: 0;
@@ -17,8 +15,8 @@
       background-color: #fff;
       border-radius: 4px 4px 0 0;
       flex-shrink: 0;
-      height: 140px;
-      padding: 35px 28px 0;
+      min-height: 140px;
+      padding: 35px 28px 20px;
       width: 100%;
       > .top {
          display: flex;
@@ -32,6 +30,23 @@
       .node-type {
          display: flex;
          gap: 4px;
+      }
+      .node-information {
+         display: flex;
+         align-items: center;
+         width: 100%;
+         margin-top: 8px;
+         > b {
+            width: 80px;
+         }
+         .input-edit-name {
+            flex: 1;
+            height: 43px;
+         }
+         .select-type {
+            flex: 1;
+            height: 43px;
+         }
       }
    }
    > .content {
@@ -90,77 +105,148 @@
                   background-color: var(--color-hover);
                }
             }
-         .list-product {
-            display: flex;
-            overflow: auto;
-            scroll-behavior: smooth;
-
-            margin: 8px 0px;
-            gap: 8px;
-            padding-bottom: 4px;
-          
-         }
-         }
-         .input-container {
-            gap: 8px;
-            position: relative;
-            .actions {
+            .list-product {
                display: flex;
-               gap: 6px;
+               overflow: auto;
+               scroll-behavior: smooth;
+
+               margin: 8px 0px;
+               gap: 8px;
+               padding-bottom: 4px;
+               border-radius: 8px;
+            }
+         }
+         .language-container {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--color-disable-hover);
+            background-color: white;
+            padding: 12px;
+            padding-bottom: 0px;
+            > div.header {
+               &.expand {
+                  border-bottom: 1px solid var(--color-disable-hover);
+
+               }
+               display: flex;
+
+               padding: 20px 12px;
                align-items: center;
-               position: absolute;
-               right: 2px;
-               top: -12px;
-               z-index: 1;
-               font-size: 14px;
-
-               > i.item {
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  height: 24px;
-                  width: 24px;
-                  background: #fff;
-                  color: var(--color-main-blue);
-                  border: 1px solid var(--color-main-blue);
-                  border-radius: 100%;
+               justify-content: space-between;
+               color: var(--color-main-blue);
+               &:hover {
+                  cursor: pointer;
+                  opacity: 0.76;
+               }
+               > span.label {
+                  font-size: 16px;
+                  font-weight: 500;
+               }
+               > button {
+                  transform: translateY(-8px);
+               }
+               > i {
+                  rotate: (180deg);
                   transition-duration: 0.5s;
-                  &:hover {
-                     cursor: pointer;
-                     background-color: var(--color-main-blue);
-                     color: white;
+                  &.expand {
+                     rotate: (0deg);
                   }
-                  &.save {
-                     color: var(--color-disable);
-                     background-color: var(--color-disable-hover);
-                     cursor: not-allowed;
-                     border-color: transparent;
-                     &.active {
-                        color: var(--color-main-green);
-                        background-color: white;
+               }
+            }
+            > div.list-input {
 
-                        border-color: var(--color-main-green);
-                        &:hover {
-                           cursor: pointer;
-                           color: white;
-                           background-color: var(--color-main-green);
-                        }
+               display: flex;
+               flex-direction: column;
+               gap: 8px;
+               max-height: 0;
+               overflow: hidden;
+               transition: all 0.5s;
+               &.expand {
+                  transition: all 0.5s;
+                  padding: 12px 0;
+
+                  max-height: 1000px;
+               }
+               .ant-form-item {
+                  margin: 0 !important;
+               }
+               .input-container {
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  &.add {
+                     color: var(--color-main-blue);
+                     display: flex;
+                     justify-content: center;
+                     > textarea {
+                        border-radius: 0;
                      }
                   }
-                  &.delete {
-                     color: var(--color-red);
-                     border-color: var(--color-red);
-                     background: #fff;
-                     &:hover {
-                        cursor: pointer;
-                        background-color: var(--color-main-blue);
-                        color: white;
-                        background-color: var(--color-red);
+                  .actions {
+                     display: flex;
+                     gap: 6px;
+                     align-items: center;
+                     right: 2px;
+                     top: -12px;
+                     z-index: 1;
+                     font-size: 14px;
+                     width: 80px;
+                     .add {
+                        &:hover {
+                           opacity: 0.75;
+                           cursor: pointer;
+                        }
+                     }
+                      i.item {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 24px;
+                        width: 24px;
+                        background: #fff;
+                        color: var(--color-main-blue);
+                        border: 1px solid var(--color-main-blue);
+                        border-radius: 100%;
+                        transition-duration: 0.5s;
+
+                        &:hover {
+                           cursor: pointer;
+                         
+                        }
+                        &.save {
+                           color: var(--color-disable);
+                           background-color: var(--color-disable-hover);
+                           cursor: not-allowed;
+                           border-color: transparent;
+                           &.active {
+                           
+                              color: white;
+                              background-color: var(--color-main-green);
+                              &:hover {
+                                 cursor: pointer;
+                                 color: var(--color-main-green);
+                                 background-color: white;
+                                 border-color: var(--color-main-green);
+                              }
+                           }
+                        }
+                        &.delete {
+                           color: white;
+                           border-color: var(--color-red);
+                           background-color: var(--color-red);
+                           &:hover {
+                              cursor: pointer;
+                              color: var(--color-red);
+                              border-color: var(--color-red);
+                              background: #fff;
+                           }
+                        }
                      }
                   }
                }
             }
          }
+
          .step-menu {
             background: white;
             top: 0px;
@@ -299,12 +385,8 @@
    right: 0;
 
    .prompt-collect-menu {
-      .input-edit-name {
-         width: calc(100% - 56px);
-         margin-left: 28px;
-         margin-bottom: 24px;
-         height: 43px;
-      }
+      margin-bottom: 16px;
+
       .bottom-menu {
          flex: 1;
          height: auto;

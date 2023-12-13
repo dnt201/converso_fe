@@ -1,15 +1,10 @@
-import { Button, Modal, ModalProps, Select, Space } from 'antd';
+import { Button, Modal, ModalProps, Popconfirm, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './style.less';
 import { useAtom } from 'jotai';
 import { iLanguageOption, languagesAtom, listLanguageSystem } from '..';
 import { tLanguage } from '../CustomNode';
-import {
-   CheckCircleFilled,
-   DeleteOutlined,
-   EditOutlined,
-   PlusOutlined,
-} from '@ant-design/icons';
+import { CheckCircleFilled, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 
 interface SettingsModalProps extends ModalProps {
    setShowModal: (b: boolean) => void;
@@ -31,18 +26,15 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
       const tempOption: { value: tLanguage; label: string }[] = listLanguageSystem.filter(
          (langSystem) => !languages.some((langSelect) => langSelect.value === langSystem.value)
       );
-      console.log(tempOption);
       setListExistLanguage(tempOption);
    }, [languages]);
-
-   const filterOption = (input: string, option?: { label: string; value: string }) =>
-      (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
    return (
       <Modal
          {...propsModal}
          style={{ minWidth: '60vw' }}
          className="settings-modal"
+         onOk={() => setShowModal(false)}
          onCancel={() => setShowModal(false)}>
          <div className="container">
             <div className="menu">
@@ -65,19 +57,27 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
                            <Select
                               style={{ flex: 1 }}
                               options={listExistLanguage}
+                              value={curLanguage}
+                              filterOption={(
+                                 input: string,
+                                 option?: { label: string; value: string }
+                              ) =>
+                                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                              }
+                              showSearch
                               placeholder="Select a language"
                               onSelect={(_, e2: iLanguageOption) => {
                                  setCurLanguage(e2);
                               }}
                            />
                            <Button
-                              type="dashed"
+                              type="default"
                               disabled={!curLanguage}
                               onClick={() => {
                                  if (curLanguage) {
                                     const temp = { ...curLanguage, default: false };
-                                    console.log(temp);
                                     setLanguages([...languages, temp]);
+                                    setCurLanguage(undefined);
                                  }
                               }}>
                               <Space size={4}>
@@ -99,16 +99,38 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
                                     {item.default && <span className="default">default</span>}
                                  </div>
                                  <div className="actions">
-                                    <i className="check">
-                                       <CheckCircleFilled />
-                                    </i>
+                                    <Popconfirm
+                                       title="Change this language is default?"
+                                       onConfirm={() => {
+                                          const tempLanguages = languages.map((p) => {
+                                             if (p.value === item.value) {
+                                                return { ...p, default: true };
+                                             } else {
+                                                return { ...p, default: false };
+                                             }
+                                          });
+                                          console.log(tempLanguages);
+                                          setLanguages(tempLanguages);
+                                       }}>
+                                       <Button disabled={item.default}>
+                                          <CheckCircleFilled />
+                                       </Button>
+                                    </Popconfirm>
 
-                                    <i className="edit">
-                                       <EditOutlined />
-                                    </i>
-                                    <i className="delete">
-                                       <DeleteOutlined />
-                                    </i>
+                                    <Popconfirm
+                                       disabled={item.default || item.value === 'en'}
+                                       title="Are you sure to delete this language?"
+                                       onConfirm={() => {
+                                          setLanguages((pre) => {
+                                             return pre.filter((c) => item.value !== c.value);
+                                          });
+                                       }}>
+                                       <Button
+                                          className="delete"
+                                          disabled={item.default || item.value === 'en'}>
+                                          <DeleteOutlined />
+                                       </Button>
+                                    </Popconfirm>
                                  </div>
                               </div>
                            );

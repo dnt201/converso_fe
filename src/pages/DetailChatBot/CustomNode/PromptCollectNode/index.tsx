@@ -10,7 +10,7 @@ export interface PromptCollectData {
    type: string;
    name: string;
    text: {
-      key: string | number;
+      // key: string | number;
       language: tLanguage;
       message: string;
    }[];

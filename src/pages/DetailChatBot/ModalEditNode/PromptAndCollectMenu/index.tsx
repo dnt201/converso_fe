@@ -1,6 +1,8 @@
 import {
+   ArrowDownOutlined,
    ArrowLeftOutlined,
    ArrowRightOutlined,
+   CaretDownFilled,
    CheckOutlined,
    CloseOutlined,
    CustomerServiceOutlined,
@@ -12,8 +14,11 @@ import {
    QuestionCircleFilled,
    SettingOutlined,
 } from '@ant-design/icons';
-import { PromptCollectData } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
-import { Button, Form, Image, Input, Select, Space, Tooltip, notification } from 'antd';
+import {
+   PROMPT_COLLECT_TYPE,
+   PromptCollectData,
+} from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
+import { Button, Empty, Form, Image, Input, Select, Space, Tooltip, notification } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { Node } from 'reactflow';
 
@@ -24,44 +29,27 @@ type tKeyTab = 'general' | 'settings' | 'grammar';
 import './style.less';
 import AppearLayout from '@layouts/AppearLayout';
 import UpdateProduct from './UpdateProduct';
+import { useAtom } from 'jotai';
+import { languagesAtom } from '@pages/DetailChatBot';
+import { tLanguage } from '@pages/DetailChatBot/CustomNode';
+import ListUpdate from './ListUpdate';
 
 interface PromptCollectMenuProps {
    promptCollect: Node<PromptCollectData>;
    closeModal: () => void;
    setNode: (curNode: Node | null) => void;
 }
-interface FormChatbotResponse {
-   chatbotResponse: string;
-}
 // 'address_template' | 'template' | 'normal';
 const list_type_selection = [
+   { value: 'normal', label: 'Text' },
    { value: 'address_template', label: 'Address template' },
    { value: 'template', label: 'Product template' },
-   { value: 'normal', label: 'Address template' },
 ];
-const fakeList = ['Hello', '12412412', 'aaaa', 'bbbb'];
 const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
    const { closeModal, promptCollect, setNode } = props;
    const [innerNode, setInnerNode] = useState<Node<PromptCollectData>>(promptCollect);
    const [keyTab, setKeyTab] = useState<tKeyTab>('general');
-   const [listAnswer, setListAnswer] = useState<string[]>(fakeList);
-   const [formChatbotResponse] = useForm();
-   const formChatbotResponseFinish = (formChatbotResponseValue: FormChatbotResponse) => {
-      const newListText = innerNode.data.text.concat({
-         key: crypto.randomUUID(),
-         message: formChatbotResponseValue.chatbotResponse,
-         language: 'vn',
-      });
-
-      setInnerNode({
-         ...innerNode,
-         data: {
-            ...innerNode.data,
-            text: newListText,
-         },
-      });
-      formChatbotResponse.resetFields();
-   };
+   const [languages, setLanguages] = useAtom(languagesAtom);
 
    useEffect(() => {
       setNode(innerNode);
@@ -93,6 +81,12 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
    };
    const refListProduct = useRef<HTMLDivElement>();
 
+   const changeType = (type: PROMPT_COLLECT_TYPE) => {
+      setInnerNode({
+         ...innerNode,
+         data: { ...innerNode.data, prompt_type: type },
+      });
+   };
    return (
       <div className="edit-mode-prompt-and-collect" onClick={(e) => e.preventDefault()}>
          <div className="node-header">
@@ -112,22 +106,33 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                   <CloseOutlined />
                </Button>
             </div>
-            <Input
-               className="input-edit-name"
-               placeholder="Enter your node name"
-               onChange={(e) => {
-                  setInnerNode((pre) => {
-                     return { ...pre, data: { ...pre.data, name: e.target.value } };
-                  });
-               }}
-               onKeyDown={(e) => {
-                  if (e.code === 'Enter') {
-                     e.currentTarget.blur();
-                  }
-               }}
-               defaultValue={promptCollect.data.name}
-            />
-            <Select options={[]} />
+            <div className="node-information">
+               <b>Node name: </b>
+               <Input
+                  className="input-edit-name"
+                  placeholder="Enter your node name"
+                  onChange={(e) => {
+                     setInnerNode((pre) => {
+                        return { ...pre, data: { ...pre.data, name: e.target.value } };
+                     });
+                  }}
+                  onKeyDown={(e) => {
+                     if (e.code === 'Enter') {
+                        e.currentTarget.blur();
+                     }
+                  }}
+                  defaultValue={promptCollect.data.name}
+               />
+            </div>
+            <div className="node-information">
+               <b>Type:</b>
+               <Select
+                  className="select-type"
+                  defaultValue={promptCollect.data.prompt_type}
+                  options={list_type_selection}
+                  onSelect={(e) => changeType(e)}
+               />
+            </div>
          </div>
 
          <div className="content">
@@ -145,7 +150,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                         </i>
                         <span className="text">General</span>
                      </div>
-                     {keyTab === 'general' ? (
+                     {keyTab === 'general' && innerNode.data.prompt_type === 'template' ? (
                         <div className="list-element">
                            <Tooltip title={'Click to add response with product'}>
                               <div className="product-element" onClick={() => addProduct()}>
@@ -179,78 +184,65 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                         <MessageOutlined />
                         <span>Chatbot answer</span>
                      </div>
-                     <div className="list-product-container">
-                        {innerNode.data.extend.length &&
-                        refListProduct.current &&
-                        refListProduct.current.scrollWidth > refListProduct.current.clientWidth ? (
-                           <>
-                              <i
-                                 className="left-btn"
-                                 onClick={() => (refListProduct.current.scrollLeft -= 200)}>
-                                 <ArrowLeftOutlined />
-                              </i>
-                              <i
-                                 className="right-btn"
-                                 onClick={() => (refListProduct.current.scrollLeft += 200)}>
-                                 <ArrowRightOutlined />
-                              </i>
-                           </>
-                        ) : null}
-                        <div className="list-product" ref={refListProduct}>
-                           {innerNode.data.extend.map((item, index) => {
-                              return (
-                                 <UpdateProduct
-                                    index={index}
-                                    {...item}
-                                    key={crypto.randomUUID()}
-                                    innerNode={innerNode}
-                                    // item={item}
-                                    setInnerNode={(n) => setInnerNode(n)}
-                                    // key={item.key}
-                                 />
-                              );
-                           })}
-                        </div>
-                     </div>
-                     {innerNode.data.text.map((item) => {
-                        return (
-                           <UpdateText
-                              innerNode={innerNode}
-                              item={item}
-                              setInnerNode={(n) => setInnerNode(n)}
-                              key={item.key}
-                           />
-                        );
-                     })}
 
-                     <Form<FormChatbotResponse>
-                        form={formChatbotResponse}
-                        onFinish={formChatbotResponseFinish}>
-                        <Form.Item
-                           name="chatbotResponse"
-                           rules={[{ required: true, message: 'Chatbot response is null' }]}>
-                           <div className="input-container add">
-                              <Input.TextArea
-                                 onKeyDown={(e) => {
-                                    if (e.code === 'Enter') {
-                                       formChatbotResponse.submit();
-                                       e.currentTarget.blur();
-                                    }
-                                 }}
-                                 placeholder="Enter your chatbot response"
-                                 style={{
-                                    padding: '10px 8px',
-                                 }}
-                                 autoSize={{ minRows: 1, maxRows: 6 }}
-                              />
-                              <div className="actions">
-                                 <i className="item" onClick={() => formChatbotResponse.submit()}>
-                                    <PlusOutlined />
-                                 </i>
+                     {innerNode.data.prompt_type === 'template' ? (
+                        <AppearLayout>
+                           <div className="list-product-container">
+                              {innerNode.data.extend.length &&
+                              refListProduct.current &&
+                              refListProduct.current.scrollWidth >
+                                 refListProduct.current.clientWidth ? (
+                                 <>
+                                    <i
+                                       className="left-btn"
+                                       onClick={() => (refListProduct.current.scrollLeft -= 200)}>
+                                       <ArrowLeftOutlined />
+                                    </i>
+                                    <i
+                                       className="right-btn"
+                                       onClick={() => (refListProduct.current.scrollLeft += 200)}>
+                                       <ArrowRightOutlined />
+                                    </i>
+                                 </>
+                              ) : null}
+
+                              <div className="list-product" ref={refListProduct}>
+                                 {innerNode.data.extend.length <= 0 ? (
+                                    <Empty
+                                       description="Click button in left menu to add response!"
+                                       style={{ width: '100%' }}
+                                    />
+                                 ) : (
+                                    innerNode.data.extend.map((item, index) => {
+                                       return (
+                                          <UpdateProduct
+                                             index={index}
+                                             {...item}
+                                             key={crypto.randomUUID()}
+                                             innerNode={innerNode}
+                                             // item={item}
+                                             setInnerNode={(n) => setInnerNode(n)}
+                                             // key={item.key}
+                                          />
+                                       );
+                                    })
+                                 )}
                               </div>
                            </div>
-                        </Form.Item>
-                     </Form>
+                        </AppearLayout>
+                     ) : innerNode.data.prompt_type === 'address_template' ? (
+                        <>Address</>
+                     ) : innerNode.data.prompt_type === 'normal' ? (
+                        languages.map((item) => {
+                           return (
+                              <ListUpdate
+                                 innerNode={innerNode}
+                                 setInnerNode={setInnerNode}
+                                 {...item}
+                              />
+                           );
+                        })
+                     ) : null}
                   </AppearLayout>
                ) : keyTab === 'settings' ? (
                   <></>
