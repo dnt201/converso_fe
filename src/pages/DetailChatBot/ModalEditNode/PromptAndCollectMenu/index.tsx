@@ -9,6 +9,7 @@ import {
    MenuUnfoldOutlined,
    MessageOutlined,
    PlusOutlined,
+   QuestionCircleFilled,
    SettingOutlined,
 } from '@ant-design/icons';
 import { PromptCollectData } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
@@ -32,7 +33,12 @@ interface PromptCollectMenuProps {
 interface FormChatbotResponse {
    chatbotResponse: string;
 }
-
+// 'address_template' | 'template' | 'normal';
+const list_type_selection = [
+   { value: 'address_template', label: 'Address template' },
+   { value: 'template', label: 'Product template' },
+   { value: 'normal', label: 'Address template' },
+];
 const fakeList = ['Hello', '12412412', 'aaaa', 'bbbb'];
 const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
    const { closeModal, promptCollect, setNode } = props;
@@ -70,7 +76,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                extend: [
                   ...innerNode.data.extend,
                   {
-                     title: crypto.randomUUID(),
+                     title: '',
                      subtitle: '',
                      image_url: '',
                      buttons: [],
@@ -92,7 +98,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
          <div className="node-header">
             <div className="top">
                <Space style={{ fontSize: 18, color: 'var(--color-main-blue)' }} align="center">
-                  <CustomerServiceOutlined style={{ fontSize: 24 }} />
+                  <QuestionCircleFilled style={{ fontSize: 24 }} />
                   <span>Prompt And Collect</span>
                </Space>
                <Button
@@ -121,6 +127,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                }}
                defaultValue={promptCollect.data.name}
             />
+            <Select options={[]} />
          </div>
 
          <div className="content">

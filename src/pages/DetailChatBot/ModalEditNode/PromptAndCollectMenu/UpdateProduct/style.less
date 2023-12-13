@@ -6,6 +6,7 @@
    width: 160px;
    background: white;
    position: relative;
+   justify-content: space-between;
    > div.img {
       height: 140px;
       width: 160px;
@@ -16,19 +17,38 @@
       justify-content: center;
       color: var(--color-disable);
    }
-   > div.title {
-       margin-left: 8px;
-      background-color: #ccc;
-      height: 16px;
-      width: 60px;
-     
+   > div.title-container-skeleton {
+      display: flex;
+      gap: 6px;
+      flex: 1;
+      flex-direction: column;
+      > div.title {
+         margin-left: 8px;
+         background-color: #ccc;
+         height: 16px;
+         width: 60px;
+      }
+   }
+   > div.title-container-content {
+      display: flex;
+      gap: 6px;
+      flex: 1;
+      margin-left: 8px;
+      flex-direction: column;
+      > span.title {
+         font-weight: 600;
+         font-size: 16px;
+      }
+      > span.quantity,>span.size,>span.color {
+         font-weight: 300;
+         font-size: 12px;
+      }
    }
    .ant-space-item {
-    flex:1;
+      flex: 1;
    }
-   >.list-btn {
-    margin-top: 4px;
-    margin: 0px 8px;
+   > .list-btn {
+      margin-top: 4px;
+      margin: 0px 8px;
    }
-   
 }

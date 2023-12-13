@@ -89,8 +89,8 @@ const ManageChanel = () => {
                      <Skeleton.Button active className="chanel-skeleton" />
                      <Skeleton.Button active className="chanel-skeleton" />
                   </>
-               ) : !channelsArray ? (
-                  <Empty />
+               ) : !channelsArray || !channelsArray.length ? (
+                  <Empty description={<h5>No channel...</h5>} />
                ) : (
                   <>
                      {channelsArray.length &&

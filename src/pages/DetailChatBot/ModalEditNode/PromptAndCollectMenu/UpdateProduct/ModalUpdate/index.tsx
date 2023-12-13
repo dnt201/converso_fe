@@ -7,6 +7,8 @@ import { Node } from 'reactflow';
 
 import './style.less';
 import { FileImageFilled } from '@ant-design/icons';
+import { extractInfo } from '@utils/string';
+import EditButtons from './EditButton';
 interface ModalUpdateProps extends ModalProps {
    setOpenModal: (b: boolean) => void;
    innerNode: Node<PromptCollectData>;
@@ -32,6 +34,10 @@ interface ModalUpdateProps extends ModalProps {
 const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
    const { setOpenModal, innerNode, setInnerNode, index, ...modalProps } = props;
    const init = props.innerNode.data.extend[index];
+   const { color, quantity, size } = extractInfo(
+      props.innerNode.data.extend[index]?.subtitle || ''
+   );
+
    const [form] = useForm();
    const [previewLink, setPreviewLink] = useState<string>(init.image_url);
    const formSubmit = (formValue) => {
@@ -47,7 +53,7 @@ const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
                   if (formValue.color) subTitle += `Color: ${formValue.color}\n`;
                   return {
                      title: formValue.title,
-                     // subtitle: `${formValue.quantity ?? `Quantity: ${formValue.quantity}`}\n ${formValue.size ?? `Size: ${formValue.size}`,
+                     // subtitle: `${formValue.quantity ?? `Quantity : ${formValue.quantity}`}\n ${formValue.size ?? `Size: ${formValue.size}`,
                      subtitle: subTitle,
                      image_url: formValue.img,
                      default_action: { type: '', url: '', webview_height_ratio: '' },
@@ -74,6 +80,9 @@ const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
             initialValues={{
                img: init.image_url,
                title: init.title,
+               quantity: quantity,
+               size: size,
+               color: color,
             }}>
             <FormItem name="title" label="Title" required>
                <Input placeholder="Title/name product..." />
@@ -113,6 +122,7 @@ const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
                   )}
                </div>
             </div>
+            <EditButtons />
          </Form>
       </Modal>
    );

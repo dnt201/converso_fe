@@ -4,6 +4,7 @@ import {
    BuildFilled,
    CustomerServiceOutlined,
    MessageOutlined,
+   QuestionCircleOutlined,
 } from '@ant-design/icons';
 import { ReactNode } from 'react';
 import SendAMessageNode, { SendAMessageData } from './SendAMessageNode';
@@ -53,7 +54,7 @@ interface NodeType {
 
 export const listNodes: NodeType[] = [
    { icon: <MessageOutlined />, label: 'Send a message', value: 'message' },
-   { icon: <CustomerServiceOutlined />, label: 'Prompt collect', value: 'promptandcollect' },
+   { icon: <QuestionCircleOutlined />, label: 'Prompt collect', value: 'promptandcollect' },
    { icon: <ApiOutlined />, label: 'Subflow', value: 'subflow' },
    { icon: <ApartmentOutlined />, label: 'Check variable', value: 'checkattribute' },
    { icon: <BuildFilled />, label: 'Http request', value: 'http' },
