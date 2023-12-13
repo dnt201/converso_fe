@@ -1,15 +1,16 @@
 import { mutationPost } from '@config/api';
 import { apiPath } from '@config/api/path';
 import { IResponse } from '@interfaces/index';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { notification } from 'antd';
 import { iChanel } from './myListChanel';
 export type tCreateChanel = {};
 type tLoginResponse = IResponse<tCreateChanel>;
 
 export const useCreateChanel = () => {
+   const queryClient = useQueryClient();
    return useMutation({
-      mutationFn: (chanel: iChanel) => {
+      mutationFn: (chanel: Omit<iChanel, 'id'>) => {
          if (chanel.channelTypeId == 2) {
             chanel.credentials = {
                PageToken: chanel?.PageToken,
@@ -27,7 +28,10 @@ export const useCreateChanel = () => {
          });
       },
       onSuccess: (success) => {
-         notification.success({ message: 'Saved' });
+         notification.success({ message: 'Add new chanel success!' });
+         return queryClient.invalidateQueries({
+            queryKey: ['my-list-chanel'],
+         });
       },
       onError: (error: IResponse<any>) => {
          notification.error({

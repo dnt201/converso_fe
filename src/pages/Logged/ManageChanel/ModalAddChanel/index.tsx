@@ -47,8 +47,7 @@ const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
    const renderCredentialsForm = () => {
       if (type == 2) return <MessengerCredentials />;
       if (type == 3) return <LineCredentials />;
-
-      return <></>;
+      return <i>Not need credentials</i>;
    };
 
    return (
@@ -57,7 +56,6 @@ const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
          onCancel={() => setCloseModal(false)}
          onOk={() => {
             formAddChanel.submit();
-            setCloseModal();
          }}
          title="Add New Chanel"
          className="modal-add-chanel">
@@ -74,15 +72,28 @@ const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
             >
          >
             layout="vertical"
+            initialValues={{ channelTypeId: type }}
             form={formAddChanel}
-            onFinish={(form) => createChanel.mutate(form)}>
-            <Form.Item name="contactId" required label="Contact ID">
+            onFinish={(form) =>
+               createChanel.mutate(form, {
+                  onSuccess: () => {
+                     setCloseModal(false);
+                  },
+               })
+            }>
+            <Form.Item
+               name="contactId"
+               label="Contact ID"
+               rules={[{ message: 'This filed is required!', required: true }]}>
                <Input.TextArea
                   autoSize={{ minRows: 1, maxRows: 2 }}
                   placeholder={`Enter contact id`}
                />
             </Form.Item>
-            <Form.Item name="contactName" required label="Contact name">
+            <Form.Item
+               name="contactName"
+               label="Contact name"
+               rules={[{ message: 'This filed is required!', required: true }]}>
                <Input.TextArea
                   autoSize={{ minRows: 1, maxRows: 2 }}
                   placeholder={`Enter contact name`}
@@ -91,11 +102,11 @@ const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
             <Form.Item name="flowId" label="Flow reference">
                <Select placeholder={'Select flow'} />
             </Form.Item>
-            <Form.Item name="channelTypeId" required label="Provider">
-               <Select
-                  placeholder={'Select provider'}
-                  defaultValue={type}
-                  onSelect={(val) => setType(val)}>
+            <Form.Item
+               name="channelTypeId"
+               label="Provider"
+               rules={[{ message: 'This filed is required!', required: true }]}>
+               <Select placeholder={'Select provider'} onSelect={(val) => setType(val)}>
                   {ChannelTypes.map((e) => {
                      return <Select.Option value={e.value}>{e.label}</Select.Option>;
                   })}

@@ -36,13 +36,13 @@ const LineCredentials: React.FC<any> = () => {
 
 const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
    const { setCloseModal, chanelProps, ...modalProps } = props;
+   const { channelTypeId, credentials, contactId, contactName, flowId, id } = chanelProps || {};
    const [formEditChanel] = useForm();
    const initFormValue: iChanel = chanelProps;
-   const editChanel = useEditChanel(chanelProps?.id ?? -1);
+   console.log(chanelProps);
+   const editChanel = useEditChanel();
 
    useEffect(() => {
-      const { channelTypeId, credentials, contactId, contactName, flowId, id } = chanelProps || {};
-
       let cres = credentials;
 
       if (credentials && typeof credentials == 'string') {
@@ -53,17 +53,17 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
          }
       }
 
-      const { PageToken, WebhookSecret, LineToken } = cres || {};
+      // const { PageToken, WebhookSecret, LineToken } = cres || {};
 
       formEditChanel.setFieldValue('id', id);
       formEditChanel.setFieldValue('contactId', contactId);
       formEditChanel.setFieldValue('contactName', contactName);
       formEditChanel.setFieldValue('flowId', flowId);
 
-      formEditChanel.setFieldValue('PageToken', PageToken);
-      formEditChanel.setFieldValue('WebhookSecret', WebhookSecret);
-      formEditChanel.setFieldValue('channelTypeId', channelTypeId);
-      formEditChanel.setFieldValue('LineToken', LineToken);
+      // formEditChanel.setFieldValue('PageToken', PageToken);
+      // formEditChanel.setFieldValue('WebhookSecret', WebhookSecret);
+      // formEditChanel.setFieldValue('channelTypeId', channelTypeId);
+      // formEditChanel.setFieldValue('LineToken', LineToken);
    }, [formEditChanel, chanelProps]);
 
    const renderCredentialsForm = () => {
@@ -85,13 +85,22 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
          okButtonProps={{ loading: editChanel.isLoading }}
          onOk={() => {
             formEditChanel.submit();
-            setCloseModal();
          }}>
          <Form<iChanel>
             initialValues={initFormValue}
             layout="vertical"
             form={formEditChanel}
-            onFinish={(form) => editChanel.mutate(form)}>
+            onFinish={(form) => {
+               console.log(form, '-----');
+               editChanel.mutate(form, {
+                  onSuccess: () => {
+                     setCloseModal();
+                  },
+               });
+            }}>
+            <Form.Item name="id" style={{ display: 'none' }}>
+               <Input />
+            </Form.Item>
             <Form.Item name="contactId" required label="Contact id">
                <Input.TextArea
                   autoSize={{ minRows: 1, maxRows: 2 }}
