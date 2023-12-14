@@ -6,6 +6,7 @@ export const apiPath = {
    CHANEL: {
       MY_LIST: '/channel/my-channels',
       EDIT_BY_ID: '/channel/edit/{id}',
+      DELETE_BY_ID: '/channel/delete/{id}',
       CREATE: '/channel/create',
    },
 };
