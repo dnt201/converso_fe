@@ -7,8 +7,7 @@ export interface iChanel {
    id: number;
    contactId: string;
    contactName: string;
-   //    credentials: '{"PageToken":"EAALIZC6zhZAlYBO00PTwXHK4TcLgPF011WN8K1s7CXCV44luqQcVIpf7t3pAIRYEd8Q7jqhURRhMIDhPlNNGCPQSOXigZAbdmpsMZAqsNfT9eCLATad3Ad73frbuhDLy8NcsdTSLpl6axhH02jCjdBy4Fk6j5uLdbndxJJfI8Nrqatk3VHw8cZC8NViynsP01","WebhookSecret":"Nhat123"}';
-   credentials: iMessengerCredentials | iWebCredentials | iLineCredentials;
+   credentials: iMessengerCredentials | iWebCredentials | iLineCredentials | any;
    active?: boolean;
    flowId?: number;
    //Credentials
