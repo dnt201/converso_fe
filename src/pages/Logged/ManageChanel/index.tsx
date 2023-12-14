@@ -3,22 +3,29 @@ import React, { useState, useEffect } from 'react';
 import './style.less';
 import AppearLayout from '@layouts/AppearLayout';
 import { ChatBotLogo } from '@assets/icons';
-import { Button, Divider, Empty, Input, Skeleton, Space } from 'antd';
-import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Divider, Empty, Input, Modal, Skeleton, Space } from 'antd';
+import { ArrowLeftOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { routerPath } from '@config/router/path';
 import { iChanel, useMyListChanel } from '@hooks/chanel/myListChanel';
 import ModalAddChanel from './ModalAddChanel';
 import ModalEditChanel from './ModalEditChanel';
+import { useDeleteChannel } from '@hooks/chanel/editChanel';
 
 const ManageChanel = () => {
    const navigate = useNavigate();
 
    const { data: listChanelData, isLoading: listChanelLoading } = useMyListChanel();
 
+   // const { data: listFlow, isLoading: listFlowLoading } = useMyListFlow();
+
    const [openAddChanel, setOpenAddChanel] = useState(false);
    const [openEditChanel, setOpenEditChanel] = useState<iChanel>();
+   const [openConfirmModal, setOpenConfirmModal] = useState(false);
    const [channelsArray, setChannels] = useState<any>([]);
+   const [currentId, setCurrentId] = useState();
+
+   const deleteChannel = useDeleteChannel();
 
    useEffect(() => {
       setChannels(listChanelData?.data);
@@ -34,6 +41,15 @@ const ManageChanel = () => {
       );
    };
 
+   const handleConfirm = () => {
+      deleteChannel.mutate(currentId);
+      setOpenConfirmModal(false);
+   };
+
+   const handleCancel = () => {
+      setOpenConfirmModal(false);
+   };
+
    return (
       <AppearLayout className="manage-chanel-container">
          <ModalAddChanel open={openAddChanel} setCloseModal={(b) => setOpenAddChanel(b)} />
@@ -42,6 +58,13 @@ const ManageChanel = () => {
             setCloseModal={() => setOpenEditChanel(undefined)}
             chanelProps={openEditChanel}
          />
+         <Modal
+            title="Confirm"
+            open={openConfirmModal}
+            onOk={handleConfirm}
+            onCancel={handleCancel}>
+            Do you want to delete this channel ?
+         </Modal>
          <div className="nav-top">
             <Space size={4} align="center">
                <ChatBotLogo />
@@ -96,11 +119,24 @@ const ManageChanel = () => {
                      {channelsArray.length &&
                         channelsArray.map((item) => {
                            return (
-                              <div
-                                 className="chanel"
-                                 key={item.id}
-                                 onClick={() => setOpenEditChanel(item)}>
-                                 {item.contactName}
+                              <div className="chanel">
+                                 <div className="chanel_1" key={item.id}>
+                                    {item.contactName}
+                                    <div className="hover_layer">
+                                       <Button onClick={() => setOpenEditChanel(item)}>
+                                          <EditOutlined />
+                                       </Button>
+                                       <Button
+                                          onClick={() => {
+                                             setCurrentId(item.id);
+                                             setOpenConfirmModal(true);
+                                          }}
+                                          type="primary"
+                                          danger>
+                                          <DeleteOutlined />
+                                       </Button>
+                                    </div>
+                                 </div>
                               </div>
                            );
                         })}

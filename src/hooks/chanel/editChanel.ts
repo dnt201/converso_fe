@@ -47,3 +47,29 @@ export const useEditChanel = () => {
       },
    });
 };
+
+export const useDeleteChannel = () => {
+   const queryClient = useQueryClient();
+
+   return useMutation({
+      mutationFn: (id: any) => {
+         console.log(id);
+         return mutationPost<tLoginResponse>({
+            url: `${apiPath.CHANEL.DELETE_BY_ID.replace('{id}', id.toString())}`,
+            body: {},
+         });
+      },
+      onSuccess: (success) => {
+         notification.success({ message: success.message || 'Delete chanel success!' });
+
+         return queryClient.invalidateQueries({
+            queryKey: ['my-list-chanel'],
+         });
+      },
+      onError: (error: IResponse<any>) => {
+         notification.error({
+            message: error.message,
+         });
+      },
+   });
+};

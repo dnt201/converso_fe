@@ -7,6 +7,7 @@
    padding: 0px 40px;
    padding-bottom: 30vh;
    padding-top: 40px;
+   position: relative;
    // >div.nav-top {
    //     transform: translateX(-20px);
    //     display: flex;
@@ -25,7 +26,7 @@
          align-items: center;
          justify-content: space-between;
          padding-bottom: 12px;
-         border-bottom: 1px solid  rgba(5, 5, 5, 0.06);
+         border-bottom: 1px solid rgba(5, 5, 5, 0.06);
          > .actions {
             display: flex;
             align-items: center;
@@ -48,14 +49,15 @@
             height: 180px;
             border-radius: 40px;
             padding: 20px;
-            background-color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            background-color: white;
             border: solid 2px transparent;
             transition-duration: 0.5s;
             box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+            position: relative;
             .icon {
                color: var(--color-main-blue);
                font-size: 40px;
@@ -71,6 +73,32 @@
                font-weight: 600;
                line-height: 23px;
             }
+         }
+         .chanel_1 {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            justify-content: center;
+         }
+         .hover_layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            gap: 10px;
+            background-color: white;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease-in-out;
+         }
+         .chanel_1:hover .hover_layer {
+            opacity: 1;
          }
       }
    }
