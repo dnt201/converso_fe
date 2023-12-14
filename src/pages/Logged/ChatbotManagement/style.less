@@ -23,6 +23,7 @@
       justify-content: center;
       align-items: center;
       gap: 16px;
+      
       .slider {
          height: 140px;
          width: 2px;
@@ -45,6 +46,9 @@
          border: solid 2px transparent;
          transition-duration: 0.5s;
          box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+         &.disable {
+            pointer-events: none;
+         }
          &:hover {
             cursor: pointer;
             border-color: var(--color-main-blue);

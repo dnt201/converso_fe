@@ -1,6 +1,6 @@
 import { ChatBotLogo } from '@assets/icons';
 import AppearLayout from '@layouts/AppearLayout';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './style.less';
 import {
@@ -14,128 +14,52 @@ import {
 } from '@ant-design/icons';
 import { routerPath } from '@config/router/path';
 import Loader from '@components/Loader';
-
-const listChatbot = [
-   {
-      id: 1,
-      name: 'Shop dunk facebook',
-      type: 'MSG',
-   },
-   {
-      id: 2,
-      name: 'Jagermeister Đà Lạt Cityeister Đà Lạt Cityeister Đà Lạt Cityeister Đà Lạt City',
-      type: '-',
-   },
-   {
-      id: 3,
-      name: 'Tự sự Orange + Hà Nhi',
-      type: '-',
-   },
-   {
-      id: 4,
-      name: 'Example VCS LCK LPL LBB',
-      type: '-',
-   },
-   {
-      id: 5,
-      name: 'Example VCS LCK LPL LBB',
-      type: '-',
-   },
-   {
-      id: 6,
-      name: 'Example VCS LCK LPL LBB',
-      type: '-',
-   },
-   {
-      id: 4,
-      name: 'Example VCS LCK LPL LBB',
-      type: '-',
-   },
-   {
-      id: 4,
-      name: 'Example VCS LCK LPL LBB',
-      type: '-',
-   },
-   {
-      id: 1,
-      name: 'Shop dunk facebook',
-      type: 'MSG',
-   },
-   {
-      id: 2,
-      name: 'Jagermeister Đà Lạt Cityeister Đà Lạt Cityeister Đà Lạt Cityeister Đà Lạt City',
-      type: '-',
-   },
-   {
-      id: 3,
-      name: 'Tự sự Orange + Hà Nhi',
-      type: '-',
-   },
-   {
-      id: 4,
-      name: 'Example VCS LCK LPL LBB',
-      type: '-',
-   },
-   {
-      id: 5,
-      name: 'Example VCS LCK LPL LBB',
-      type: '-',
-   },
-   {
-      id: 1,
-      name: 'Shop dunk facebook',
-      type: 'MSG',
-   },
-   {
-      id: 2,
-      name: 'Jagermeister Đà Lạt Cityeister Đà Lạt Cityeister Đà Lạt Cityeister Đà Lạt City',
-      type: '-',
-   },
-   {
-      id: 3,
-      name: 'Tự sự Orange + Hà Nhi',
-      type: '-',
-   },
-   {
-      id: 4,
-      name: 'Example VCS LCK LPL LBB',
-      type: '-',
-   },
-   {
-      id: 5,
-      name: 'Example VCS LCK LPL LBB',
-      type: '-',
-   },
-];
+import { notification } from 'antd';
+import ModalCreateChatBot from './ModalCreateChatBot';
+import { useMyListFlow } from '@hooks/flow/myListFlow';
 
 interface iChatbotManagementProps {}
 const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
    const {} = props;
+
    const navigate = useNavigate();
+   const [openCreateChatbot, setOpenCreateChatbot] = useState(false);
+
+   //Todo: API
+   const { data: listChatbot, isLoading: isListChatbotLoading } = useMyListFlow();
    return (
       <AppearLayout className="chatbot-management-container">
+         <ModalCreateChatBot
+            open={openCreateChatbot}
+            setOpenModal={(b) => setOpenCreateChatbot(b)}
+         />
          <div className="logo">
             <ChatBotLogo />
          </div>
-
          <span className="title">Template</span>
          <div className="list-chatbot">
-            <div className="action-item create-chat-bot">
+            <div className="action-item create-chat-bot" onClick={() => setOpenCreateChatbot(true)}>
                <i>{<PlusSquareFilled />}</i>
                <p className="title">Create Chatbot</p>
             </div>
             <div className="slider" />
-            <div className="action-item create-chat-bot">
+            <div
+               className="action-item create-chat-bot"
+               onClick={() => notification.info({ message: 'This feature is coming soon!' })}>
                <i>{<ShoppingFilled />}</i>
                <p className="title">Shopping Template</p>
             </div>
-            <div className="action-item create-chat-bot">
+            <div
+               className="action-item create-chat-bot"
+               onClick={() => notification.info({ message: 'This feature is coming soon!' })}>
                <i>
                   <ToolFilled />
                </i>
                <p className="title">Support Template</p>
             </div>
-            <div className="action-item create-chat-bot">
+            <div
+               className="action-item create-chat-bot"
+               onClick={() => notification.info({ message: 'This feature is coming soon!' })}>
                <i>
                   <NotificationFilled />
                </i>
@@ -144,7 +68,7 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
          </div>
          <span className="title">List chatbot</span>
          <div className="list-chatbot">
-            {listChatbot.map((e) => {
+            {listChatbot.data.map((e) => {
                return (
                   <div
                      key={e.id}
@@ -154,7 +78,7 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
                            routerPath.MANAGE_CHATBOT_BY_ID.replace(':chatbotId', e.id.toString())
                         );
                      }}>
-                     <i>{e.type === 'MSG' ? <FacebookFilled /> : <MessageFilled />}</i>
+                     <i>{e.flowType === 'MSG' ? <FacebookFilled /> : <MessageFilled />}</i>
                      <p className="title">{e.name}</p>
                   </div>
                );

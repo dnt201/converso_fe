@@ -105,12 +105,14 @@ export const languagesAtom = atom<{ value: tLanguage; label: string; default: bo
    { value: 'en', label: 'English', default: true },
 ]);
 
+
 const DnDFlow: React.FC = () => {
    //Todo: State - ReactFlow
    const [nodes, setNodes, onNodesChange] = useNodesState<tListNodeData | { label: string }>(
       initialNodes
    );
    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+   console.log(nodes, edges);
    const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
    const [selectedNode, setSelectedNode] = useState<Node<tListNodeData> | null>(null);
    const [selectedEdge, setSelectedEdge] = useState<Edge<ListEdgeType> | null>(null);
