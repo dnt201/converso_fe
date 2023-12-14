@@ -39,7 +39,6 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
    const { channelTypeId, credentials, contactId, contactName, flowId, id } = chanelProps || {};
    const [formEditChanel] = useForm();
    const initFormValue: iChanel = chanelProps;
-   console.log(chanelProps);
    const editChanel = useEditChanel();
 
    useEffect(() => {
@@ -53,17 +52,18 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
          }
       }
 
-      // const { PageToken, WebhookSecret, LineToken } = cres || {};
+      const { PageToken, WebhookSecret, LineToken } = cres || {};
 
       formEditChanel.setFieldValue('id', id);
       formEditChanel.setFieldValue('contactId', contactId);
       formEditChanel.setFieldValue('contactName', contactName);
       formEditChanel.setFieldValue('flowId', flowId);
 
-      // formEditChanel.setFieldValue('PageToken', PageToken);
-      // formEditChanel.setFieldValue('WebhookSecret', WebhookSecret);
-      // formEditChanel.setFieldValue('channelTypeId', channelTypeId);
-      // formEditChanel.setFieldValue('LineToken', LineToken);
+      formEditChanel.setFieldValue('PageToken', PageToken);
+      formEditChanel.setFieldValue('WebhookSecret', WebhookSecret);
+      formEditChanel.setFieldValue('channelTypeId', channelTypeId);
+      formEditChanel.setFieldValue('LineToken', LineToken);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [formEditChanel, chanelProps]);
 
    const renderCredentialsForm = () => {
@@ -91,7 +91,6 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
             layout="vertical"
             form={formEditChanel}
             onFinish={(form) => {
-               console.log(form, '-----');
                editChanel.mutate(form, {
                   onSuccess: () => {
                      setCloseModal();
@@ -107,6 +106,7 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
                   placeholder={`Enter contact id`}
                />
             </Form.Item>
+            <Form.Item name="channelTypeId" required hidden label=""></Form.Item>
             <Form.Item name="contactName" required label="Contact name">
                <Input.TextArea
                   autoSize={{ minRows: 1, maxRows: 2 }}
