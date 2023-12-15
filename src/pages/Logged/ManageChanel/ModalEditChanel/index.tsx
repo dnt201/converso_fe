@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 type ModalEditChanelProps = ModalProps & {
    setCloseModal: () => void;
    chanelProps: iChanel | undefined;
+   flows: any[];
 };
 
 const MessengerCredentials: React.FC<any> = () => {
@@ -35,7 +36,7 @@ const LineCredentials: React.FC<any> = () => {
 };
 
 const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
-   const { setCloseModal, chanelProps, ...modalProps } = props;
+   const { setCloseModal, chanelProps, flows, ...modalProps } = props;
    const { channelTypeId, credentials, contactId, contactName, flowId, id } = chanelProps || {};
    const [formEditChanel] = useForm();
    const initFormValue: iChanel = chanelProps;
@@ -114,7 +115,16 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
                />
             </Form.Item>
             <Form.Item name="flowId" label="Flow reference">
-               <Select placeholder={'Select flow'} />
+               <Select
+                  placeholder={'Select flow'}
+                  options={
+                     (flows &&
+                        flows.map((e) => {
+                           return { value: e.id, label: e.name };
+                        })) ||
+                     []
+                  }
+               />
             </Form.Item>
             <h2>Credentials</h2>
             {renderCredentialsForm()}

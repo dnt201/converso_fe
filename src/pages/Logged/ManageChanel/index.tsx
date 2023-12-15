@@ -11,16 +11,18 @@ import { iChanel, useMyListChanel } from '@hooks/chanel/myListChanel';
 import ModalAddChanel from './ModalAddChanel';
 import ModalEditChanel from './ModalEditChanel';
 import { useDeleteChannel } from '@hooks/chanel/editChanel';
+import { useMyListFlow } from '@hooks/flow/myListFlow';
 
 const ManageChanel = () => {
    const navigate = useNavigate();
 
    const { data: listChanelData, isLoading: listChanelLoading } = useMyListChanel();
 
-   // const { data: listFlow, isLoading: listFlowLoading } = useMyListFlow();
+   const { data: listFlow, isLoading: listFlowLoading } = useMyListFlow();
 
    const [openAddChanel, setOpenAddChanel] = useState(false);
    const [openEditChanel, setOpenEditChanel] = useState<iChanel>();
+   const [flows, setFlows] = useState([]);
    const [openConfirmModal, setOpenConfirmModal] = useState(false);
    const [channelsArray, setChannels] = useState<any>([]);
    const [currentId, setCurrentId] = useState();
@@ -30,6 +32,10 @@ const ManageChanel = () => {
    useEffect(() => {
       setChannels(listChanelData?.data);
    }, [listChanelData]);
+
+   useEffect(() => {
+      setFlows(listFlow?.data || []);
+   }, [listFlow]);
 
    const filterChannels = (search) => {
       if (!search || search == '') return setChannels(listChanelData?.data);
@@ -57,6 +63,7 @@ const ManageChanel = () => {
             open={openEditChanel ? true : false}
             setCloseModal={() => setOpenEditChanel(undefined)}
             chanelProps={openEditChanel}
+            flows={flows}
          />
          <Modal
             title="Confirm"
@@ -117,9 +124,9 @@ const ManageChanel = () => {
                ) : (
                   <>
                      {channelsArray.length &&
-                        channelsArray.map((item) => {
+                        channelsArray.map((item, i) => {
                            return (
-                              <div className="chanel">
+                              <div key={i} className="chanel">
                                  <div className="chanel_1" key={item.id}>
                                     {item.contactName}
                                     <div className="hover_layer">
