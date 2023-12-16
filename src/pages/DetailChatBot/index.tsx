@@ -107,12 +107,11 @@ export const languagesAtom = atom<{ value: tLanguage; label: string; default: bo
 
 
 const DnDFlow: React.FC = () => {
-   //Todo: State - ReactFlow
+   //Todo: State - ReactFlo w
    const [nodes, setNodes, onNodesChange] = useNodesState<tListNodeData | { label: string }>(
       initialNodes
    );
    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-   console.log(nodes, edges);
    const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
    const [selectedNode, setSelectedNode] = useState<Node<tListNodeData> | null>(null);
    const [selectedEdge, setSelectedEdge] = useState<Edge<ListEdgeType> | null>(null);
@@ -152,6 +151,7 @@ const DnDFlow: React.FC = () => {
    //#region Util of reactflow connect, delete, drag, keydown,...
 
    const onConnect = useCallback(async (params: Edge | Connection) => {
+      console.log(params);
       if (params?.sourceHandle?.includes('prompt-and-collect')) {
          // setSelectedEdge(params)
 
@@ -190,12 +190,13 @@ const DnDFlow: React.FC = () => {
             ];
          });
       } else {
+         const id = crypto.randomUUID();
          setEdges((e) => {
             return [
                ...e,
                {
                   ...params,
-                  id: crypto.randomUUID(),
+                  id: id,
                   source: params.source + '',
                   target: params.target + '',
                   // type: 'promptCollectEdge',
@@ -208,6 +209,19 @@ const DnDFlow: React.FC = () => {
                },
             ];
          });
+         const tempNode = nodes.filter((item) => item.id === params.source);
+         // console.log(list);
+         console.log(tempNode);
+         // const tempNodeList = nodes.map((node) => {
+         //    if (node.id === id) {
+         //       return {
+         //          ...node,
+         //          data: {
+         //             ...node.data,
+         //          },
+         //       };
+         //    }
+         // });
       }
    }, []);
 
@@ -252,12 +266,14 @@ const DnDFlow: React.FC = () => {
                   x: event.clientX - reactFlowBounds.left,
                   y: event.clientY - reactFlowBounds.top,
                });
+               const id = crypto.randomUUID();
                if (type === 'message') {
                   const newNode = {
-                     id: crypto.randomUUID(),
+                     id,
                      type,
                      position,
                      data: {
+                        id,
                         name: 'Send A Message',
                         text: [],
                         type: type,
@@ -267,10 +283,11 @@ const DnDFlow: React.FC = () => {
                   setNodes((nds) => nds.concat(newNode));
                } else if (type === 'promptandcollect') {
                   const newNode = {
-                     id: crypto.randomUUID(),
+                     id,
                      type,
                      position,
                      data: {
+                        id,
                         type: type,
                         name: 'Prompt & Collect',
                         text: [],
@@ -285,10 +302,12 @@ const DnDFlow: React.FC = () => {
                   setNodes((nds) => nds.concat(newNode));
                } else if (type === 'subflow') {
                   const newNode = {
-                     id: crypto.randomUUID(),
+                     id,
                      type,
                      position,
                      data: {
+                        id,
+
                         flowId: '',
                         name: 'Subflow',
                         type: type,
@@ -298,10 +317,11 @@ const DnDFlow: React.FC = () => {
                   setNodes((nds) => nds.concat(newNode));
                } else if (type === 'checkattribute') {
                   const newNode = {
-                     id: crypto.randomUUID(),
+                     id,
                      type,
                      position,
                      data: {
+                        id,
                         type: type,
                         name: 'Check Variable',
                         attribute: 'string',
@@ -311,10 +331,11 @@ const DnDFlow: React.FC = () => {
                   setNodes((nds) => nds.concat(newNode));
                } else if (type === 'http') {
                   const newNode = {
-                     id: crypto.randomUUID(),
+                     id,
                      type,
                      position,
                      data: {
+                        id,
                         type: type,
                         name: 'HTTP Request',
                         method: 'string',

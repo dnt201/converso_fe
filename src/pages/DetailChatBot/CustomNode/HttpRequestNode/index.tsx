@@ -8,6 +8,8 @@ import { BuildFilled } from '@ant-design/icons';
 //User Input
 
 export interface HttpRequestData {
+   id: string;
+
    type: string;
    name: string;
    method: string;

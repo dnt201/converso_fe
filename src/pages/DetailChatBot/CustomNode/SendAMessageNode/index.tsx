@@ -6,10 +6,13 @@ import { MessageFilled } from '@ant-design/icons';
 //User Input
 
 export interface SendAMessageData {
+   id: string;
+
    type: string;
    name: string;
    text: { language: tLanguage; message: string }[];
    nextAction: string;
+
    // number: number;
 }
 

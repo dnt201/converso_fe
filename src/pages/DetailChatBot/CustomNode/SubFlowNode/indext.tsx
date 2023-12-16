@@ -2,6 +2,7 @@ import { ApiFilled } from '@ant-design/icons';
 import './style.less';
 import { Handle, Node, NodeProps, Position } from 'reactflow';
 export interface SubFlowData {
+   id: string;
    type: string;
    name: string;
    flowId: string;

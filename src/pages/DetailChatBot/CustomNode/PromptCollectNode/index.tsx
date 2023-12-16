@@ -7,6 +7,8 @@ import './style.less';
 
 export type PROMPT_COLLECT_TYPE = 'address_template' | 'template' | 'normal';
 export interface PromptCollectData {
+   id: string;
+
    type: string;
    name: string;
    text: {

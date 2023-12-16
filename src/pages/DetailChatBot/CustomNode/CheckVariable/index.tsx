@@ -3,6 +3,7 @@ import React from 'react';
 import { Handle, Node, NodeProps, Position } from 'reactflow';
 
 export interface CheckVariableData {
+   id: string;
    type: string;
    name: string;
    attribute: string;

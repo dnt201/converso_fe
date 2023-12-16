@@ -6,6 +6,7 @@ import { CpuChipIcon } from '@heroicons/react/20/solid';
 import AppearLayout from '@layouts/AppearLayout';
 import { useNavigate } from 'react-router-dom';
 import { routerPath } from '@config/router/path';
+
 const Dashboard = () => {
    const navigate = useNavigate();
    return (

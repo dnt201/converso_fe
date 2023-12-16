@@ -6,9 +6,11 @@ import { Popover } from 'antd';
 //User Input
 
 export interface StartNodeData {
+   id: string;
    name: string;
    label: string;
    type: string;
+   nextAction: string;
 }
 
 export type tStartNodeProps = NodeProps<StartNodeData>;

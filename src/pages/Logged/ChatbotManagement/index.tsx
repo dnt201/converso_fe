@@ -14,10 +14,11 @@ import {
 } from '@ant-design/icons';
 import { routerPath } from '@config/router/path';
 import Loader from '@components/Loader';
-import { notification } from 'antd';
+import { Empty, Space, notification } from 'antd';
 import ModalCreateChatBot from './ModalCreateChatBot';
 import { useMyListFlow } from '@hooks/flow/myListFlow';
 
+const listChatbot = { data: [{ id: '1', flowType: 'MSG', name: 'Dnt201' }] };
 interface iChatbotManagementProps {}
 const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
    const {} = props;
@@ -26,7 +27,7 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
    const [openCreateChatbot, setOpenCreateChatbot] = useState(false);
 
    //Todo: API
-   const { data: listChatbot, isLoading: isListChatbotLoading } = useMyListFlow();
+   // const { data: listChatbot, isLoading: isListChatbotLoading } = useMyListFlow();
    return (
       <AppearLayout className="chatbot-management-container">
          <ModalCreateChatBot
@@ -36,54 +37,68 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
          <div className="logo">
             <ChatBotLogo />
          </div>
-         <span className="title">Template</span>
-         <div className="list-chatbot">
-            <div className="action-item create-chat-bot" onClick={() => setOpenCreateChatbot(true)}>
-               <i>{<PlusSquareFilled />}</i>
-               <p className="title">Create Chatbot</p>
-            </div>
-            <div className="slider" />
-            <div
-               className="action-item create-chat-bot"
-               onClick={() => notification.info({ message: 'This feature is coming soon!' })}>
-               <i>{<ShoppingFilled />}</i>
-               <p className="title">Shopping Template</p>
-            </div>
-            <div
-               className="action-item create-chat-bot"
-               onClick={() => notification.info({ message: 'This feature is coming soon!' })}>
-               <i>
-                  <ToolFilled />
-               </i>
-               <p className="title">Support Template</p>
-            </div>
-            <div
-               className="action-item create-chat-bot"
-               onClick={() => notification.info({ message: 'This feature is coming soon!' })}>
-               <i>
-                  <NotificationFilled />
-               </i>
-               <p className="title">Marketing Template</p>
+         <div className="list-chatbot-container">
+            <span className="title">Template</span>
+            <div className="list-chatbot">
+               <div
+                  className="action-item create-chat-bot"
+                  onClick={() => setOpenCreateChatbot(true)}>
+                  <i>{<PlusSquareFilled />}</i>
+                  <p className="title">Create Chatbot</p>
+               </div>
+               <div className="slider" />
+               <div
+                  className="action-item create-chat-bot"
+                  onClick={() => notification.info({ message: 'This feature is coming soon!' })}>
+                  <i>{<ShoppingFilled />}</i>
+                  <p className="title">Shopping Template</p>
+               </div>
+               <div
+                  className="action-item create-chat-bot"
+                  onClick={() => notification.info({ message: 'This feature is coming soon!' })}>
+                  <i>
+                     <ToolFilled />
+                  </i>
+                  <p className="title">Support Template</p>
+               </div>
+               <div
+                  className="action-item create-chat-bot"
+                  onClick={() => notification.info({ message: 'This feature is coming soon!' })}>
+                  <i>
+                     <NotificationFilled />
+                  </i>
+                  <p className="title">Marketing Template</p>
+               </div>
             </div>
          </div>
-         <span className="title">List chatbot</span>
-         <div className="list-chatbot">
-            {listChatbot.data.map((e) => {
-               return (
-                  <div
-                     key={e.id}
-                     className="action-item create-chat-bot"
-                     onClick={() => {
-                        navigate(
-                           routerPath.MANAGE_CHATBOT_BY_ID.replace(':chatbotId', e.id.toString())
-                        );
-                     }}>
-                     <i>{e.flowType === 'MSG' ? <FacebookFilled /> : <MessageFilled />}</i>
-                     <p className="title">{e.name}</p>
-                  </div>
-               );
-            })}
-            {/* <div
+         <div className="list-chatbot-container">
+            <span className="title">List chatbot</span>
+            <div className="list-chatbot">
+               {!listChatbot ? (
+                  <Empty />
+               ) : (
+                  listChatbot.data.map((e) => {
+                     return (
+                        <div
+                           key={e.id}
+                           className="action-item create-chat-bot"
+                           onClick={() => {
+                              navigate(
+                                 routerPath.MANAGE_CHATBOT_BY_ID.replace(
+                                    ':chatbotId',
+                                    e.id.toString()
+                                 )
+                              );
+                           }}>
+                           <i>{e.flowType === 'MSG' ? <FacebookFilled /> : <MessageFilled />}</i>
+                           <p className="title">{e.name}</p>
+                        </div>
+                     );
+                  })
+               )}
+            </div>
+         </div>
+         {/* <div
          className="action-item create-chat-bot"
          onClick={() => {
             navigate(routerPath.MANAGE_CHATBOT);
@@ -123,7 +138,6 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
          </i>
          <span className="title">Logout</span>
       </div> */}
-         </div>
       </AppearLayout>
    );
 };
