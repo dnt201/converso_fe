@@ -3,11 +3,15 @@ import React, { useEffect, useState } from 'react';
 import './style.less';
 import { useAtom } from 'jotai';
 import { iLanguageOption, languagesAtom, listLanguageSystem } from '..';
-import { tLanguage } from '../CustomNode';
+import { tLanguage, tListNodeData } from '../CustomNode';
 import { CheckCircleFilled, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { Node } from 'reactflow';
+import { PromptCollectData } from '../CustomNode/PromptCollectNode';
 
 interface SettingsModalProps extends ModalProps {
    setShowModal: (b: boolean) => void;
+   nodes: Node<tListNodeData>[];
+   setNodes: (curNodes: Node[]) => void;
 }
 type SettingState = 'language';
 type ListMenu = {
@@ -16,7 +20,7 @@ type ListMenu = {
 }[];
 const listMenu: ListMenu = [{ label: 'Language settings', value: 'language' }];
 const SettingsModal: React.FC<SettingsModalProps> = (props) => {
-   const { setShowModal, ...propsModal } = props;
+   const { setShowModal, nodes, setNodes, ...propsModal } = props;
    const [curSettings, setCurSettings] = useState<SettingState>('language');
    const [curLanguage, setCurLanguage] = useState<iLanguageOption>();
 
@@ -109,7 +113,6 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
                                                 return { ...p, default: false };
                                              }
                                           });
-                                          console.log(tempLanguages);
                                           setLanguages(tempLanguages);
                                        }}>
                                        <Button disabled={item.default}>
@@ -124,6 +127,27 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
                                           setLanguages((pre) => {
                                              return pre.filter((c) => item.value !== c.value);
                                           });
+                                          let temp = nodes.map((node) => {
+                                             if (
+                                                node.data.type === 'promptandcollect' ||
+                                                node.data.type === 'message'
+                                             ) {
+                                                let tempNode = node as Node<PromptCollectData>;
+                                                tempNode = {
+                                                   ...tempNode,
+                                                   data: {
+                                                      ...tempNode.data,
+                                                      text: tempNode.data.text.filter(
+                                                         (tx) => tx.language !== item.value
+                                                      ),
+                                                   },
+                                                };
+                                                return tempNode;
+                                             }
+                                             return node;
+                                          });
+                                          setNodes(temp);
+                                          console.log(temp);
                                        }}>
                                        <Button
                                           className="delete"

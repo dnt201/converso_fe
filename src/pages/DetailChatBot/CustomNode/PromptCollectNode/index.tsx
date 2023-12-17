@@ -1,6 +1,6 @@
 import React from 'react';
 import { Handle, Node, NodeProps, Position } from 'reactflow';
-import { ValidateType, tLanguage } from '..';
+import { TypeOfNode, ValidateType, tLanguage } from '..';
 import { CheckOutlined, CloseOutlined, QuestionCircleFilled } from '@ant-design/icons';
 
 import './style.less';
@@ -9,7 +9,7 @@ export type PROMPT_COLLECT_TYPE = 'address_template' | 'template' | 'normal';
 export interface PromptCollectData {
    id: string;
 
-   type: string;
+   type: TypeOfNode;
    name: string;
    text: {
       // key: string | number;

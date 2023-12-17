@@ -53,7 +53,6 @@ export const useDeleteChannel = () => {
 
    return useMutation({
       mutationFn: (id: any) => {
-         console.log(id);
          return mutationPost<tLoginResponse>({
             url: `${apiPath.CHANEL.DELETE_BY_ID.replace('{id}', id.toString())}`,
             body: {},

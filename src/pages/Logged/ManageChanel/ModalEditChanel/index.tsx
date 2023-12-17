@@ -47,9 +47,7 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
       if (credentials && typeof credentials == 'string') {
          try {
             cres = JSON.parse(credentials);
-         } catch (e) {
-            console.log('Can not parse credentials: ' + e.message);
-         }
+         } catch (e) {}
       }
 
       const { PageToken, WebhookSecret, LineToken } = cres || {};

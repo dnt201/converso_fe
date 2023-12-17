@@ -73,7 +73,6 @@ const RegisterForm = () => {
                         },
                         ({}) => ({
                            validator(_, value) {
-                              console.log(parseInt(value));
                               if (!value || +value.toString().length === 10) {
                                  return Promise.resolve();
                               }

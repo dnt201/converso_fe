@@ -2,6 +2,7 @@ import { Handle, Node, NodeProps, Position } from 'reactflow';
 import './style.less';
 import { HomeFilled } from '@ant-design/icons';
 import { Popover } from 'antd';
+import { TypeOfNode } from '..';
 
 //User Input
 
@@ -9,8 +10,8 @@ export interface StartNodeData {
    id: string;
    name: string;
    label: string;
-   type: string;
-   nextAction: string;
+   type: TypeOfNode;
+   nextAction?: string;
 }
 
 export type tStartNodeProps = NodeProps<StartNodeData>;

@@ -2,15 +2,20 @@ import { iOption } from '@interfaces/index';
 import { Form, Input, Modal, ModalProps, Select } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import React, { useEffect, useState } from 'react';
-import { Edge } from 'reactflow';
+import { Edge, Node } from 'reactflow';
 import { ListEdgeType } from '../indext';
 import { findOptionByValue } from '@utils/index';
+import { tListNodeData } from '@pages/DetailChatBot/CustomNode';
+import { PromptCollectData } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
 
 interface ModalEditCheckIntentProps extends ModalProps {
    edge: Edge<ListEdgeType> | null;
    edges: Edge[];
    setEdges: (edges: any) => void;
    setShowModal: (b: boolean) => void;
+   nodes: Node<tListNodeData>[];
+
+   setNodes: (curNodes: Node[]) => void;
 }
 export interface iValueEdgePromptCollect {
    condition: string;
@@ -19,52 +24,57 @@ export interface iValueEdgePromptCollect {
 
 const listOptionTrue: iOption[] = [
    {
-      value: 'equal',
+      value: 'Equal',
       label: 'Equal',
    },
    {
-      value: 'not-equal',
+      value: 'Not equal',
       label: 'Not equal',
    },
    {
-      value: 'is-less-than',
+      value: 'Is less than',
       label: 'Is less than',
    },
    {
-      value: 'is-less-than-or-equal',
+      value: 'Is less than or equal',
       label: 'Is less than or equal',
    },
    {
-      value: 'Is greater than',
+      value: 'Is greater than or equal',
       label: 'Is greater than or equal',
    },
    {
-      value: 'starts-with',
+      value: 'Start with',
       label: 'Start with',
    },
    {
-      value: 'ends-with',
+      value: 'Ends with',
       label: 'Ends with',
    },
    {
-      value: 'contains',
+      value: 'Contains',
       label: 'Contains',
    },
    {
-      value: 'Empty',
+      value: 'Exist',
       label: 'Exist',
    },
 ];
 
 const listOptionFalse: iOption[] = [
    {
-      value: 'else',
+      value: 'other',
       label: 'Else',
    },
 ];
 
+function getLabelByValue(value: string): string | undefined {
+   const option = listOptionTrue.find((option) => option.value === value);
+   return option ? option.label : undefined;
+}
+
 const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
-   const { edge, edges, setEdges, setShowModal, ...modalProps } = props;
+   const { nodes, setNodes, edge, edges, setEdges, setShowModal, ...modalProps } = props;
    const [form] = useForm();
    const [submittable, setSubmittable] = useState(false);
    const formData = Form.useWatch([], form);
@@ -84,12 +94,12 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
          defaultValueSelect =
             edge.data?.condition && edge.data?.condition !== ''
                ? findOptionByValue(edge.data.condition, listOptionFalse)?.value ?? ''
-               : listOptionFalse[0].value;
+               : undefined;
       } else {
          defaultValueSelect =
             edge.data?.condition && edge.data?.condition !== ''
                ? findOptionByValue(edge.data.condition, listOptionTrue)?.value ?? ''
-               : listOptionTrue[0].value;
+               : undefined;
       }
    useEffect(() => {
       form.setFieldValue('intent', edge?.data?.intent);
@@ -106,6 +116,14 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
       );
    }, [formData]);
 
+   const curNodeSource = nodes.find((node) => {
+      if (node.data.id === edge.source && node.data.type === 'promptandcollect') {
+         const temp = node;
+         return temp;
+      }
+      return undefined;
+   }) as Node<PromptCollectData>;
+   console.log(curNodeSource, form.getFieldsValue());
    if (edge === null) {
       return null;
    } else
@@ -116,9 +134,11 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
             okButtonProps={{ disabled: !submittable }}
             width={'50%'}
             onCancel={() => {
+               console.log(edge);
                if (
                   edge &&
-                  (form.getFieldValue('condition').length <= 0 ||
+                  (form.getFieldValue('condition') === undefined ||
+                     form.getFieldValue('condition').length <= 0 ||
                      (edge.sourceHandle !== 'prompt-and-collect-false' &&
                         !form.getFieldValue('intent')))
                )
@@ -131,7 +151,8 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
             onOk={() => {
                if (
                   edge &&
-                  (form.getFieldValue('condition').length <= 0 ||
+                  (form.getFieldValue('condition') === undefined ||
+                     form.getFieldValue('condition')?.length <= 0 ||
                      (edge.sourceHandle !== 'prompt-and-collect-false' &&
                         !form.getFieldValue('intent')))
                )
@@ -157,6 +178,33 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                      return item;
                   });
                   setEdges(temp);
+                  if (!edge.data) {
+                     //add mới
+                     const listTemp = nodes.map((node) => {
+                        if (node.data.id === edge.source) {
+                           const asNode = node as Node<PromptCollectData>;
+                           return {
+                              ...asNode,
+                              data: {
+                                 ...asNode.data,
+                                 nextAction: asNode.data.nextAction.concat({
+                                    case:
+                                       edge.sourceHandle === 'prompt-and-collect-false'
+                                          ? form.getFieldValue('condition')
+                                          : `${form.getFieldValue(
+                                               'condition'
+                                            )}: ${form.getFieldValue('intent')}`,
+                                    actionId: edge.target,
+                                 }),
+                              },
+                           };
+                        }
+                        return node;
+                     });
+                     setNodes(listTemp);
+                  } else {
+                     //update
+                  }
                }
                setShowModal(false);
             }}>
@@ -168,14 +216,24 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                form={form}
                layout="vertical"
                style={{ display: 'flex', gap: '16px' }}>
-               <Form.Item name={'condition'} label="Condition" style={{ flex: 1 }}>
+               <Form.Item name={'condition'} label="Condition" style={{ flex: 1, minWidth: 200 }}>
                   <Select
                      onSelect={(_, e1) => {
                         setLabel(e1.label);
                      }}
+                     placeholder="Select condition."
                      options={
                         edge.sourceHandle === 'prompt-and-collect-false'
-                           ? listOptionFalse
+                           ? listOptionFalse.filter((item) => {
+                                if (
+                                   !curNodeSource.data.nextAction.findIndex((next) => {
+                                      next.case.includes(item.label);
+                                   })
+                                )
+                                   console.log(item);
+
+                                return item;
+                             })
                            : listOptionTrue
                      }
                   />

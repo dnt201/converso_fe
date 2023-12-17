@@ -19,13 +19,13 @@ import ModalEditCheckIntent from './CustomEdge/ModalEditCheckIntent';
 import { ListEdgeType, edgeTypes } from './CustomEdge/indext';
 
 import ModalEditNode from './ModalEditNode';
-import { tPromptCollectNode } from './CustomNode/PromptCollectNode';
-import { tSubFlowNode } from './CustomNode/SubFlowNode/indext';
+import { PromptCollectData, tPromptCollectNode } from './CustomNode/PromptCollectNode';
+import { SubFlowData, tSubFlowNode } from './CustomNode/SubFlowNode/indext';
 import NavTopChatbot from './NavTop';
-import { tCheckVariableNode } from './CustomNode/CheckVariable';
-import { tHttpRequestNode } from './CustomNode/HttpRequestNode';
-import { tSendAMessageNode } from './CustomNode/SendAMessageNode';
-import { tStartNode } from './CustomNode/StartNode';
+import { CheckVariableData, tCheckVariableNode } from './CustomNode/CheckVariable';
+import { HttpRequestData, tHttpRequestNode } from './CustomNode/HttpRequestNode';
+import { SendAMessageData, tSendAMessageNode } from './CustomNode/SendAMessageNode';
+import { StartNodeData, tStartNode } from './CustomNode/StartNode';
 import { Modal } from 'antd';
 import { atom, useAtom } from 'jotai';
 import SettingsModal from './SettingsModal';
@@ -34,7 +34,7 @@ const initialNodes = [
    {
       id: 'start-node',
       type: 'start',
-      data: { label: 'Start point', name: 'Start point', type: 'start' },
+      data: { id: 'start-node', label: 'Start point', name: 'Start point', type: 'start' },
       position: { x: 250, y: 70 },
       deletable: false,
    } as tStartNode,
@@ -105,12 +105,9 @@ export const languagesAtom = atom<{ value: tLanguage; label: string; default: bo
    { value: 'en', label: 'English', default: true },
 ]);
 
-
 const DnDFlow: React.FC = () => {
    //Todo: State - ReactFlo w
-   const [nodes, setNodes, onNodesChange] = useNodesState<tListNodeData | { label: string }>(
-      initialNodes
-   );
+   const [nodes, setNodes, onNodesChange] = useNodesState<tListNodeData>(initialNodes);
    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
    const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
    const [selectedNode, setSelectedNode] = useState<Node<tListNodeData> | null>(null);
@@ -150,85 +147,162 @@ const DnDFlow: React.FC = () => {
 
    //#region Util of reactflow connect, delete, drag, keydown,...
 
-   const onConnect = useCallback(async (params: Edge | Connection) => {
-      console.log(params);
-      if (params?.sourceHandle?.includes('prompt-and-collect')) {
-         // setSelectedEdge(params)
+   const onConnect = useCallback(
+      async (params: Edge | Connection) => {
+         if (params?.sourceHandle?.includes('prompt-and-collect')) {
+            // setSelectedEdge(params)
 
-         const tempId = crypto.randomUUID();
-         selectedEdgeId.current = tempId;
-         setSelectedEdge({
-            ...params,
-            source: params.source + '',
-            target: params.target + '',
-            type: 'promptCollectEdge',
-            id: tempId,
-            markerEnd: {
-               type: MarkerType.ArrowClosed,
-               width: 16,
-               height: 16,
-               color: '#333',
-            },
-         });
-
-         setEdges((e) => {
-            return [
-               ...e,
-               {
-                  ...params,
-                  source: params.source + '',
-                  target: params.target + '',
-                  type: 'promptCollectEdge',
-                  id: tempId,
-                  markerEnd: {
-                     type: MarkerType.ArrowClosed,
-                     width: 16,
-                     height: 16,
-                     color: '#333',
-                  },
+            const tempId = crypto.randomUUID();
+            selectedEdgeId.current = tempId;
+            setSelectedEdge({
+               ...params,
+               source: params.source + '',
+               target: params.target + '',
+               type: 'promptCollectEdge',
+               id: tempId,
+               markerEnd: {
+                  type: MarkerType.ArrowClosed,
+                  width: 16,
+                  height: 16,
+                  color: '#333',
                },
-            ];
-         });
-      } else {
-         const id = crypto.randomUUID();
-         setEdges((e) => {
-            return [
-               ...e,
-               {
-                  ...params,
-                  id: id,
-                  source: params.source + '',
-                  target: params.target + '',
-                  // type: 'promptCollectEdge',
-                  markerEnd: {
-                     type: MarkerType.ArrowClosed,
-                     width: 16,
-                     height: 16,
-                     color: '#333',
-                  },
-               },
-            ];
-         });
-         const tempNode = nodes.filter((item) => item.id === params.source);
-         // console.log(list);
-         console.log(tempNode);
-         // const tempNodeList = nodes.map((node) => {
-         //    if (node.id === id) {
-         //       return {
-         //          ...node,
-         //          data: {
-         //             ...node.data,
-         //          },
-         //       };
-         //    }
-         // });
-      }
-   }, []);
+            });
 
+            setEdges((e) => {
+               return [
+                  ...e,
+                  {
+                     ...params,
+                     source: params.source + '',
+                     target: params.target + '',
+                     type: 'promptCollectEdge',
+                     id: tempId,
+                     markerEnd: {
+                        type: MarkerType.ArrowClosed,
+                        width: 16,
+                        height: 16,
+                        color: '#333',
+                     },
+                  },
+               ];
+            });
+         } else {
+            const id = crypto.randomUUID();
+            setEdges((e) => {
+               return [
+                  ...e,
+                  {
+                     ...params,
+                     id: id,
+                     source: params.source + '',
+                     target: params.target + '',
+                     // type: 'promptCollectEdge',
+                     markerEnd: {
+                        type: MarkerType.ArrowClosed,
+                        width: 16,
+                        height: 16,
+                        color: '#333',
+                     },
+                  },
+               ];
+            });
+            // const itemList = nodes.map((node) => {
+            //    if (node.id === id) {
+            //       return {
+            //          ...node,
+            //          data: {
+            //             ...node.data,
+            //          },
+            //       };
+            //    }
+            // });
+         }
+         nodes.map((item) => {
+            if (item.id === params.source) {
+               switch (item.data.type) {
+                  case 'checkattribute': {
+                     const asNode = item as Node<CheckVariableData>;
+                     break;
+                  }
+
+                  case 'http': {
+                     const asNode = item as Node<HttpRequestData>;
+                     // if (
+                     //    asNode.data?.nextAction !== undefined &&
+                     //    asNode.data.nextAction.length > 0
+                     // ) {
+                     //    setEdges((pre) => {
+                     //       return pre.filter((item) => {
+                     //          if (
+                     //             item.source !== asNode.data.id ||
+                     //             (item.source === asNode.data.id && item.target === params.target)
+                     //          )
+                     //             return item;
+                     //       });
+                     //    });
+                     // }
+                     // asNode.data.nextAction = params.target;
+                     // return asNode;
+                     break;
+                  }
+                  // case 'message': {
+                  //    const asNode = item as Node<SendAMessageData>;
+                  //    if (asNode.data.nextAction.length > 0) {
+                  //       //Delete cạnh đã có
+                  //    }
+                  //    break;
+                  // }
+                  case 'start': {
+                     let asNode = item as Node<StartNodeData>;
+                     if (
+                        asNode.data?.nextAction !== undefined &&
+                        asNode.data.nextAction.length > 0
+                     ) {
+                        setEdges((pre) => {
+                           return pre.filter((item) => {
+                              if (
+                                 item.source !== asNode.data.id ||
+                                 (item.source === asNode.data.id && item.target === params.target)
+                              )
+                                 return item;
+                           });
+                        });
+                     }
+                     asNode.data.nextAction = params.target;
+                     return asNode;
+                  }
+                  case 'subflow': {
+                     const asNode = item as Node<SubFlowData>;
+                     if (
+                        asNode.data?.nextAction !== undefined &&
+                        asNode.data.nextAction.length > 0
+                     ) {
+                        setEdges((pre) => {
+                           return pre.filter((item) => {
+                              if (
+                                 item.source !== asNode.data.id ||
+                                 (item.source === asNode.data.id && item.target === params.target)
+                              )
+                                 return item;
+                           });
+                        });
+                     }
+                     asNode.data.nextAction = params.target;
+                     return asNode;
+                  }
+                  default: {
+                  }
+               }
+            }
+         });
+      },
+      [nodes]
+   );
    const deleteEdgeById = (id: string) => {
       setEdges((eds) => eds.filter((edge) => edge.id !== id));
    };
-
+   console.log('nodes', nodes);
+   console.log('edges', edges);
    const deleteNodeById = (id: string) => {
       setNodes((nds) => nds.filter((node) => node.id !== id));
       setEdges((eds) => eds.filter((edge) => edge.target !== id || edge.source === id));
@@ -242,6 +316,38 @@ const DnDFlow: React.FC = () => {
       if (event.key === 'Delete' || event.key === 'Backspace') {
          const selectedEdges = edges.filter((el) => el.selected);
          if (selectedEdges.length > 0) {
+            // const idNodeSource = selectedEdges[0].source;
+            // const curNodeSource = nodes.find((i) => i.data.id === idNodeSource);
+            // console.log(idNodeSource, curNodeSource);
+
+            // const temp = nodes.map((node) => {
+            //    if (node.data.id === idNodeSource) {
+            //       switch (curNodeSource.data.type) {
+            //          case 'promptandcollect':
+            //          case 'message':
+            //          case 'checkattribute': {
+            //             const n = node as Node<CheckVariableData>;
+            //             return {
+            //                ...n,
+            //                data: {
+            //                   ...n.data,
+            //                   nextAction: n.data?.nextAction?.filter(
+            //                      (f) =>
+            //                         !f.case.includes(selectedEdge[0]?.data?.condition) &&
+            //                         f.actionId &&
+            //                         f.actionId === selectedEdge.target
+            //                   ),
+            //                },
+            //             };
+            //          }
+            //          default: {
+            //             return { ...node, data: { ...node.data, nextAction: undefined } };
+            //          }
+            //       }
+            //    }
+            //    return node;
+            // });
+            // setNodes(temp);
             deleteEdgeById(selectedEdges[0].id);
          }
          const selectedNode = nodes.filter((el) => el.selected && el.id !== 'start-node');
@@ -348,27 +454,11 @@ const DnDFlow: React.FC = () => {
                            key: 'string',
                         },
                         bodyType: 'string',
-                        nextAction: [
-                           {
-                              case: 'string',
-                              actionId: 'string',
-                           },
-                        ],
+                        nextAction: [],
                      },
                   } as tHttpRequestNode;
                   setNodes((nds) => nds.concat(newNode));
                }
-               // else {
-               //    let newNode = {
-               //       id: crypto.randomUUID(),
-               //       type,
-               //       position,
-               //       data: {
-               //          label: type,
-               //       },
-               //    };
-               //    setNodes((nds) => nds.concat(newNode));
-               // }
             }
          }
       },
@@ -380,6 +470,8 @@ const DnDFlow: React.FC = () => {
       <>
          {openModalEditCheckIntent ? (
             <ModalEditCheckIntent
+               nodes={nodes}
+               setNodes={(nodes) => setNodes(nodes)}
                setShowModal={(b) => setOpenModalEditCheckIntent(b)}
                edge={selectedEdge}
                edges={edges}
@@ -388,6 +480,8 @@ const DnDFlow: React.FC = () => {
             />
          ) : null}
          <SettingsModal
+            nodes={nodes}
+            setNodes={(n) => setNodes(n)}
             setShowModal={(b) => setOpenModalSettings(b)}
             title={<h2>Settings</h2>}
             open={openModalSettings}

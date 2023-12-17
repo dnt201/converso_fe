@@ -4,13 +4,14 @@
 import { Handle, Node, NodeProps, Position } from 'reactflow';
 import './style.less';
 import { BuildFilled } from '@ant-design/icons';
+import { TypeOfNode } from '..';
 
 //User Input
 
 export interface HttpRequestData {
    id: string;
 
-   type: string;
+   type: TypeOfNode;
    name: string;
    method: string;
    url: string;
@@ -23,7 +24,7 @@ export interface HttpRequestData {
    };
    bodyType: string;
    nextAction: {
-      case: string;
+      case: 'failed' | 'success';
       actionId: string;
    }[];
 }

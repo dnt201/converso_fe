@@ -1,10 +1,11 @@
 import { ApartmentOutlined } from '@ant-design/icons';
 import React from 'react';
 import { Handle, Node, NodeProps, Position } from 'reactflow';
+import { TypeOfNode } from '..';
 
 export interface CheckVariableData {
    id: string;
-   type: string;
+   type: TypeOfNode;
    name: string;
    attribute: string;
    nextAction: {

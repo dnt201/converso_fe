@@ -1,5 +1,5 @@
 import { Handle, Node, NodeProps, Position } from 'reactflow';
-import { tLanguage } from '..';
+import { TypeOfNode, tLanguage } from '..';
 import './style.less';
 import { MessageFilled } from '@ant-design/icons';
 
@@ -8,7 +8,7 @@ import { MessageFilled } from '@ant-design/icons';
 export interface SendAMessageData {
    id: string;
 
-   type: string;
+   type: TypeOfNode;
    name: string;
    text: { language: tLanguage; message: string }[];
    nextAction: string;

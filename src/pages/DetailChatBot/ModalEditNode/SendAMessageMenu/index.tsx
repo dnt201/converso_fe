@@ -14,7 +14,6 @@ const SendAMessageMenu: React.FC<SendAMessageMenuProps> = (props) => {
    const [innerNode, setInnerNode] = useState<Node<SendAMessageData>>(promptCollect);
 
    useEffect(() => {
-      //   console.log(innerNode.data.text);
       setNode(innerNode);
    }, [innerNode]);
 

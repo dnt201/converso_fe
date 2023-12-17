@@ -59,6 +59,13 @@ export const listNodes: NodeType[] = [
    { icon: <ApartmentOutlined />, label: 'Check variable', value: 'checkattribute' },
    { icon: <BuildFilled />, label: 'Http request', value: 'http' },
 ];
+export type TypeOfNode =
+   | 'message'
+   | 'subflow'
+   | 'checkattribute'
+   | 'http'
+   | 'promptandcollect'
+   | 'start';
 
 export type tListNodeData =
    | StartNodeData
@@ -69,3 +76,4 @@ export type tListNodeData =
    | HttpRequestData;
 
 export type ValidateType = 'yes-no' | 'number' | 'email' | 'phonenumber' | 'intent';
+

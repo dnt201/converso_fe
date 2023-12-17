@@ -23,7 +23,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Node } from 'reactflow';
 
 import { useForm } from 'antd/es/form/Form';
-import UpdateText from './UpdateText';
+import UpdateText from './ListUpdate/UpdateText';
 
 type tKeyTab = 'general' | 'settings' | 'grammar';
 import './style.less';

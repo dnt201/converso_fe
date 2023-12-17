@@ -28,7 +28,6 @@ apiClient.interceptors.response.use(
    },
    (error) => {
       if (error.code === 'ECONNABORTED' && error.message.includes('timeout')) {
-         console.log('Request timed out');
          return Promise.reject(error);
       }
       if (error.response && (error.response.status === 403 || error.response.status === 401)) {

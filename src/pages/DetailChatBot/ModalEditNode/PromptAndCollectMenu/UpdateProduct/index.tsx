@@ -17,7 +17,6 @@ const UpdateProduct: React.FC<UpdateProductProps> = (props) => {
    const curExtendData = innerNode.data.extend[index];
    const { color, quantity, size } = extractInfo(curExtendData.subtitle);
    const [openModalUpdate, setOpenModalUpdate] = useState(false);
-   console.log(innerNode);
    return (
       <div className="update-product-container">
          <ModalUpdate
