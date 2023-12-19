@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect, useLayoutEffect } from 'react';
 import ReactFlow, {
    Node,
    ReactFlowProvider,
@@ -34,13 +34,6 @@ import { useParams } from 'react-router-dom';
 import CustomPrompt from '@components/CustomPrompt';
 
 const initialNodes = [
-   {
-      id: 'start-node',
-      type: 'start',
-      data: { id: 'start-node', label: 'Start point', name: 'Start point', type: 'start' },
-      position: { x: 250, y: 70 },
-      deletable: false,
-   } as tStartNode,
    // {
    //    id: 'prompt',
    //    type: 'promptCollect',
@@ -108,19 +101,34 @@ export const languagesAtom = atom<{ value: tLanguage; label: string; default: bo
    { value: 'en', label: 'English', default: true },
 ]);
 
+export const haveFlowChangeAtom = atom<boolean>(false);
+
 const DnDFlow: React.FC = () => {
    //Todo: State - ReactFlo w
    const { id } = useParams();
+   const { data: detailFlowById } = useDetailFlowById(id);
+
+   const [initialNodes, setInitialNodes] = useState<Node<tListNodeData>[]>([
+      {
+         id: 'start-node',
+         type: 'start',
+         data: { id: 'start-node', label: 'Start point', name: 'Start point', type: 'start' },
+         position: { x: 250, y: 70 },
+         deletable: false,
+      } as tStartNode,
+   ]);
+   const [initialEdges, setInitialEdges] = useState<Edge[]>([]);
 
    const [nodes, setNodes, onNodesChange] = useNodesState<tListNodeData>(initialNodes);
-   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
    const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
    const [selectedNode, setSelectedNode] = useState<Node<tListNodeData> | null>(null);
    const [selectedEdge, setSelectedEdge] = useState<Edge<ListEdgeType> | null>(null);
    const selectedEdgeId = useRef<string | null>(null);
 
    const [languages, setLanguages] = useAtom(languagesAtom);
-
+   const [_, setHaveFlowChange] = useAtom(haveFlowChangeAtom);
    //Todo: State - Another: modal,...
    const [openModalEditCheckIntent, setOpenModalEditCheckIntent] = useState<boolean>(false);
    const [openModalSettings, setOpenModalSettings] = useState<boolean>(false);
@@ -130,14 +138,36 @@ const DnDFlow: React.FC = () => {
    const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
 
    //Todo: Api
-   const { data: detailFlowById } = useDetailFlowById(id);
 
    useEffect(() => {
       if (detailFlowById.data) {
-         console.log(detailFlowById.data.diagram);
-         if (detailFlowById.data.diagram.length >= 0) setNodes(detailFlowById.data.diagram);
+         let tempNodes = JSON.parse(detailFlowById.data.diagram) as Node<tListNodeData>[];
+         if (tempNodes.length > 0) {
+            setInitialNodes([...tempNodes]);
+         }
+         let tempEdges = JSON.parse(detailFlowById.data.edges) as Edge[];
+         console.log(tempEdges, '----');
+         if (tempEdges.length > 0) {
+            // setInitialEdges(tempEdges);
+         }
       }
-   }, [detailFlowById]);
+   }, []);
+
+   useEffect(() => {
+      setNodes(initialNodes);
+   }, [initialNodes]);
+   useEffect(() => {
+      setEdges(initialEdges);
+   }, [initialEdges]);
+
+   useEffect(() => {
+      if (
+         JSON.stringify(initialNodes).length !== JSON.stringify(nodes).length ||
+         JSON.stringify(initialNodes).length !== JSON.stringify(edges).length
+      ) {
+         setHaveFlowChange(true);
+      }
+   }, [nodes, edges]);
    //Handle foreach edge type
    useEffect(() => {
       if (selectedEdge && selectedEdge.type === 'promptCollectEdge') {
@@ -547,6 +577,8 @@ const DnDFlow: React.FC = () => {
             />
             <ReactFlowProvider>
                <NavTopChatbot
+                  nodes={nodes}
+                  edges={edges}
                   detailFlowById={detailFlowById.data}
                   setOpenSettings={(b) => setOpenModalSettings(b)}
                   setOpenVariable={(b) => setOpenModalVariable(b)}

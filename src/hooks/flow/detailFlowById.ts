@@ -8,7 +8,7 @@ export const useDetailFlowById = (id: string) => {
    return useQuery({
       queryKey: ['my-detail-flow-by-id', id],
       queryFn: () => getData<IResponse<iFlow>>(apiPath.FOLLOW.DETAIL_BY_ID.replace('{id}', id)),
-      cacheTime: 0,
+      cacheTime: 5000,
       suspense: true,
    });
 };

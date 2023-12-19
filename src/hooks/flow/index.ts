@@ -8,8 +8,8 @@ export interface iFlow {
    name: string;
    flowType: iFlowType;
    status: null;
-   diagram: Node<tListNodeData>[];
-   edges: Edge<any>[];
+   diagram: string; // Node<tListNodeData>[]; //Trust backend - parse
+   edges: string; //Edge<any>[];
    settings: {
       language: iLanguageFollow[];
    };
@@ -22,6 +22,24 @@ export interface iFlow {
    updatedAt: string;
 }
 
+export interface iFLowPut {
+   id: number;
+   name: string;
+   flowType: iFlowType;
+   status: null;
+   diagram: Node<tListNodeData>[]; //Trust backend - parse
+   edges: Edge<any>[];
+   settings: {
+      language: iLanguageFollow[];
+   };
+   attributes: iAttributes[];
+   flow: tListNodeData[];
+   publishedFlow: null;
+   isPublished: boolean;
+   userId: number;
+   createdAt: string;
+   updatedAt: string;
+}
 export type iFlowType = 'MSG';
 
 export interface iLanguageFollow {

@@ -10,16 +10,27 @@ import {
 import { Button, Popover } from 'antd';
 import { iFlow } from '@hooks/flow';
 import { useNavigate } from 'react-router-dom';
+import { useAtom } from 'jotai';
+import { haveFlowChangeAtom } from '..';
+import { useEditFollow } from '@hooks/flow/editFlow';
+import { tListNodeData } from '../CustomNode';
+import { Edge, Node } from 'reactflow';
 
 type NavTopChatbotProps = {
    setOpenVariable: (b: boolean) => void;
    setOpenSettings: (b: boolean) => void;
    detailFlowById: iFlow;
+   nodes: Node<tListNodeData>[];
+   edges: Edge[];
 };
 
 const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
-   const { setOpenSettings, setOpenVariable } = props;
+   const { setOpenSettings, setOpenVariable, detailFlowById, nodes, edges } = props;
+   const [haveFlowChange, setHaveFlowChange] = useAtom(haveFlowChangeAtom);
+   console.log(props);
    const navigate = useNavigate();
+
+   const editFlow = useEditFollow();
    return (
       <div className={'nav-top-chatbot'}>
          <div className="breadcrumb">
@@ -51,7 +62,16 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
             </div>
             <div className="action-list">
                <Button className="action-item --test-your-bot">Test your bot</Button>
-               <Button className="action-item" type="primary" disabled>
+               <Button
+                  className="action-item"
+                  type="primary"
+                  disabled={!haveFlowChange}
+                  onClick={() => {
+                     //update flow api)
+                     // console.log(JSON.stringify(nodes));
+                     editFlow.mutate({ ...detailFlowById, diagram: nodes, edges: props.edges });
+                     setHaveFlowChange(false);
+                  }}>
                   Save
                </Button>
                <Button className="action-item" type="primary" disabled>

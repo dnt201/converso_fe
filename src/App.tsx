@@ -21,6 +21,7 @@ import PrivateLayout from '@layouts/PrivateLayout';
 import Loader from '@components/Loader';
 import './App.less';
 import 'reactflow/dist/style.css';
+import CustomError from '@components/CustomError';
 
 function App() {
    const router = createBrowserRouter([
@@ -31,6 +32,7 @@ function App() {
       {
          path: '/',
          element: <MainLayout />,
+         errorElement: <CustomError />,
          children: [
             {
                path: routerPath.AUTH,
@@ -49,6 +51,8 @@ function App() {
       {
          path: '/',
          element: <PrivateLayout />,
+         errorElement: <CustomError />,
+
          children: [
             {
                path: routerPath.DASHBOARD,
