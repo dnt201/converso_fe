@@ -29,6 +29,9 @@ import { StartNodeData, tStartNode } from './CustomNode/StartNode';
 import { Modal } from 'antd';
 import { atom, useAtom } from 'jotai';
 import SettingsModal from './SettingsModal';
+import { useDetailFlowById } from '@hooks/flow/detailFlowById';
+import { useParams } from 'react-router-dom';
+import CustomPrompt from '@components/CustomPrompt';
 
 const initialNodes = [
    {
@@ -107,6 +110,8 @@ export const languagesAtom = atom<{ value: tLanguage; label: string; default: bo
 
 const DnDFlow: React.FC = () => {
    //Todo: State - ReactFlo w
+   const { id } = useParams();
+
    const [nodes, setNodes, onNodesChange] = useNodesState<tListNodeData>(initialNodes);
    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
    const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
@@ -125,7 +130,14 @@ const DnDFlow: React.FC = () => {
    const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
 
    //Todo: Api
+   const { data: detailFlowById } = useDetailFlowById(id);
 
+   useEffect(() => {
+      if (detailFlowById.data) {
+         console.log(detailFlowById.data.diagram);
+         if (detailFlowById.data.diagram.length >= 0) setNodes(detailFlowById.data.diagram);
+      }
+   }, [detailFlowById]);
    //Handle foreach edge type
    useEffect(() => {
       if (selectedEdge && selectedEdge.type === 'promptCollectEdge') {
@@ -135,7 +147,6 @@ const DnDFlow: React.FC = () => {
 
    //Update node when change in children
    useEffect(() => {
-      console.log('heelo');
       setNodes((nds) =>
          nds.map((node) => {
             if (node.id === selectedNode?.id) {
@@ -297,15 +308,12 @@ const DnDFlow: React.FC = () => {
                   }
                   case 'message': {
                      const asNode = item as Node<SendAMessageData>;
-                     console.log(asNode);
                      if (
                         asNode.data?.nextAction !== undefined &&
                         asNode.data.nextAction.length > 0
                      ) {
                         setEdges((pre) => {
                            return pre.filter((item) => {
-                              console.log(item);
-
                               if (
                                  item.source !== asNode.data.id ||
                                  (item.source === asNode.data.id &&
@@ -347,8 +355,6 @@ const DnDFlow: React.FC = () => {
                      ) {
                         setEdges((pre) => {
                            return pre.filter((item) => {
-                              console.log(asNode);
-
                               if (
                                  item.source !== asNode.data.id ||
                                  (item.source === asNode.data.id &&
@@ -371,7 +377,6 @@ const DnDFlow: React.FC = () => {
       },
       [nodes]
    );
-   console.log(nodes, edges);
    const deleteEdgeById = (id: string) => {
       setEdges((eds) => eds.filter((edge) => edge.id !== id));
    };
@@ -522,6 +527,13 @@ const DnDFlow: React.FC = () => {
             title={<h2>Settings</h2>}
             open={openModalSettings}
          />
+         <CustomPrompt
+            isBlocked={true}
+            title={'Do you want exit page?'}
+            subTitle={
+               'Any changes you made may not be saved! Please, click save button before you leave.'
+            }
+         />
          <Modal
             title={<h2>List Variable</h2>}
             open={openModalVariable}
@@ -535,6 +547,7 @@ const DnDFlow: React.FC = () => {
             />
             <ReactFlowProvider>
                <NavTopChatbot
+                  detailFlowById={detailFlowById.data}
                   setOpenSettings={(b) => setOpenModalSettings(b)}
                   setOpenVariable={(b) => setOpenModalVariable(b)}
                />

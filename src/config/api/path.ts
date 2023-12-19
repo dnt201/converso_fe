@@ -12,5 +12,7 @@ export const apiPath = {
    FOLLOW: {
       CREATE: '/flow/create',
       MY_LIST: '/flow/my-flows',
+      DETAIL_BY_ID: '/flow/{id}',
+      // /api
    },
 };

@@ -21,7 +21,6 @@ const HttpRequestMenu: React.FC<HttpRequestMenuProps> = (props) => {
 
    const [curTab, setCurTab] = useState<CurTabType>('params');
    useEffect(() => {
-      console.log(innerNode);
       setNode(innerNode);
    }, [innerNode]);
    return (

@@ -4,10 +4,10 @@ import { IResponse } from '@interfaces/index';
 import { useQuery } from '@tanstack/react-query';
 import { iFlow } from '.';
 
-export const useMyListFlow = () => {
+export const useDetailFlowById = (id: string) => {
    return useQuery({
-      queryKey: ['my-list-flow'],
-      queryFn: () => getData<IResponse<iFlow[]>>(apiPath.FOLLOW.MY_LIST),
+      queryKey: ['my-detail-flow-by-id', id],
+      queryFn: () => getData<IResponse<iFlow>>(apiPath.FOLLOW.DETAIL_BY_ID.replace('{id}', id)),
       cacheTime: 0,
       suspense: true,
    });

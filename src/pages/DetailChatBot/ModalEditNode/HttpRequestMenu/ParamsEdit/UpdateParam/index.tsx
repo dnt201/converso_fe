@@ -15,7 +15,6 @@ interface UpdateParamsProps {
 const UpdateParams: React.FC<UpdateParamsProps> = (props) => {
    const { item, innerNode, setInnerNode } = props;
    const [form] = useForm();
-   console.log(item);
    const [curItem, setCurItem] = useState(item);
 
    return (

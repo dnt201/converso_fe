@@ -35,7 +35,10 @@ const UpdateProduct: React.FC<UpdateProductProps> = (props) => {
                   curExtendData.image_url && curExtendData.image_url.length > 0 && 'transparent',
             }}>
             {curExtendData.image_url && curExtendData.image_url.length > 0 ? (
-               <Image src={curExtendData.image_url} style={{ height: '100%', width: '100%' }} />
+               <Image
+                  src={curExtendData.image_url}
+                  style={{ height: '100%', width: 'calc(100% - 2px)' }}
+               />
             ) : (
                <FileImageFilled />
             )}

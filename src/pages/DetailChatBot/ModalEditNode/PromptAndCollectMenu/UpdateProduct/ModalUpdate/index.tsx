@@ -11,8 +11,8 @@ import { extractInfo } from '@utils/string';
 import EditButtons from './EditButton';
 interface ModalUpdateProps extends ModalProps {
    setOpenModal: (b: boolean) => void;
-   innerNode: Node<PromptCollectData>;
    index: number;
+   innerNode: Node<PromptCollectData>;
    setInnerNode: (node: Node<PromptCollectData>) => void;
 }
 // export type tProduct = {
@@ -122,7 +122,11 @@ const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
                   )}
                </div>
             </div>
-            <EditButtons />
+            <EditButtons
+               index={index}
+               innerNode={innerNode}
+               setInnerNode={(e) => setInnerNode(e)}
+            />
          </Form>
       </Modal>
    );

@@ -35,13 +35,27 @@ export type tProduct = {
       type: string;
       webview_height_ratio: string;
    };
-   buttons: tButtonInProduct[];
+   buttons: Array<WEB_URL | POST_BACK | PHONE_NUMBER>;
 };
-export type tButtonInProduct = {
-   type: tTypeButtonInProduct;
+
+export type WEB_URL = {
+   type: 'web_url';
+   title: string;
+   url: string;
+};
+
+export type POST_BACK = {
+   type: 'postback';
    title: string;
    payload: string;
 };
+
+export type PHONE_NUMBER = {
+   type: 'phone_number';
+   title: string;
+   payload: string;
+};
+
 
 export type tTypeButtonInProduct = 'web_url' | 'postback' | 'phone_number';
 

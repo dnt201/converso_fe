@@ -15,7 +15,6 @@ interface UpdateHeaderProps {
 const UpdateHeader: React.FC<UpdateHeaderProps> = (props) => {
    const { item, innerNode, setInnerNode } = props;
    const [form] = useForm();
-   console.log(form.getFieldsValue());
    const [curItem, setCurItem] = useState(item);
 
    return (

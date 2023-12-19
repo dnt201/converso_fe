@@ -1,64 +1,83 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Select, Space, notification } from 'antd';
-import React, { useRef, useState } from 'react';
+import { Button, Divider, Input, Select, Slider, Space, notification } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import './style.less';
+import { Node } from 'reactflow';
+import { PromptCollectData } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
+import DetailButton from './DetailsButton';
 
-const options = [
-   { value: 'web_url', label: 'Web Url' },
-   { value: 'postback', label: 'Post back' },
-   { value: 'phone_number', label: 'Phone Number' },
-];
-
-type EditButtonsProps = {};
-
-type WEB_URL = {
-   type: 'web_url';
-   title: string;
-   url: string;
-};
-
-type POST_BACK = {
-   type: 'postback';
-   title: string;
-   payload: string;
-};
-
-type PHONE_NUMBER = {
-   type: 'phone_number';
-   title: string;
-   payload: string;
+type EditButtonsProps = {
+   innerNode: Node<PromptCollectData>;
+   setInnerNode: (node: Node<PromptCollectData>) => void;
+   index: number;
 };
 
 const EditButtons: React.FC<EditButtonsProps> = (props) => {
-   const {} = props;
-   const [listButton, setListButton] = useState<Array<WEB_URL | POST_BACK | PHONE_NUMBER>>([]);
-   const [curSelect, setCurSelect] = useState<'web_url' | 'postback' | 'phone_number'>();
+   const { innerNode, index, setInnerNode } = props;
+   // const [listButton, setListButton] = useState(innerNode.data.extend[index]?.buttons ?? []);
+   const listButton = innerNode.data.extend[index].buttons ?? [];
+   // useEffect(() => {
+   //    setInnerNode({
+   //       ...innerNode,
+   //       data: {
+   //          ...innerNode.data,
+   //          extend: innerNode.data.extend.map((ext, i) => {
+   //             if (i === index) {
+   //                return {
+   //                   ...ext,
+   //                   buttons: listButton,
+   //                };
+   //             }
+   //             return ext;
+   //          }),
+   //       },
+   //    });
+   // }, [listButton]);
    return (
       <div className="edit-button">
-         <div className="list-button">
-            {listButton.map((item, i) => {
-               if (item.type === 'web_url')
-                  return <div key={crypto.randomUUID() + item + i}>web_url</div>;
-               else if (item.type === 'phone_number') return <div>phone_number</div>;
-               else if (item.type === 'postback') return <div>postback</div>;
-            })}
-         </div>
          <div className="add-actions">
-            <Select
-               placeholder="Add new button actions"
-               options={options}
-               onChange={(e) => {
-                  setCurSelect(e);
-               }}
-            />
+            <Divider orientation="left">
+               <h5>Action Buttons</h5>
+            </Divider>
+
+            <div className="list-button">
+               {innerNode.data.extend[index].buttons.map((item, i) => {
+                  return (
+                     <DetailButton
+                        indexButton={i}
+                        indexProduct={index}
+                        innerNode={innerNode}
+                        setInnerNode={(e) => setInnerNode(e)}
+                        button={item}
+                        key={i}
+                     />
+                  );
+               })}
+            </div>
             <Button
                onClick={() => {
                   if (listButton.length > 2) {
                      notification.info({ message: 'Max is 3 buttons response!' });
                   } else {
-                     if (curSelect === 'web_url') {
-                        setListButton(listButton.concat({ type: 'web_url', title: '', url: '' }));
-                     }
+                     setInnerNode({
+                        ...innerNode,
+                        data: {
+                           ...innerNode.data,
+                           extend: innerNode.data.extend.map((item, i) => {
+                              if (i === index) {
+                                 return {
+                                    ...item,
+                                    buttons: item.buttons.concat({
+                                       type: 'web_url',
+                                       title: '',
+                                       url: '',
+                                    }),
+                                 };
+                              }
+                              return item;
+                           }),
+                        },
+                     });
                   }
                }}>
                <PlusOutlined />

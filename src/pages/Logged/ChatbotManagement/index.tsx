@@ -25,6 +25,7 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
 
    const navigate = useNavigate();
    const [openCreateChatbot, setOpenCreateChatbot] = useState(false);
+   const { data: listChatbot } = useMyListFlow();
 
    //Todo: API
    // const { data: listChatbot, isLoading: isListChatbotLoading } = useMyListFlow();
@@ -84,10 +85,7 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
                            className="action-item create-chat-bot"
                            onClick={() => {
                               navigate(
-                                 routerPath.MANAGE_CHATBOT_BY_ID.replace(
-                                    ':chatbotId',
-                                    e.id.toString()
-                                 )
+                                 routerPath.MANAGE_CHATBOT_BY_ID.replace(':id', e.id.toString())
                               );
                            }}>
                            <i>{e.flowType === 'MSG' ? <FacebookFilled /> : <MessageFilled />}</i>

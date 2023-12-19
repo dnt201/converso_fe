@@ -11,6 +11,7 @@ import './style.less';
 import HttpRequestMenu from './HttpRequestMenu';
 import { HttpRequestData } from '../CustomNode/HttpRequestNode';
 import { useNavigate } from 'react-router-dom';
+import { useMyListFlow } from '@hooks/flow/myListFlow';
 
 interface ModalEditNodeProps {
    node: Node<tListNodeData> | null;
@@ -19,7 +20,6 @@ interface ModalEditNodeProps {
 }
 const ModalEditNode: React.FC<ModalEditNodeProps> = (props) => {
    const { node, setNode, hidden } = props;
-
    return (
       <div className={'modal-edit-node-response ' + (hidden || !node ? 'hidden' : '')}>
          <div

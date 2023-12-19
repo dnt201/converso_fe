@@ -1,5 +1,5 @@
 import { tListNodeData } from '@pages/DetailChatBot/CustomNode';
-import { Edge } from 'reactflow';
+import { Edge, Node } from 'reactflow';
 
 export type iFlowParams = Pick<iFlow, 'name' | 'flowType'>;
 
@@ -8,7 +8,7 @@ export interface iFlow {
    name: string;
    flowType: iFlowType;
    status: null;
-   diagram: tListNodeData[];
+   diagram: Node<tListNodeData>[];
    edges: Edge<any>[];
    settings: {
       language: iLanguageFollow[];

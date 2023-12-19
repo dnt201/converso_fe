@@ -7,7 +7,7 @@ export const routerPath = {
    DASHBOARD: '/dashboard',
    EMPLOYEE_DETAIL: '/employee-detail/:employeeID',
    MANAGE_CHATBOT: '/manage-chatbot',
-   MANAGE_CHATBOT_BY_ID: '/manage-chatbot/:chatbotId',
+   MANAGE_CHATBOT_BY_ID: '/manage-chatbot/:id',
    MANAGE_CHANEL: '/manage-chanel',
    NOT_FOUND: '/notfound',
    ANY: '*',

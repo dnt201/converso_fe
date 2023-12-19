@@ -8,26 +8,28 @@ import {
    SettingOutlined,
 } from '@ant-design/icons';
 import { Button, Popover } from 'antd';
+import { iFlow } from '@hooks/flow';
+import { useNavigate } from 'react-router-dom';
 
 type NavTopChatbotProps = {
    setOpenVariable: (b: boolean) => void;
    setOpenSettings: (b: boolean) => void;
+   detailFlowById: iFlow;
 };
 
 const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
    const { setOpenSettings, setOpenVariable } = props;
+   const navigate = useNavigate();
    return (
       <div className={'nav-top-chatbot'}>
          <div className="breadcrumb">
-            <span className="btn-back-create-page">Create ChatBot</span>
+            <span className="btn-back-create-page" onClick={() => navigate('/')}>
+               Create ChatBot
+            </span>
             <CaretRightOutlined className="icon" />
-            <span>Chat-Bot-Name</span>
+            <span>{props.detailFlowById.name ?? 'Chat-Bot-Name'}</span>
          </div>
-         {/* <span
-            className={'btn-expand-nav' + (expandNav ? ' -scroll' : '')}
-            onClick={() => setExpandNav((pre) => !pre)}>
-            <CaretRightOutlined />
-         </span> */}
+
          <div className="menu-right">
             <div className="tool-list">
                <Popover placement="bottom" content={<h6>List variable</h6>}>
