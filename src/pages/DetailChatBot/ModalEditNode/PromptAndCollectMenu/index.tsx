@@ -13,7 +13,7 @@ import {
    PROMPT_COLLECT_TYPE,
    PromptCollectData,
 } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
-import { Button, Empty, Form, Input, Select, Space, Tooltip, notification } from 'antd';
+import { Button, Divider, Empty, Form, Input, Select, Space, Tooltip, notification } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { Node } from 'reactflow';
 
@@ -171,13 +171,11 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                </div>
                {keyTab === 'general' ? (
                   <AppearLayout>
-                     <div className="step-menu-title">
-                        <MessageOutlined />
-                        <span>Chatbot answer</span>
-                     </div>
-
                      {innerNode.data.prompt_type === 'template' ? (
                         <AppearLayout>
+                           <Divider orientation="left">
+                              <h5>List response</h5>
+                           </Divider>
                            <div className="list-product-container">
                               {innerNode.data.extend.length &&
                               refListProduct.current &&

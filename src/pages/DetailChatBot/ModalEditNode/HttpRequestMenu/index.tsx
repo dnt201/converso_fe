@@ -6,8 +6,8 @@ import React, { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 
 import './style.less';
-import FormItem from 'antd/es/form/FormItem';
 import ParamsEdit from './ParamsEdit';
+import HeaderEdit from './HeaderEdit';
 type HttpRequestMenuProps = {
    node: Node<HttpRequestData>;
    closeModal: () => void;
@@ -109,6 +109,8 @@ const HttpRequestMenu: React.FC<HttpRequestMenuProps> = (props) => {
                   <div className="tab-body">
                      {curTab === 'params' ? (
                         <ParamsEdit innerNode={innerNode} setInnerNode={(e) => setInnerNode(e)} />
+                     ) : curTab === 'header' ? (
+                        <HeaderEdit innerNode={innerNode} setInnerNode={(e) => setInnerNode(e)} />
                      ) : (
                         ''
                      )}

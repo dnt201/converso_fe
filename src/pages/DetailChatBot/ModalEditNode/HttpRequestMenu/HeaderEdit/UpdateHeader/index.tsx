@@ -7,15 +7,15 @@ import FormItem from 'antd/es/form/FormItem';
 import { useForm } from 'antd/es/form/Form';
 import { Node } from 'reactflow';
 import { HttpRequestData } from '@pages/DetailChatBot/CustomNode/HttpRequestNode';
-interface UpdateParamsProps {
+interface UpdateHeaderProps {
    item: { key: string; value: string | number };
    innerNode: Node<HttpRequestData>;
    setInnerNode: (node: Node<HttpRequestData>) => void;
 }
-const UpdateParams: React.FC<UpdateParamsProps> = (props) => {
+const UpdateHeader: React.FC<UpdateHeaderProps> = (props) => {
    const { item, innerNode, setInnerNode } = props;
    const [form] = useForm();
-   console.log(item);
+   console.log(form.getFieldsValue());
    const [curItem, setCurItem] = useState(item);
 
    return (
@@ -24,8 +24,7 @@ const UpdateParams: React.FC<UpdateParamsProps> = (props) => {
          initialValues={{ key: item.key, value: item.value }}
          form={form}
          onFinish={(formV) => {
-            let indexOf = innerNode.data.params.filter((item) => item.key === formV.key);
-
+            let indexOf = innerNode.data.headers.filter((i) => item.key === formV.key);
             if (
                (item.key === formV.key && indexOf.length >= 2) ||
                (item.key !== formV.key && indexOf.length >= 1)
@@ -34,7 +33,7 @@ const UpdateParams: React.FC<UpdateParamsProps> = (props) => {
                form.resetFields();
             } else {
                //update
-               let tempListParams = innerNode.data.params.map((i) => {
+               let tempListHeader = innerNode.data.headers.map((i) => {
                   if (i.key === item.key)
                      return {
                         key: formV.key,
@@ -42,8 +41,8 @@ const UpdateParams: React.FC<UpdateParamsProps> = (props) => {
                      };
                   return i;
                });
-               setInnerNode({ ...innerNode, data: { ...innerNode.data, params: tempListParams } });
-               notification.success({ message: 'Update params success' });
+               setInnerNode({ ...innerNode, data: { ...innerNode.data, headers: tempListHeader } });
+               notification.success({ message: 'Update params header success' });
             }
          }}>
          <div className="param-item" key={item.key}>
@@ -80,13 +79,14 @@ const UpdateParams: React.FC<UpdateParamsProps> = (props) => {
                   }}>
                   <SaveOutlined />
                </Button>
+
                <Popconfirm
-                  title="Delete this params?"
+                  title="Delete this header params?"
                   onConfirm={() => {
-                     let tempListParams = innerNode.data.params.filter((n) => n.key !== item.key);
+                     let tempListHeaders = innerNode.data.headers.filter((n) => n.key !== item.key);
                      setInnerNode({
                         ...innerNode,
-                        data: { ...innerNode.data, params: tempListParams },
+                        data: { ...innerNode.data, headers: tempListHeaders },
                      });
                   }}>
                   <Button type="text" className="delete">
@@ -99,4 +99,4 @@ const UpdateParams: React.FC<UpdateParamsProps> = (props) => {
    );
 };
 
-export default UpdateParams;
+export default UpdateHeader;
