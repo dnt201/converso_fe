@@ -4,14 +4,18 @@ import { Button, Form, Input, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 import './style.less';
+import { useAtom } from 'jotai';
+import { languagesAtom } from '@pages/DetailChatBot';
+import ListUpdateMessage from './ListUpdate';
 interface SendAMessageMenuProps {
-   promptCollect: Node<SendAMessageData>;
+   node: Node<SendAMessageData>;
    closeModal: () => void;
    setNode: (curNode: Node | null) => void;
 }
 const SendAMessageMenu: React.FC<SendAMessageMenuProps> = (props) => {
-   const { closeModal, promptCollect, setNode } = props;
-   const [innerNode, setInnerNode] = useState<Node<SendAMessageData>>(promptCollect);
+   const { closeModal, node, setNode } = props;
+   const [innerNode, setInnerNode] = useState<Node<SendAMessageData>>(node);
+   const [languages, setLanguages] = useAtom(languagesAtom);
 
    useEffect(() => {
       setNode(innerNode);
@@ -36,32 +40,37 @@ const SendAMessageMenu: React.FC<SendAMessageMenuProps> = (props) => {
                   <CloseOutlined />
                </Button>
             </div>
-            <Input
-               className="input-edit-name"
-               placeholder="Enter your node name"
-               onChange={(e) => {
-                  setInnerNode((pre) => {
-                     return { ...pre, data: { ...pre.data, name: e.target.value } };
-                  });
-               }}
-               onKeyDown={(e) => {
-                  if (e.code === 'Enter') {
-                     e.currentTarget.blur();
-                  }
-               }}
-               defaultValue={promptCollect.data.name}
-            />
+            <div className="node-information">
+               <b>Node name: </b>
+               <Input
+                  className="input-edit-name"
+                  placeholder="Enter your node name"
+                  onChange={(e) => {
+                     setInnerNode((pre) => {
+                        return { ...pre, data: { ...pre.data, name: e.target.value } };
+                     });
+                  }}
+                  onKeyDown={(e) => {
+                     if (e.code === 'Enter') {
+                        e.currentTarget.blur();
+                     }
+                  }}
+                  defaultValue={node.data.name}
+               />
+            </div>
          </div>
          <div className="content">
             <div className="response">
-               <Form layout="vertical" autoComplete="off">
-                  <Form.Item
-                     label="Select Subflow"
-                     name="subflow"
-                     rules={[{ required: true, message: 'Please chose subflow!' }]}>
-                     <Select />
-                  </Form.Item>
-               </Form>
+               {languages.map((item) => {
+                  return (
+                     <ListUpdateMessage
+                        innerNode={innerNode}
+                        setInnerNode={setInnerNode}
+                        {...item}
+                        key={item.label + item.value}
+                     />
+                  );
+               })}
             </div>
          </div>
       </div>

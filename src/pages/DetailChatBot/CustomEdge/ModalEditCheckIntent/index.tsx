@@ -123,7 +123,6 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
       }
       return undefined;
    }) as Node<PromptCollectData>;
-   console.log(curNodeSource, form.getFieldsValue());
    if (edge === null) {
       return null;
    } else
@@ -134,7 +133,6 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
             okButtonProps={{ disabled: !submittable }}
             width={'50%'}
             onCancel={() => {
-               console.log(edge);
                if (
                   edge &&
                   (form.getFieldValue('condition') === undefined ||
@@ -230,9 +228,7 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                                       next.case.includes(item.label);
                                    })
                                 )
-                                   console.log(item);
-
-                                return item;
+                                   return item;
                              })
                            : listOptionTrue
                      }

@@ -8,7 +8,7 @@ type tKeyTab = 'general' | 'settings' | 'grammar';
 import './style.less';
 
 interface SubflowMenuProps {
-   promptCollect: Node<SubFlowData>;
+   node: Node<SubFlowData>;
    closeModal: () => void;
    setNode: (curNode: Node | null) => void;
 }
@@ -18,8 +18,8 @@ interface SubflowMenuProps {
 
 const fakeList = ['Hello', '12412412', 'aaaa', 'bbbb'];
 const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
-   const { closeModal, promptCollect, setNode } = props;
-   const [innerNode, setInnerNode] = useState<Node<SubFlowData>>(promptCollect);
+   const { closeModal, node, setNode } = props;
+   const [innerNode, setInnerNode] = useState<Node<SubFlowData>>(node);
 
    useEffect(() => {
       //   console.log(innerNode.data.text);
@@ -32,7 +32,7 @@ const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
             <div className="top">
                <Space style={{ fontSize: 18, color: 'var(--color-main-blue)' }} align="center">
                   <ApiOutlined style={{ fontSize: 24 }} />
-                  <span>Prompt And Collect</span>
+                  <span>Subflow</span>
                </Space>
                <Button
                   className="close-btn"
@@ -45,21 +45,24 @@ const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
                   <CloseOutlined />
                </Button>
             </div>
-            <Input
-               className="input-edit-name"
-               placeholder="Enter your node name"
-               onChange={(e) => {
-                  setInnerNode((pre) => {
-                     return { ...pre, data: { ...pre.data, name: e.target.value } };
-                  });
-               }}
-               onKeyDown={(e) => {
-                  if (e.code === 'Enter') {
-                     e.currentTarget.blur();
-                  }
-               }}
-               defaultValue={promptCollect.data.name}
-            />
+            <div className="node-information">
+               <b>Node name: </b>
+               <Input
+                  className="input-edit-name"
+                  placeholder="Enter your node name"
+                  onChange={(e) => {
+                     setInnerNode((pre) => {
+                        return { ...pre, data: { ...pre.data, name: e.target.value } };
+                     });
+                  }}
+                  onKeyDown={(e) => {
+                     if (e.code === 'Enter') {
+                        e.currentTarget.blur();
+                     }
+                  }}
+                  defaultValue={node.data.name}
+               />
+            </div>
          </div>
          <div className="content">
             <div className="response">
@@ -68,7 +71,7 @@ const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
                      label="Select Subflow"
                      name="subflow"
                      rules={[{ required: true, message: 'Please chose subflow!' }]}>
-                     <Select />
+                     <Select placeholder="Select subflow" />
                   </Form.Item>
                </Form>
             </div>

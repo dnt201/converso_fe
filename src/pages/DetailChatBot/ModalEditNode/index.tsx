@@ -8,6 +8,9 @@ import { SubFlowData } from '../CustomNode/SubFlowNode/indext';
 import SendAMessageMenu from './SendAMessageMenu';
 import { SendAMessageData } from '../CustomNode/SendAMessageNode';
 import './style.less';
+import HttpRequestMenu from './HttpRequestMenu';
+import { HttpRequestData } from '../CustomNode/HttpRequestNode';
+import { useNavigate } from 'react-router-dom';
 
 interface ModalEditNodeProps {
    node: Node<tListNodeData> | null;
@@ -16,6 +19,7 @@ interface ModalEditNodeProps {
 }
 const ModalEditNode: React.FC<ModalEditNodeProps> = (props) => {
    const { node, setNode, hidden } = props;
+
    return (
       <div className={'modal-edit-node-response ' + (hidden || !node ? 'hidden' : '')}>
          <div
@@ -36,18 +40,22 @@ const ModalEditNode: React.FC<ModalEditNodeProps> = (props) => {
                <SubflowMenu
                   setNode={(curNode) => setNode(curNode)}
                   closeModal={() => setNode(null)}
-                  promptCollect={node as Node<SubFlowData>}
+                  node={node as Node<SubFlowData>}
                />
             ) : node.type === 'message' ? (
                <SendAMessageMenu
                   setNode={(curNode) => setNode(curNode)}
                   closeModal={() => setNode(null)}
-                  promptCollect={node as Node<SendAMessageData>}
+                  node={node as Node<SendAMessageData>}
                />
             ) : node.type === 'checkattribute' ? (
                <></>
             ) : node.type === 'http' ? (
-               <></>
+               <HttpRequestMenu
+                  setNode={(curNode) => setNode(curNode)}
+                  closeModal={() => setNode(null)}
+                  node={node as Node<HttpRequestData>}
+               />
             ) : null
          ) : null}
 

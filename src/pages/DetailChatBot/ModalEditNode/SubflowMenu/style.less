@@ -14,7 +14,7 @@
     >.node-header {
        display: flex;
        flex-direction: column;
-       background-color: #fff;
+       background-color: var(--color-background-edit-node);
        border-radius: 4px 4px 0 0;
        flex-shrink: 0;
        height: 140px;
@@ -33,9 +33,24 @@
           display: flex;
           gap: 4px;
        }
+       .node-information {
+         display: flex;
+         align-items: center;
+         width: 100%;
+         margin-top: 8px;
+         > b {
+            width: 80px;
+         }
+         .input-edit-name {
+            flex: 1;
+         }
+         .select-type {
+            flex: 1;
+         }
+      }
     }
     >.content {
-       background-color: var(--color-background-edit-node);
+       background-color: white;
        border-radius: 0 0 4px 4px;
        padding: 24px 28px 0;
        height: calc(100% - 140px);

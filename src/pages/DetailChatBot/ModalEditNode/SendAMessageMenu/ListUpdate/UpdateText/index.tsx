@@ -1,16 +1,17 @@
 import { CheckOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { tLanguage } from '@pages/DetailChatBot/CustomNode';
 import { PromptCollectData } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
+import { SendAMessageData } from '@pages/DetailChatBot/CustomNode/SendAMessageNode';
 import { Input, Space } from 'antd';
 import React, { useState } from 'react';
 import { Node } from 'reactflow';
 
-interface UpdateTextProps {
+interface UpdateTextSendAMessageProps {
    curUpdateText: { language: tLanguage; message: string };
-   innerNode: Node<PromptCollectData>;
-   setInnerNode: (node: Node<PromptCollectData>) => void;
+   innerNode: Node<SendAMessageData>;
+   setInnerNode: (node: Node<SendAMessageData>) => void;
 }
-const UpdateText: React.FC<UpdateTextProps> = (props) => {
+const UpdateTextSendAMessage: React.FC<UpdateTextSendAMessageProps> = (props) => {
    const { curUpdateText, innerNode, setInnerNode } = props;
    const [curText, setCurText] = useState(curUpdateText.message);
    const updateTextByKey = (value: string) => {
@@ -38,7 +39,7 @@ const UpdateText: React.FC<UpdateTextProps> = (props) => {
    return (
       <div className="input-container">
          <Input.TextArea
-            placeholder="Enter your chatbot response"
+            placeholder={`Enter your chatbot response`}
             defaultValue={curUpdateText.message}
             style={{
                padding: '10px 8px',
@@ -68,4 +69,4 @@ const UpdateText: React.FC<UpdateTextProps> = (props) => {
    );
 };
 
-export default UpdateText;
+export default UpdateTextSendAMessage;

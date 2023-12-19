@@ -135,6 +135,7 @@ const DnDFlow: React.FC = () => {
 
    //Update node when change in children
    useEffect(() => {
+      console.log('heelo');
       setNodes((nds) =>
          nds.map((node) => {
             if (node.id === selectedNode?.id) {
@@ -145,6 +146,55 @@ const DnDFlow: React.FC = () => {
       );
    }, [selectedNode]);
 
+   //Update next action when edges have any change
+   useEffect(() => {
+      const temp = nodes.map((item) => {
+         switch (item.data.type) {
+            case 'promptandcollect': {
+               let tempNode = item as Node<PromptCollectData>;
+               return {
+                  ...tempNode,
+                  data: {
+                     ...tempNode.data,
+                     nextAction: edges.map((e) => {
+                        if (tempNode.data?.id === e.source) {
+                           if (e.data?.condition === 'other') {
+                              return { case: 'other', actionId: e.target };
+                           } else {
+                              return {
+                                 case: `${e.data?.condition}: ${e.data?.intent}`,
+                                 actionId: e.target,
+                              };
+                           }
+                        }
+                     }),
+                  },
+               };
+            }
+            case 'checkattribute': {
+               let tempNode = item as Node<CheckVariableData>;
+               return tempNode;
+            }
+            case 'http': {
+               let tempNode = item as Node<HttpRequestData>;
+               return tempNode;
+            }
+            case 'message': {
+               let tempNode = item as Node<SendAMessageData>;
+               return tempNode;
+            }
+            case 'start': {
+               let tempNode = item as Node<StartNodeData>;
+               return tempNode;
+            }
+            case 'subflow': {
+               let tempNode = item as Node<SubFlowData>;
+               return tempNode;
+            }
+         }
+      });
+      setNodes(temp);
+   }, [edges]);
    //#region Util of reactflow connect, delete, drag, keydown,...
 
    const onConnect = useCallback(
@@ -245,13 +295,31 @@ const DnDFlow: React.FC = () => {
                      // return asNode;
                      break;
                   }
-                  // case 'message': {
-                  //    const asNode = item as Node<SendAMessageData>;
-                  //    if (asNode.data.nextAction.length > 0) {
-                  //       //Delete cạnh đã có
-                  //    }
-                  //    break;
-                  // }
+                  case 'message': {
+                     const asNode = item as Node<SendAMessageData>;
+                     console.log(asNode);
+                     if (
+                        asNode.data?.nextAction !== undefined &&
+                        asNode.data.nextAction.length > 0
+                     ) {
+                        setEdges((pre) => {
+                           return pre.filter((item) => {
+                              console.log(item);
+
+                              if (
+                                 item.source !== asNode.data.id ||
+                                 (item.source === asNode.data.id &&
+                                    item.target === params.target &&
+                                    item.sourceHandle === params.sourceHandle &&
+                                    item.targetHandle === params.targetHandle)
+                              )
+                                 return item;
+                           });
+                        });
+                     }
+                     asNode.data.nextAction = params.target;
+                     return asNode;
+                  }
                   case 'start': {
                      let asNode = item as Node<StartNodeData>;
                      if (
@@ -279,9 +347,14 @@ const DnDFlow: React.FC = () => {
                      ) {
                         setEdges((pre) => {
                            return pre.filter((item) => {
+                              console.log(asNode);
+
                               if (
                                  item.source !== asNode.data.id ||
-                                 (item.source === asNode.data.id && item.target === params.target)
+                                 (item.source === asNode.data.id &&
+                                    item.target === params.target &&
+                                    item.sourceHandle === params.sourceHandle &&
+                                    item.targetHandle === params.targetHandle)
                               )
                                  return item;
                            });
@@ -298,11 +371,10 @@ const DnDFlow: React.FC = () => {
       },
       [nodes]
    );
+   console.log(nodes, edges);
    const deleteEdgeById = (id: string) => {
       setEdges((eds) => eds.filter((edge) => edge.id !== id));
    };
-   console.log('nodes', nodes);
-   console.log('edges', edges);
    const deleteNodeById = (id: string) => {
       setNodes((nds) => nds.filter((node) => node.id !== id));
       setEdges((eds) => eds.filter((edge) => edge.target !== id || edge.source === id));
@@ -316,38 +388,6 @@ const DnDFlow: React.FC = () => {
       if (event.key === 'Delete' || event.key === 'Backspace') {
          const selectedEdges = edges.filter((el) => el.selected);
          if (selectedEdges.length > 0) {
-            // const idNodeSource = selectedEdges[0].source;
-            // const curNodeSource = nodes.find((i) => i.data.id === idNodeSource);
-            // console.log(idNodeSource, curNodeSource);
-
-            // const temp = nodes.map((node) => {
-            //    if (node.data.id === idNodeSource) {
-            //       switch (curNodeSource.data.type) {
-            //          case 'promptandcollect':
-            //          case 'message':
-            //          case 'checkattribute': {
-            //             const n = node as Node<CheckVariableData>;
-            //             return {
-            //                ...n,
-            //                data: {
-            //                   ...n.data,
-            //                   nextAction: n.data?.nextAction?.filter(
-            //                      (f) =>
-            //                         !f.case.includes(selectedEdge[0]?.data?.condition) &&
-            //                         f.actionId &&
-            //                         f.actionId === selectedEdge.target
-            //                   ),
-            //                },
-            //             };
-            //          }
-            //          default: {
-            //             return { ...node, data: { ...node.data, nextAction: undefined } };
-            //          }
-            //       }
-            //    }
-            //    return node;
-            // });
-            // setNodes(temp);
             deleteEdgeById(selectedEdges[0].id);
          }
          const selectedNode = nodes.filter((el) => el.selected && el.id !== 'start-node');
@@ -444,15 +484,11 @@ const DnDFlow: React.FC = () => {
                         id,
                         type: type,
                         name: 'HTTP Request',
-                        method: 'string',
+                        method: 'GET',
                         url: 'string',
-                        body: 'string',
-                        headers: {
-                           key: 'string',
-                        },
-                        params: {
-                           key: 'string',
-                        },
+                        body: [],
+                        headers: [],
+                        params: [],
                         bodyType: 'string',
                         nextAction: [],
                      },

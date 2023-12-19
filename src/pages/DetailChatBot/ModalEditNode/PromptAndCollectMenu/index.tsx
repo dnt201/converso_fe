@@ -1,29 +1,21 @@
 import {
-   ArrowDownOutlined,
    ArrowLeftOutlined,
    ArrowRightOutlined,
-   CaretDownFilled,
    CheckOutlined,
    CloseOutlined,
-   CustomerServiceOutlined,
    EditOutlined,
    FileImageFilled,
    MenuUnfoldOutlined,
    MessageOutlined,
-   PlusOutlined,
    QuestionCircleFilled,
-   SettingOutlined,
 } from '@ant-design/icons';
 import {
    PROMPT_COLLECT_TYPE,
    PromptCollectData,
 } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
-import { Button, Empty, Form, Image, Input, Select, Space, Tooltip, notification } from 'antd';
+import { Button, Empty, Form, Input, Select, Space, Tooltip, notification } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { Node } from 'reactflow';
-
-import { useForm } from 'antd/es/form/Form';
-import UpdateText from './ListUpdate/UpdateText';
 
 type tKeyTab = 'general' | 'settings' | 'grammar';
 import './style.less';
@@ -31,7 +23,6 @@ import AppearLayout from '@layouts/AppearLayout';
 import UpdateProduct from './UpdateProduct';
 import { useAtom } from 'jotai';
 import { languagesAtom } from '@pages/DetailChatBot';
-import { tLanguage } from '@pages/DetailChatBot/CustomNode';
 import ListUpdate from './ListUpdate';
 
 interface PromptCollectMenuProps {
@@ -239,6 +230,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                                  innerNode={innerNode}
                                  setInnerNode={setInnerNode}
                                  {...item}
+                                 key={item.label + item.value}
                               />
                            );
                         })

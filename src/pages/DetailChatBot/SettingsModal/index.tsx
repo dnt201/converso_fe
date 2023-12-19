@@ -147,7 +147,6 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
                                              return node;
                                           });
                                           setNodes(temp);
-                                          console.log(temp);
                                        }}>
                                        <Button
                                           className="delete"

@@ -20,29 +20,31 @@ const SideBar: React.FC = () => {
             <CaretRightOutlined />
          </span>
          {/* <div className="description">You can drag these nodes to the pane on the right.</div> */}
-         {listNodes.map((item) => {
-            return (
-               <div
-                  className={'node-container' + (expandNav ? ' expand' : ' no-expand')}
-                  key={item.value}
-                  onDragStart={(event) => onDragStart(event, item.value)}
-                  draggable>
-                  {expandNav ? (
-                     <>
-                        <i className="icon">{item.icon}</i>
-                        <span className={'label'}>{item.label}</span>
-                     </>
-                  ) : (
-                     <Popover
-                        content={<b>{item.label}</b>}
-                        style={{ left: -100 }}
-                        placement="right">
-                        <i className="icon">{item.icon}</i>
-                     </Popover>
-                  )}
-               </div>
-            );
-         })}
+         <div className="list-node">
+            {listNodes.map((item) => {
+               return (
+                  <div
+                     className={'node-container' + (expandNav ? ' expand' : ' no-expand')}
+                     key={item.value}
+                     onDragStart={(event) => onDragStart(event, item.value)}
+                     draggable>
+                     {expandNav ? (
+                        <>
+                           <i className="icon">{item.icon}</i>
+                           <span className={'label'}>{item.label}</span>
+                        </>
+                     ) : (
+                        <Popover
+                           content={<b>{item.label}</b>}
+                           style={{ left: -100 }}
+                           placement="right">
+                           <i className="icon">{item.icon}</i>
+                        </Popover>
+                     )}
+                  </div>
+               );
+            })}
+         </div>
       </div>
    );
 };

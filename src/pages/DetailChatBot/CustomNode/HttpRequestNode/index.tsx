@@ -8,20 +8,18 @@ import { TypeOfNode } from '..';
 
 //User Input
 
+export type HttpRequest_Type = 'GET' | 'POST' | 'PUT';
+
 export interface HttpRequestData {
    id: string;
 
    type: TypeOfNode;
    name: string;
-   method: string;
+   method: HttpRequest_Type;
    url: string;
-   body: string;
-   headers: {
-      key: string;
-   };
-   params: {
-      key: string;
-   };
+   body: { key: string; value: string | number }[];
+   headers: { key: string; value: string | number }[];
+   params: { key: string; value: string | number }[];
    bodyType: string;
    nextAction: {
       case: 'failed' | 'success';
@@ -32,7 +30,7 @@ export interface HttpRequestData {
 export type tHttpRequestProps = NodeProps<HttpRequestData>;
 export type tHttpRequestNode = Node<HttpRequestData>;
 
-const HttpRequestNode: React.FC<tHttpRequestProps> = () => {
+const HttpRequestNode: React.FC<tHttpRequestProps> = (props) => {
    return (
       <div className="node http-request-node">
          <Handle className="handle-target" id="target-top" type="target" position={Position.Top} />
@@ -77,10 +75,11 @@ const HttpRequestNode: React.FC<tHttpRequestProps> = () => {
             <i className="icon">
                <BuildFilled />
             </i>
-            <label className="label">HTTP Request</label>
+            <label className="label">{props.data.name}</label>
          </div>
       </div>
    );
 };
 
 export default HttpRequestNode;
+
