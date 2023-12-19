@@ -161,12 +161,9 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                         return {
                            ...item,
                            selected: false,
-                           label: (
-                              <span>
-                                 <b>{label ?? form.getFieldValue('condition')}</b>{' '}
-                                 {form.getFieldValue('intent')}
-                              </span>
-                           ),
+                           label: `${form.getFieldValue('condition')}: ${form.getFieldValue(
+                              'intent'
+                           )}`,
                            data: {
                               condition: form.getFieldValue('condition'),
                               intent: form.getFieldValue('intent'),

@@ -27,14 +27,13 @@ type NavTopChatbotProps = {
 const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
    const { setOpenSettings, setOpenVariable, detailFlowById, nodes, edges } = props;
    const [haveFlowChange, setHaveFlowChange] = useAtom(haveFlowChangeAtom);
-   console.log(props);
    const navigate = useNavigate();
 
    const editFlow = useEditFollow();
    return (
       <div className={'nav-top-chatbot'}>
          <div className="breadcrumb">
-            <span className="btn-back-create-page" onClick={() => navigate('/')}>
+            <span className="btn-back-create-page" onClick={() => navigate('/manage-chatbot')}>
                Create ChatBot
             </span>
             <CaretRightOutlined className="icon" />

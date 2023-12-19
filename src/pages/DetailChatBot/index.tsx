@@ -139,24 +139,23 @@ const DnDFlow: React.FC = () => {
 
    //Todo: Api
 
-   useEffect(() => {
+   useLayoutEffect(() => {
       if (detailFlowById.data) {
          let tempNodes = JSON.parse(detailFlowById.data.diagram) as Node<tListNodeData>[];
          if (tempNodes.length > 0) {
             setInitialNodes([...tempNodes]);
          }
          let tempEdges = JSON.parse(detailFlowById.data.edges) as Edge[];
-         console.log(tempEdges, '----');
          if (tempEdges.length > 0) {
-            // setInitialEdges(tempEdges);
+            console.log(tempEdges);
+            setInitialEdges([...tempEdges]);
          }
       }
    }, []);
-
-   useEffect(() => {
+   useLayoutEffect(() => {
       setNodes(initialNodes);
    }, [initialNodes]);
-   useEffect(() => {
+   useLayoutEffect(() => {
       setEdges(initialEdges);
    }, [initialEdges]);
 

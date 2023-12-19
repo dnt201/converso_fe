@@ -30,7 +30,7 @@ const PromptCollectEdge: React.FC<EdgeProps<iValueEdgePromptCollect>> = (props) 
       targetY,
       targetPosition,
    });
-
+   console.log(props.label);
    return (
       <>
          <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
