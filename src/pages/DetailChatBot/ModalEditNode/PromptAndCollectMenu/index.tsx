@@ -227,7 +227,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                               <ListUpdate
                                  innerNode={innerNode}
                                  setInnerNode={setInnerNode}
-                                 {...item}
+                                 item={item}
                                  key={item.label + item.value}
                               />
                            );

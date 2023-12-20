@@ -9,13 +9,12 @@ import { useForm } from 'antd/es/form/Form';
 import { tLanguage } from '@pages/DetailChatBot/CustomNode';
 import FormItem from 'antd/es/form/FormItem';
 import { Form, Input, Space } from 'antd';
+import { iLanguageFollow } from '@hooks/flow';
 
 type ListUpdateProps = {
    innerNode: Node<PromptCollectData>;
    setInnerNode: (node: Node<PromptCollectData>) => void;
-   value: tLanguage;
-   label: string;
-   default: boolean;
+   item: iLanguageFollow;
 };
 
 type FormChatbotResponse = {
@@ -23,7 +22,7 @@ type FormChatbotResponse = {
    language: tLanguage;
 };
 const ListUpdate: React.FC<ListUpdateProps> = (props) => {
-   const { innerNode, setInnerNode, ...item } = props;
+   const { innerNode, setInnerNode, item } = props;
    const [isExpand, setIsExpand] = useState(false);
    const curLanguage = innerNode.data.text.find((i) => i.language === item.value);
    return (

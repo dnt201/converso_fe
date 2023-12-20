@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 
-import { Button, Form, Input, Select, Space } from 'antd';
+import { Button, Form, Input, Select, Skeleton, Space } from 'antd';
 import { ApiOutlined, CloseOutlined } from '@ant-design/icons';
 import { SubFlowData } from '@pages/DetailChatBot/CustomNode/SubFlowNode/indext';
 type tKeyTab = 'general' | 'settings' | 'grammar';
 import './style.less';
+import { useParams } from 'react-router-dom';
+import { useMyListFlow, useMyListFlowOptions } from '@hooks/flow/myListFlow';
+import { iFlow } from '@hooks/flow';
+import { useForm } from 'antd/es/form/Form';
 
 interface SubflowMenuProps {
    node: Node<SubFlowData>;
@@ -16,16 +20,20 @@ interface SubflowMenuProps {
 //    chatbotResponse: string;
 // }
 
-const fakeList = ['Hello', '12412412', 'aaaa', 'bbbb'];
 const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
+   const { id } = useParams();
+
    const { closeModal, node, setNode } = props;
    const [innerNode, setInnerNode] = useState<Node<SubFlowData>>(node);
-
+   const [form] = useForm();
+   const { data, isLoading } = useMyListFlowOptions();
    useEffect(() => {
       //   console.log(innerNode.data.text);
       setNode(innerNode);
    }, [innerNode]);
-
+   useEffect(() => {
+      form.setFieldsValue({ subflow: innerNode.data.flowId });
+   }, []);
    return (
       <div className="edit-mode-subflow" onClick={(e) => e.preventDefault()}>
          <div className="node-header">
@@ -66,18 +74,54 @@ const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
          </div>
          <div className="content">
             <div className="response">
-               <Form layout="vertical" autoComplete="off">
-                  <Form.Item
-                     label="Select Subflow"
-                     name="subflow"
-                     rules={[{ required: true, message: 'Please chose subflow!' }]}>
-                     <Select placeholder="Select subflow" />
-                  </Form.Item>
-               </Form>
+               {isLoading ? (
+                  <Skeleton.Input active />
+               ) : (
+                  <Form
+                     layout="vertical"
+                     autoComplete="off"
+                     form={form}
+                     onFinish={(formValue) => {
+                        console.log(formValue);
+                        setInnerNode({
+                           ...innerNode,
+                           data: { ...innerNode.data, flowId: formValue.subflow },
+                        });
+                     }}>
+                     <Form.Item
+                        label="Select Subflow"
+                        name="subflow"
+                        rules={[{ required: true, message: 'Please chose subflow!' }]}>
+                        <Select
+                           onSelect={(v) => {
+                              setInnerNode((pre) => {
+                                 return { ...pre, data: { ...pre.data, flowId: v } };
+                              });
+                           }}
+                           loading={data?.data === undefined || isLoading}
+                           placeholder="Select subflow"
+                           options={transformOption(data?.data, id)}
+                        />
+                     </Form.Item>
+                  </Form>
+               )}
             </div>
          </div>
       </div>
    );
 };
+
+const transformOption = (data: iFlow[], id: string) => {
+   if (data === undefined) return [];
+   let temp = data.filter((item) => item.id.toString() !== id.toString());
+   console.log(temp);
+   return temp.map((item) => {
+      return {
+         value: item.id,
+         label: item.name,
+      };
+   });
+};
+
 
 export default SubflowMenu;

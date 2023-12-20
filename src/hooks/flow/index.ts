@@ -1,18 +1,20 @@
-import { tListNodeData } from '@pages/DetailChatBot/CustomNode';
+import { tLanguage, tListNodeData } from '@pages/DetailChatBot/CustomNode';
 import { Edge, Node } from 'reactflow';
 
 export type iFlowParams = Pick<iFlow, 'name' | 'flowType'>;
 
 export interface iFlow {
-   id: number;
+   id: string;
    name: string;
    flowType: iFlowType;
    status: null;
    diagram: string; // Node<tListNodeData>[]; //Trust backend - parse
    edges: string; //Edge<any>[];
-   settings: {
-      language: iLanguageFollow[];
-   };
+   settings: string;
+
+   // {
+   //    language: string; // iLanguageFollow[];
+   // };
    attributes: iAttributes[];
    flow: tListNodeData[];
    publishedFlow: null;
@@ -23,7 +25,7 @@ export interface iFlow {
 }
 
 export interface iFLowPut {
-   id: number;
+   id: string;
    name: string;
    flowType: iFlowType;
    status: null;
@@ -43,7 +45,7 @@ export interface iFLowPut {
 export type iFlowType = 'MSG';
 
 export interface iLanguageFollow {
-   value: string;
+   value: tLanguage;
    label: string;
    default: boolean;
 }

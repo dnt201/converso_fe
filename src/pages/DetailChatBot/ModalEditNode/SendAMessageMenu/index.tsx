@@ -1,6 +1,6 @@
 import { CloseOutlined, MessageFilled } from '@ant-design/icons';
 import { SendAMessageData } from '@pages/DetailChatBot/CustomNode/SendAMessageNode';
-import { Button, Form, Input, Select, Space } from 'antd';
+import { Button, Divider, Form, Input, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Node } from 'reactflow';
 import './style.less';
@@ -60,6 +60,9 @@ const SendAMessageMenu: React.FC<SendAMessageMenuProps> = (props) => {
             </div>
          </div>
          <div className="content">
+            <Divider orientation="left">
+               <h5>Response</h5>
+            </Divider>
             <div className="response">
                {languages.map((item) => {
                   return (

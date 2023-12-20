@@ -32,6 +32,7 @@ import SettingsModal from './SettingsModal';
 import { useDetailFlowById } from '@hooks/flow/detailFlowById';
 import { useParams } from 'react-router-dom';
 import CustomPrompt from '@components/CustomPrompt';
+import { iLanguageFollow } from '@hooks/flow';
 
 const initialNodes = [
    // {
@@ -97,7 +98,7 @@ export const listLanguageSystem: iLanguageOption[] = [
    { value: 'ko', label: 'Korean' },
 ];
 
-export const languagesAtom = atom<{ value: tLanguage; label: string; default: boolean }[]>([
+export const languagesAtom = atom<iLanguageFollow[]>([
    { value: 'en', label: 'English', default: true },
 ]);
 
@@ -138,7 +139,7 @@ const DnDFlow: React.FC = () => {
    const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
 
    //Todo: Api
-
+   console.log(nodes);
    useLayoutEffect(() => {
       if (detailFlowById.data) {
          let tempNodes = JSON.parse(detailFlowById.data.diagram) as Node<tListNodeData>[];
@@ -149,6 +150,13 @@ const DnDFlow: React.FC = () => {
          if (tempEdges.length > 0) {
             console.log(tempEdges);
             setInitialEdges([...tempEdges]);
+         }
+         let tempLanguages = JSON.parse(detailFlowById.data.settings) as {
+            language: iLanguageFollow[];
+         };
+         console.log(tempLanguages);
+         if (tempLanguages.language.length > 0) {
+            setLanguages([...tempLanguages.language]);
          }
       }
    }, []);

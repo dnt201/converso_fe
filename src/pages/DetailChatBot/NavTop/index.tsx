@@ -11,7 +11,7 @@ import { Button, Popover } from 'antd';
 import { iFlow } from '@hooks/flow';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import { haveFlowChangeAtom } from '..';
+import { haveFlowChangeAtom, languagesAtom } from '..';
 import { useEditFollow } from '@hooks/flow/editFlow';
 import { tListNodeData } from '../CustomNode';
 import { Edge, Node } from 'reactflow';
@@ -27,13 +27,17 @@ type NavTopChatbotProps = {
 const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
    const { setOpenSettings, setOpenVariable, detailFlowById, nodes, edges } = props;
    const [haveFlowChange, setHaveFlowChange] = useAtom(haveFlowChangeAtom);
+   const [languages, setLanguages] = useAtom(languagesAtom);
+
    const navigate = useNavigate();
 
    const editFlow = useEditFollow();
    return (
       <div className={'nav-top-chatbot'}>
          <div className="breadcrumb">
-            <span className="btn-back-create-page" onClick={() => navigate('/manage-chatbot')}>
+            <span
+               className="btn-back-create-page"
+               onClick={() => navigate('/manage-chatbot', { replace: true })}>
                Create ChatBot
             </span>
             <CaretRightOutlined className="icon" />
@@ -68,7 +72,14 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
                   onClick={() => {
                      //update flow api)
                      // console.log(JSON.stringify(nodes));
-                     editFlow.mutate({ ...detailFlowById, diagram: nodes, edges: props.edges });
+                     editFlow.mutate({
+                        ...detailFlowById,
+                        diagram: nodes,
+                        edges: props.edges,
+                        settings: {
+                           language: languages,
+                        },
+                     });
                      setHaveFlowChange(false);
                   }}>
                   Save

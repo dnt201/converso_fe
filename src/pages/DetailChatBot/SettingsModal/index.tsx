@@ -2,7 +2,7 @@ import { Button, Modal, ModalProps, Popconfirm, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './style.less';
 import { useAtom } from 'jotai';
-import { iLanguageOption, languagesAtom, listLanguageSystem } from '..';
+import { haveFlowChangeAtom, iLanguageOption, languagesAtom, listLanguageSystem } from '..';
 import { tLanguage, tListNodeData } from '../CustomNode';
 import { CheckCircleFilled, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Node } from 'reactflow';
@@ -23,6 +23,7 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
    const { setShowModal, nodes, setNodes, ...propsModal } = props;
    const [curSettings, setCurSettings] = useState<SettingState>('language');
    const [curLanguage, setCurLanguage] = useState<iLanguageOption>();
+   const [haveFlowChange, setHaveFlowChange] = useAtom(haveFlowChangeAtom);
 
    const [languages, setLanguages] = useAtom(languagesAtom);
    const [listExistLanguage, setListExistLanguage] = useState<iLanguageOption[]>([]);
@@ -31,6 +32,7 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
          (langSystem) => !languages.some((langSelect) => langSelect.value === langSystem.value)
       );
       setListExistLanguage(tempOption);
+      setHaveFlowChange(true);
    }, [languages]);
 
    return (

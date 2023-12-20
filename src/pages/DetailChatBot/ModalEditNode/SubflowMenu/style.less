@@ -1,7 +1,7 @@
 .edit-mode-subflow {
     background: white;
     border-radius: 8px;
-    max-height: calc(100vh - 50px);
+    height: calc(100vh - 50px);
     max-width: 100%;
     position: relative;
     height: 100%;
@@ -53,7 +53,7 @@
        background-color: white;
        border-radius: 0 0 4px 4px;
        padding: 24px 28px 0;
-       height: calc(100% - 140px);
+       height: calc(100% - 140px - 50px);
        overflow-x: hidden;
        overflow-y: auto;
        width: calc(100%);
@@ -202,6 +202,18 @@
        }
        
     }
+    >.bottom-action {
+      width: 100%;
+      padding: 16px;
+      display: flex;
+      justify-content: flex-end;
+      position: absolute;
+      bottom: 0;
+      z-index: 1;
+      gap: 8px;
+      border-top: 1px solid var(--color-disable);
+      background-color: white;
+    }
  }
  
  .modal-prompt-collect {
@@ -210,6 +222,7 @@
        height: calc(100vh - 50px);
        max-width: 100%;
        position: absolute;
+
        width: 480px;
        right: 0;
       

@@ -12,3 +12,13 @@ export const useMyListFlow = () => {
       suspense: true,
    });
 };
+
+
+
+export const useMyListFlowOptions = () => {
+   return useQuery({
+      queryKey: ['my-list-flow-options'],
+      queryFn: () => getData<IResponse<iFlow[]>>(apiPath.FOLLOW.MY_LIST),
+      cacheTime: 0,
+   });
+};
