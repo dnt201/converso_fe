@@ -31,8 +31,11 @@ const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
       //   console.log(innerNode.data.text);
       setNode(innerNode);
    }, [innerNode]);
+   console.log(innerNode);
    useEffect(() => {
-      form.setFieldsValue({ subflow: innerNode.data.flowId });
+      form.setFieldsValue({
+         subflow: innerNode.data.flowId,
+      });
    }, []);
    return (
       <div className="edit-mode-subflow" onClick={(e) => e.preventDefault()}>
@@ -81,19 +84,14 @@ const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
                      layout="vertical"
                      autoComplete="off"
                      form={form}
-                     onFinish={(formValue) => {
-                        console.log(formValue);
-                        setInnerNode({
-                           ...innerNode,
-                           data: { ...innerNode.data, flowId: formValue.subflow },
-                        });
-                     }}>
+                     onFinish={(formValue) => {}}>
                      <Form.Item
                         label="Select Subflow"
                         name="subflow"
                         rules={[{ required: true, message: 'Please chose subflow!' }]}>
                         <Select
                            onSelect={(v) => {
+                              console.log('set');
                               setInnerNode((pre) => {
                                  return { ...pre, data: { ...pre.data, flowId: v } };
                               });

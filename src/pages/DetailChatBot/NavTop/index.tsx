@@ -78,9 +78,7 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
                         ...detailFlowById,
                         diagram: nodes,
                         edges: props.edges,
-                        settings: {
-                           language: languages,
-                        },
+                        settings: languages,
                         attributes: variables,
                      });
                      setHaveFlowChange(false);

@@ -30,11 +30,12 @@ const ParamsEdit: React.FC<ParamsEditProps> = (props) => {
                if (indexOf >= 0) {
                   notification.error({ message: 'Have same key! Please use another key' });
                } else {
-                  //add ew
+                  //add new
                   tempListParams = tempListParams.concat({
                      key: formV.key,
                      value: formV.value,
                   });
+                  notification.success({ message: 'Add params success' });
                }
                form.resetFields();
                setInnerNode({ ...innerNode, data: { ...innerNode.data, params: tempListParams } });

@@ -31,9 +31,8 @@ export interface iFLowPut {
    status: null;
    diagram: Node<tListNodeData>[]; //Trust backend - parse
    edges: Edge<any>[];
-   settings: {
-      language: iLanguageFollow[];
-   };
+   settings: iLanguageFollow[];
+
    attributes: iAttributes[];
    flow: tListNodeData[];
    publishedFlow: null;

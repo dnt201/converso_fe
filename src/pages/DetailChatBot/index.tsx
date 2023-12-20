@@ -116,11 +116,10 @@ const DnDFlow: React.FC = () => {
             console.log(tempEdges);
             setInitialEdges([...tempEdges]);
          }
-         let tempLanguages = JSON.parse(detailFlowById.data.settings) as {
-            language: iLanguageFollow[];
-         };
-         if (tempLanguages.language.length > 0) {
-            setLanguages([...tempLanguages.language]);
+         let tempLanguages = JSON.parse(detailFlowById.data.settings) as iLanguageFollow[];
+         // settings: iLanguage[]
+         if (tempLanguages.length > 0) {
+            setLanguages([...tempLanguages]);
          }
          let tempVariables = JSON.parse(detailFlowById.data.attributes) as iAttributes[];
          console.log(detailFlowById, tempVariables);
@@ -464,8 +463,7 @@ const DnDFlow: React.FC = () => {
                      position,
                      data: {
                         id,
-
-                        flowId: '',
+                        flowId: undefined,
                         name: 'Subflow',
                         type: type,
                         nextAction: '',
