@@ -8,6 +8,7 @@ import { Node } from 'reactflow';
 import './style.less';
 import ParamsEdit from './ParamsEdit';
 import HeaderEdit from './HeaderEdit';
+import BodyEdit from './BodyEdit';
 type HttpRequestMenuProps = {
    node: Node<HttpRequestData>;
    closeModal: () => void;
@@ -110,6 +111,8 @@ const HttpRequestMenu: React.FC<HttpRequestMenuProps> = (props) => {
                         <ParamsEdit innerNode={innerNode} setInnerNode={(e) => setInnerNode(e)} />
                      ) : curTab === 'header' ? (
                         <HeaderEdit innerNode={innerNode} setInnerNode={(e) => setInnerNode(e)} />
+                     ) : curTab === 'body' ? (
+                        <BodyEdit innerNode={innerNode} setInnerNode={(e) => setInnerNode(e)} />
                      ) : (
                         ''
                      )}

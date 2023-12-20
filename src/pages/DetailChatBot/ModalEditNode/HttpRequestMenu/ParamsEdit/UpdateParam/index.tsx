@@ -8,7 +8,7 @@ import { useForm } from 'antd/es/form/Form';
 import { Node } from 'reactflow';
 import { HttpRequestData } from '@pages/DetailChatBot/CustomNode/HttpRequestNode';
 interface UpdateParamsProps {
-   item: { key: string; value: string | number };
+   item: { label: string; value: string | number };
    innerNode: Node<HttpRequestData>;
    setInnerNode: (node: Node<HttpRequestData>) => void;
 }
@@ -20,23 +20,23 @@ const UpdateParams: React.FC<UpdateParamsProps> = (props) => {
    return (
       <Form
          layout="vertical"
-         initialValues={{ key: item.key, value: item.value }}
+         initialValues={{ key: item.label, value: item.value }}
          form={form}
          onFinish={(formV) => {
-            let indexOf = innerNode.data.params.filter((item) => item.key === formV.key);
+            let indexOf = innerNode.data.params.filter((item) => item.label === formV.key);
 
             if (
-               (item.key === formV.key && indexOf.length >= 2) ||
-               (item.key !== formV.key && indexOf.length >= 1)
+               (item.label === formV.key && indexOf.length >= 2) ||
+               (item.label !== formV.key && indexOf.length >= 1)
             ) {
                notification.error({ message: 'Have same key! Please use another key' });
                form.resetFields();
             } else {
                //update
                let tempListParams = innerNode.data.params.map((i) => {
-                  if (i.key === item.key)
+                  if (i.label === item.label)
                      return {
-                        key: formV.key,
+                        label: formV.key,
                         value: formV.value,
                      };
                   return i;
@@ -45,7 +45,7 @@ const UpdateParams: React.FC<UpdateParamsProps> = (props) => {
                notification.success({ message: 'Update params success' });
             }
          }}>
-         <div className="param-item" key={item.key}>
+         <div className="param-item" key={item.label}>
             <FormItem
                style={{ flex: 2 }}
                label="Key"
@@ -53,7 +53,7 @@ const UpdateParams: React.FC<UpdateParamsProps> = (props) => {
                rules={[{ required: true, message: 'Key is required!' }]}>
                <Input
                   placeholder="Key"
-                  onChange={(e) => setCurItem({ ...curItem, key: e.target.value })}
+                  onChange={(e) => setCurItem({ ...curItem, label: e.target.value })}
                />
             </FormItem>
             <FormItem
@@ -71,22 +71,28 @@ const UpdateParams: React.FC<UpdateParamsProps> = (props) => {
                   type="text"
                   className={
                      'save' +
-                     (curItem.key === item.key && curItem.value === item.value ? ' disable' : '')
+                     (curItem.label === item.label && curItem.value === item.value
+                        ? ' disable'
+                        : '')
                   }
-                  disabled={curItem.key === item.key && curItem.value === item.value}
+                  disabled={curItem.label === item.label && curItem.value === item.value}
                   onClick={() => {
                      form.submit();
                   }}>
                   <SaveOutlined />
                </Button>
                <Popconfirm
-                  title="Delete this params?"
+                  title="Delete this param?"
                   onConfirm={() => {
-                     let tempListParams = innerNode.data.params.filter((n) => n.key !== item.key);
+                     let tempListParams = innerNode.data.params.filter(
+                        (n) => n.label !== item.label
+                     );
                      setInnerNode({
                         ...innerNode,
                         data: { ...innerNode.data, params: tempListParams },
                      });
+                  notification.success({ message: 'Delete param success' });
+
                   }}>
                   <Button type="text" className="delete">
                      <DeleteOutlined />

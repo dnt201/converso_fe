@@ -26,13 +26,15 @@ const HeaderEdit: React.FC<HeaderEditProps> = (props) => {
             form={form}
             onFinish={(formV) => {
                let tempListHeader = innerNode.data.headers;
-               let indexOf = tempListHeader.findIndex((item) => item.key === formV.key);
+               let indexOf = tempListHeader.findIndex((item) => item.label === formV.key);
                if (indexOf >= 0) {
                   notification.error({ message: 'Have same key! Please use another key' });
                } else {
                   //add ew
+                  notification.success({ message: 'Add header param success' });
+
                   tempListHeader = tempListHeader.concat({
-                     key: formV.key,
+                     label: formV.key,
                      value: formV.value,
                   });
                }
@@ -72,7 +74,7 @@ const HeaderEdit: React.FC<HeaderEditProps> = (props) => {
             innerNode.data.headers.map((item) => {
                return (
                   <UpdateHeader
-                     key={item.key}
+                     key={item.label}
                      item={item}
                      innerNode={innerNode}
                      setInnerNode={(e) => setInnerNode(e)}

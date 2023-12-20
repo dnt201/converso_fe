@@ -7,39 +7,38 @@ import { Node } from 'reactflow';
 
 import './style.less';
 import { useForm } from 'antd/es/form/Form';
-import UpdateParams from './UpdateParam';
-type ParamsEditProps = {
+import UpdateHeader from './UpdateBody';
+type BodyEditProps = {
    innerNode: Node<HttpRequestData>;
    setInnerNode: (node: Node<HttpRequestData>) => void;
 };
 
-const ParamsEdit: React.FC<ParamsEditProps> = (props) => {
+const BodyEdit: React.FC<BodyEditProps> = (props) => {
    const { innerNode, setInnerNode } = props;
    const [form] = useForm();
    return (
-      <div className="params-edit">
+      <div className="body-edit">
          <Divider orientation="left">
-            <h5>Add new params</h5>
+            <h5>Add new body params</h5>
          </Divider>
          <Form
             layout="vertical"
             form={form}
             onFinish={(formV) => {
-               let tempListParams = innerNode.data.params;
-               let indexOf = tempListParams.findIndex((item) => item.label === formV.key);
+               let tempListBody = innerNode.data.body;
+               let indexOf = tempListBody.findIndex((item) => item.label === formV.key);
                if (indexOf >= 0) {
                   notification.error({ message: 'Have same key! Please use another key' });
                } else {
-                  //add new
-
-                  tempListParams = tempListParams.concat({
+                  //add ew
+                  notification.success({ message: 'Add body param success' });
+                  tempListBody = tempListBody.concat({
                      label: formV.key,
                      value: formV.value,
                   });
-                  notification.success({ message: 'Add param success' });
                }
                form.resetFields();
-               setInnerNode({ ...innerNode, data: { ...innerNode.data, params: tempListParams } });
+               setInnerNode({ ...innerNode, data: { ...innerNode.data, body: tempListBody } });
             }}>
             <div className="add-form">
                <FormItem
@@ -66,15 +65,15 @@ const ParamsEdit: React.FC<ParamsEditProps> = (props) => {
          </Form>
 
          <Divider orientation="left">
-            <h5>List params</h5>
+            <h5>List body params</h5>
          </Divider>
-         {innerNode.data.params.length <= 0 ? (
-            <Empty description="No params" />
+         {innerNode.data.body.length <= 0 ? (
+            <Empty description="No body params" />
          ) : (
-            innerNode.data.params.map((item) => {
+            innerNode.data.body.map((item) => {
                return (
-                  <UpdateParams
-                     key={item.label + item.value}
+                  <UpdateHeader
+                     key={item.label}
                      item={item}
                      innerNode={innerNode}
                      setInnerNode={(e) => setInnerNode(e)}
@@ -86,4 +85,4 @@ const ParamsEdit: React.FC<ParamsEditProps> = (props) => {
    );
 };
 
-export default ParamsEdit;
+export default BodyEdit;

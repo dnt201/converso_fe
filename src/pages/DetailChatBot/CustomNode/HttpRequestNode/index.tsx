@@ -17,10 +17,10 @@ export interface HttpRequestData {
    name: string;
    method: HttpRequest_Type;
    url: string;
-   headers: { key: string; value: string | number }[];
-   params: { key: string; value: string | number }[];
+   headers: { label: string; value: string | number }[];
+   params: { label: string; value: string | number }[];
    bodyType: string;
-   body: { key: string; value: string | number }[];
+   body: { label: string; value: string | number }[];
    nextAction: {
       case: 'failed' | 'success';
       actionId: string;
