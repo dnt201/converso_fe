@@ -24,6 +24,7 @@ import UpdateProduct from './UpdateProduct';
 import { useAtom } from 'jotai';
 import { languagesAtom } from '@pages/DetailChatBot';
 import ListUpdate from './ListUpdate';
+import { listVariableAtom } from '@pages/DetailChatBot/VariablesModal';
 
 interface PromptCollectMenuProps {
    promptCollect: Node<PromptCollectData>;
@@ -41,6 +42,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
    const [innerNode, setInnerNode] = useState<Node<PromptCollectData>>(promptCollect);
    const [keyTab, setKeyTab] = useState<tKeyTab>('general');
    const [languages, setLanguages] = useAtom(languagesAtom);
+   const [listVariable, setListVariable] = useAtom(listVariableAtom);
 
    useEffect(() => {
       setNode(innerNode);
@@ -247,7 +249,18 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                               <Select />
                            </Form.Item>
                            <Form.Item label="Assign Chatbot Response">
-                              <Select />
+                              <Select
+                                 options={listVariable.map((item) => item)}
+                                 defaultValue={innerNode.data.answer}
+                                 onSelect={(v) => {
+                                    setInnerNode((pre) => {
+                                       return {
+                                          ...pre,
+                                          data: { ...pre.data, answer: v },
+                                       };
+                                    });
+                                 }}
+                              />
                            </Form.Item>
                            <Form.Item label="Assign Intent">
                               <Select />
