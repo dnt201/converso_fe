@@ -42,7 +42,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
    const [innerNode, setInnerNode] = useState<Node<PromptCollectData>>(promptCollect);
    const [keyTab, setKeyTab] = useState<tKeyTab>('general');
    const [languages, setLanguages] = useAtom(languagesAtom);
-   const [listVariable, setListVariable] = useAtom(listVariableAtom);
+   const [listVariable] = useAtom(listVariableAtom);
 
    useEffect(() => {
       setNode(innerNode);

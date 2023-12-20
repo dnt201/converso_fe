@@ -12,7 +12,6 @@ export type HttpRequest_Type = 'GET' | 'POST' | 'PUT';
 
 export interface HttpRequestData {
    id: string;
-
    type: TypeOfNode;
    name: string;
    method: HttpRequest_Type;
@@ -20,6 +19,7 @@ export interface HttpRequestData {
    headers: { label: string; value: string | number }[];
    params: { label: string; value: string | number }[];
    bodyType: string;
+   response: string;
    body: { label: string; value: string | number }[];
    nextAction: {
       case: 'failed' | 'success';

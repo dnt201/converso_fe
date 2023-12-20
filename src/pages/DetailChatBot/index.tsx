@@ -113,7 +113,6 @@ const DnDFlow: React.FC = () => {
          }
          let tempEdges = JSON.parse(detailFlowById.data.edges) as Edge[];
          if (tempEdges.length > 0) {
-            console.log(tempEdges);
             setInitialEdges([...tempEdges]);
          }
          let tempLanguages = JSON.parse(detailFlowById.data.settings) as iLanguageFollow[];
@@ -122,7 +121,6 @@ const DnDFlow: React.FC = () => {
             setLanguages([...tempLanguages]);
          }
          let tempVariables = JSON.parse(detailFlowById.data.attributes) as iAttributes[];
-         console.log(detailFlowById, tempVariables);
          if (tempVariables.length > 0) {
             setListVariable(tempVariables);
          }
@@ -168,22 +166,34 @@ const DnDFlow: React.FC = () => {
          switch (item.data.type) {
             case 'promptandcollect': {
                let tempNode = item as Node<PromptCollectData>;
+               let tempNextAction = [];
+               edges.map((e) => {
+                  if (tempNode.data.id === e.source) {
+                     if (e.data?.condition) {
+                        if (e.data?.condition === 'other') {
+                           tempNextAction = tempNextAction.concat({
+                              case: 'other',
+                              actionId: e.target,
+                           });
+                        } else if (e.data?.condition === 'case') {
+                           tempNextAction = tempNextAction.concat({
+                              case: 'case',
+                              actionId: e.target,
+                           });
+                        } else {
+                           tempNextAction = tempNextAction.concat({
+                              case: `${e.data.condition}: ${e.data.intent}`,
+                              actionId: e.target,
+                           });
+                        }
+                     }
+                  }
+               });
                return {
                   ...tempNode,
                   data: {
                      ...tempNode.data,
-                     nextAction: edges.map((e) => {
-                        if (tempNode.data?.id === e.source) {
-                           if (e.data?.condition === 'other') {
-                              return { case: 'other', actionId: e.target };
-                           } else {
-                              return {
-                                 case: `${e.data?.condition}: ${e.data?.intent}`,
-                                 actionId: e.target,
-                              };
-                           }
-                        }
-                     }),
+                     nextAction: tempNextAction,
                   },
                };
             }
@@ -233,7 +243,6 @@ const DnDFlow: React.FC = () => {
                   color: '#333',
                },
             });
-
             setEdges((e) => {
                return [
                   ...e,
@@ -494,11 +503,12 @@ const DnDFlow: React.FC = () => {
                         type: type,
                         name: 'HTTP Request',
                         method: 'GET',
-                        url: 'string',
+                        url: '',
                         body: [],
                         headers: [],
                         params: [],
-                        bodyType: 'string',
+                        response: '',
+                        bodyType: '',
                         nextAction: [],
                      },
                   } as tHttpRequestNode;
@@ -564,6 +574,9 @@ const DnDFlow: React.FC = () => {
                      edges={edges}
                      onEdgesDelete={(e) => {}}
                      onNodesChange={onNodesChange}
+                     onNodeClick={(n, node) => {
+                        console.log('click to node', node);
+                     }}
                      onEdgesChange={onEdgesChange}
                      onConnect={onConnect}
                      onInit={setReactFlowInstance}

@@ -3,12 +3,23 @@ import { BaseEdge, EdgeLabelRenderer, EdgeProps, getBezierPath } from 'reactflow
 
 import './style.less';
 import { iValueEdgePromptCollect } from '@pages/DetailChatBot/CustomEdge/ModalEditCheckIntent';
+import { iOption } from '@interfaces/index';
 
 // const onEdgeClick = (evt: React.MouseEvent, id: string) => {
 //    evt.stopPropagation();
 //    alert(`remove ${id}`);
 // };
 
+const listOptionFalse: iOption[] = [
+   {
+      value: 'other',
+      label: 'Else',
+   },
+   {
+      value: 'case',
+      label: 'Not match',
+   },
+];
 const PromptCollectEdge: React.FC<EdgeProps<iValueEdgePromptCollect>> = (props) => {
    const {
       // id,
@@ -30,7 +41,6 @@ const PromptCollectEdge: React.FC<EdgeProps<iValueEdgePromptCollect>> = (props) 
       targetY,
       targetPosition,
    });
-   console.log(props.label);
    return (
       <>
          <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />

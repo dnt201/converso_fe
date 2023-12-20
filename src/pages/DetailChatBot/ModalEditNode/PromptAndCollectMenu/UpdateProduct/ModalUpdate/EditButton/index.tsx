@@ -3,19 +3,27 @@ import { Button, Divider, Input, Select, Slider, Space, notification } from 'ant
 import React, { useEffect, useRef, useState } from 'react';
 import './style.less';
 import { Node } from 'reactflow';
-import { PromptCollectData } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
+import {
+   PHONE_NUMBER,
+   POST_BACK,
+   PromptCollectData,
+   WEB_URL,
+} from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
 import DetailButton from './DetailsButton';
 
 type EditButtonsProps = {
    innerNode: Node<PromptCollectData>;
    setInnerNode: (node: Node<PromptCollectData>) => void;
    index: number;
+   listButton: Array<WEB_URL | POST_BACK | PHONE_NUMBER>;
+   setListButton: (buttons: Array<WEB_URL | POST_BACK | PHONE_NUMBER>) => void;
 };
 
 const EditButtons: React.FC<EditButtonsProps> = (props) => {
-   const { innerNode, index, setInnerNode } = props;
+   const { innerNode, index, setInnerNode, listButton, setListButton } = props;
+
    // const [listButton, setListButton] = useState(innerNode.data.extend[index]?.buttons ?? []);
-   const listButton = innerNode.data.extend[index].buttons ?? [];
+   // const listButton = innerNode.data.extend[index].buttons ?? [];
    // useEffect(() => {
    //    setInnerNode({
    //       ...innerNode,
@@ -41,13 +49,13 @@ const EditButtons: React.FC<EditButtonsProps> = (props) => {
             </Divider>
 
             <div className="list-button">
-               {innerNode.data.extend[index].buttons.map((item, i) => {
+               {listButton.map((item, i) => {
                   return (
                      <DetailButton
                         indexButton={i}
                         indexProduct={index}
-                        innerNode={innerNode}
-                        setInnerNode={(e) => setInnerNode(e)}
+                        listButton={listButton}
+                        setListButton={(b) => setListButton(b)}
                         button={item}
                         key={i}
                      />
@@ -59,25 +67,13 @@ const EditButtons: React.FC<EditButtonsProps> = (props) => {
                   if (listButton.length > 2) {
                      notification.info({ message: 'Max is 3 buttons response!' });
                   } else {
-                     setInnerNode({
-                        ...innerNode,
-                        data: {
-                           ...innerNode.data,
-                           extend: innerNode.data.extend.map((item, i) => {
-                              if (i === index) {
-                                 return {
-                                    ...item,
-                                    buttons: item.buttons.concat({
-                                       type: 'web_url',
-                                       title: '',
-                                       url: '',
-                                    }),
-                                 };
-                              }
-                              return item;
-                           }),
-                        },
-                     });
+                     setListButton(
+                        listButton.concat({
+                           type: 'web_url',
+                           title: '',
+                           url: '',
+                        })
+                     );
                   }
                }}>
                <PlusOutlined />

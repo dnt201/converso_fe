@@ -9,6 +9,7 @@ import './style.less';
 import ParamsEdit from './ParamsEdit';
 import HeaderEdit from './HeaderEdit';
 import BodyEdit from './BodyEdit';
+import ResponseEdit from './ResponseEdit';
 type HttpRequestMenuProps = {
    node: Node<HttpRequestData>;
    closeModal: () => void;
@@ -113,9 +114,9 @@ const HttpRequestMenu: React.FC<HttpRequestMenuProps> = (props) => {
                         <HeaderEdit innerNode={innerNode} setInnerNode={(e) => setInnerNode(e)} />
                      ) : curTab === 'body' ? (
                         <BodyEdit innerNode={innerNode} setInnerNode={(e) => setInnerNode(e)} />
-                     ) : (
-                        ''
-                     )}
+                     ) : curTab === 'response' ? (
+                        <ResponseEdit innerNode={innerNode} setInnerNode={(e) => setInnerNode(e)} />
+                     ) : null}
                   </div>
                </AppearLayout>
             </div>

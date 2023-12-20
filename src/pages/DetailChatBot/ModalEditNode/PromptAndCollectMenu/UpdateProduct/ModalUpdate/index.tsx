@@ -1,4 +1,9 @@
-import { PromptCollectData } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
+import {
+   PHONE_NUMBER,
+   POST_BACK,
+   PromptCollectData,
+   WEB_URL,
+} from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
 import { Col, Form, Image, Input, Modal, ModalProps, Row, Space } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import FormItem from 'antd/es/form/FormItem';
@@ -37,7 +42,9 @@ const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
    const { color, quantity, size } = extractInfo(
       props.innerNode.data.extend[index]?.subtitle || ''
    );
-
+   const [listButton, setListButton] = useState<Array<WEB_URL | POST_BACK | PHONE_NUMBER>>(
+      props.innerNode.data.extend[index]?.buttons || []
+   );
    const [form] = useForm();
    const [previewLink, setPreviewLink] = useState<string>(init.image_url);
    const formSubmit = (formValue) => {
@@ -57,7 +64,7 @@ const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
                      subtitle: subTitle,
                      image_url: formValue.img,
                      default_action: { type: '', url: '', webview_height_ratio: '' },
-                     buttons: [],
+                     buttons: listButton,
                   };
                } else return item;
             }),
@@ -123,6 +130,8 @@ const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
                </div>
             </div>
             <EditButtons
+               listButton={listButton}
+               setListButton={(b) => setListButton(b)}
                index={index}
                innerNode={innerNode}
                setInnerNode={(e) => setInnerNode(e)}

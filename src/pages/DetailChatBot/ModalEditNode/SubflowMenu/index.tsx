@@ -28,10 +28,8 @@ const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
    const [form] = useForm();
    const { data, isLoading } = useMyListFlowOptions();
    useEffect(() => {
-      //   console.log(innerNode.data.text);
       setNode(innerNode);
    }, [innerNode]);
-   console.log(innerNode);
    useEffect(() => {
       form.setFieldsValue({
          subflow: innerNode.data.flowId,
@@ -91,7 +89,6 @@ const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
                         rules={[{ required: true, message: 'Please chose subflow!' }]}>
                         <Select
                            onSelect={(v) => {
-                              console.log('set');
                               setInnerNode((pre) => {
                                  return { ...pre, data: { ...pre.data, flowId: v } };
                               });
@@ -112,7 +109,6 @@ const SubflowMenu: React.FC<SubflowMenuProps> = (props) => {
 const transformOption = (data: iFlow[], id: string) => {
    if (data === undefined) return [];
    let temp = data.filter((item) => item.id.toString() !== id.toString());
-   console.log(temp);
    return temp.map((item) => {
       return {
          value: item.id,
