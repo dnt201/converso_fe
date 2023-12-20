@@ -15,6 +15,7 @@ import { haveFlowChangeAtom, languagesAtom } from '..';
 import { useEditFollow } from '@hooks/flow/editFlow';
 import { tListNodeData } from '../CustomNode';
 import { Edge, Node } from 'reactflow';
+import { listVariableAtom } from '../VariablesModal';
 
 type NavTopChatbotProps = {
    setOpenVariable: (b: boolean) => void;
@@ -28,6 +29,7 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
    const { setOpenSettings, setOpenVariable, detailFlowById, nodes, edges } = props;
    const [haveFlowChange, setHaveFlowChange] = useAtom(haveFlowChangeAtom);
    const [languages, setLanguages] = useAtom(languagesAtom);
+   const [variables, setVariables] = useAtom(listVariableAtom);
 
    const navigate = useNavigate();
 
@@ -79,6 +81,7 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
                         settings: {
                            language: languages,
                         },
+                        attributes: variables,
                      });
                      setHaveFlowChange(false);
                   }}>

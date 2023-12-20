@@ -32,44 +32,9 @@ import SettingsModal from './SettingsModal';
 import { useDetailFlowById } from '@hooks/flow/detailFlowById';
 import { useParams } from 'react-router-dom';
 import CustomPrompt from '@components/CustomPrompt';
-import { iLanguageFollow } from '@hooks/flow';
+import { iAttributes, iLanguageFollow } from '@hooks/flow';
+import VariablesModal, { listVariableAtom } from './VariablesModal';
 
-const initialNodes = [
-   // {
-   //    id: 'prompt',
-   //    type: 'promptCollect',
-   //    data: { label: 'promptCollect' },
-   //    position: { x: 250, y: 150 },
-   //    deletable: false,
-   // },
-   // {
-   //    id: 'message',
-   //    type: 'sendAMessage',
-   //    data: { label: 'sendAMessage' },
-   //    position: { x: 250, y: 250 },
-   //    deletable: false,
-   // },
-   // ];
-   // const initialEdges = [
-   //    {
-   //       data: { intent: '1', condition: 'equal' },
-   //       id: 'e1-2',
-   //       source: 'prompt',
-   //       sourceHandle: 'prompt-and-collect-true',
-   //       target: 'message',
-   //       targetHandle: 'target-top',
-   //       type: 'promptCollectEdge',
-   //    },
-   //    {
-   //       data: { intent: '51', condition: 'equal' },
-   //       id: 'e22',
-   //       source: 'prompt',
-   //       sourceHandle: 'prompt-and-collect-true',
-   //       target: 'message',
-   //       targetHandle: 'target-top',
-   //       type: 'promptCollectEdge',
-   //    },
-];
 export interface iLanguageOption {
    value: tLanguage;
    label: string;
@@ -129,6 +94,7 @@ const DnDFlow: React.FC = () => {
    const selectedEdgeId = useRef<string | null>(null);
 
    const [languages, setLanguages] = useAtom(languagesAtom);
+   const [, setListVariable] = useAtom(listVariableAtom);
    const [_, setHaveFlowChange] = useAtom(haveFlowChangeAtom);
    //Todo: State - Another: modal,...
    const [openModalEditCheckIntent, setOpenModalEditCheckIntent] = useState<boolean>(false);
@@ -139,7 +105,6 @@ const DnDFlow: React.FC = () => {
    const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
 
    //Todo: Api
-   console.log(nodes);
    useLayoutEffect(() => {
       if (detailFlowById.data) {
          let tempNodes = JSON.parse(detailFlowById.data.diagram) as Node<tListNodeData>[];
@@ -154,9 +119,13 @@ const DnDFlow: React.FC = () => {
          let tempLanguages = JSON.parse(detailFlowById.data.settings) as {
             language: iLanguageFollow[];
          };
-         console.log(tempLanguages);
          if (tempLanguages.language.length > 0) {
             setLanguages([...tempLanguages.language]);
+         }
+         let tempVariables = JSON.parse(detailFlowById.data.attributes) as iAttributes[];
+         console.log(detailFlowById, tempVariables);
+         if (tempVariables.length > 0) {
+            setListVariable(tempVariables);
          }
       }
    }, []);
@@ -564,6 +533,7 @@ const DnDFlow: React.FC = () => {
             title={<h2>Settings</h2>}
             open={openModalSettings}
          />
+         <VariablesModal setShowModal={(b) => setOpenModalVariable(b)} open={openModalVariable} />
          <CustomPrompt
             isBlocked={true}
             title={'Do you want exit page?'}
@@ -571,11 +541,7 @@ const DnDFlow: React.FC = () => {
                'Any changes you made may not be saved! Please, click save button before you leave.'
             }
          />
-         <Modal
-            title={<h2>List Variable</h2>}
-            open={openModalVariable}
-            onCancel={() => setOpenModalVariable(false)}
-         />
+
          <div className="playReactNode">
             <ModalEditNode
                hidden={selectedNode ? false : true}

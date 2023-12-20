@@ -15,7 +15,7 @@ export interface iFlow {
    // {
    //    language: string; // iLanguageFollow[];
    // };
-   attributes: iAttributes[];
+   attributes: string; //iAttributes[];
    flow: tListNodeData[];
    publishedFlow: null;
    isPublished: boolean;
