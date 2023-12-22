@@ -27,6 +27,7 @@ import { languagesAtom } from '@pages/DetailChatBot';
 import ListUpdate from './ListUpdate';
 import { listVariableAtom } from '@pages/DetailChatBot/VariablesModal';
 import { Option } from 'antd/es/mentions';
+import ListUpdateNotMatch from './ListUpdateNotMatch';
 
 interface PromptCollectMenuProps {
    promptCollect: Node<PromptCollectData>;
@@ -190,78 +191,99 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                               No Match
                            </span>
                         </div>
+                        {curSubMenu === 'main' ? (
+                           <>
+                              {innerNode.data.prompt_type === 'template' ? (
+                                 <AppearLayout>
+                                    <Divider orientation="left">
+                                       <h5>List response</h5>
+                                    </Divider>
+                                    <div className="list-product-container">
+                                       {innerNode.data.extend.length &&
+                                       refListProduct.current &&
+                                       refListProduct.current.scrollWidth >
+                                          refListProduct.current.clientWidth ? (
+                                          <>
+                                             <i
+                                                className="left-btn"
+                                                onClick={() =>
+                                                   (refListProduct.current.scrollLeft -= 200)
+                                                }>
+                                                <ArrowLeftOutlined />
+                                             </i>
+                                             <i
+                                                className="right-btn"
+                                                onClick={() =>
+                                                   (refListProduct.current.scrollLeft += 200)
+                                                }>
+                                                <ArrowRightOutlined />
+                                             </i>
+                                          </>
+                                       ) : null}
 
-                        {innerNode.data.prompt_type === 'template' ? (
-                           <AppearLayout>
-                              <Divider orientation="left">
-                                 <h5>List response</h5>
-                              </Divider>
-                              <div className="list-product-container">
-                                 {innerNode.data.extend.length &&
-                                 refListProduct.current &&
-                                 refListProduct.current.scrollWidth >
-                                    refListProduct.current.clientWidth ? (
-                                    <>
-                                       <i
-                                          className="left-btn"
-                                          onClick={() =>
-                                             (refListProduct.current.scrollLeft -= 200)
-                                          }>
-                                          <ArrowLeftOutlined />
-                                       </i>
-                                       <i
-                                          className="right-btn"
-                                          onClick={() =>
-                                             (refListProduct.current.scrollLeft += 200)
-                                          }>
-                                          <ArrowRightOutlined />
-                                       </i>
-                                    </>
-                                 ) : null}
-
-                                 <div className="list-product" ref={refListProduct}>
-                                    {innerNode.data.extend.length <= 0 ? (
-                                       <Empty
-                                          description="Click button in left menu to add response!"
-                                          style={{ width: '100%' }}
-                                       />
-                                    ) : (
-                                       innerNode.data.extend.map((item, index) => {
-                                          return (
-                                             <UpdateProduct
-                                                index={index}
-                                                {...item}
-                                                key={crypto.randomUUID()}
-                                                innerNode={innerNode}
-                                                // item={item}
-                                                setInnerNode={(n) => setInnerNode(n)}
-                                                // key={item.key}
+                                       <div className="list-product" ref={refListProduct}>
+                                          {innerNode.data.extend.length <= 0 ? (
+                                             <Empty
+                                                description="Click button in left menu to add response!"
+                                                style={{ width: '100%' }}
                                              />
-                                          );
-                                       })
-                                    )}
-                                 </div>
-                              </div>
-                           </AppearLayout>
-                        ) : innerNode.data.prompt_type === 'address_template' ? (
-                           <>Address</>
-                        ) : innerNode.data.prompt_type === 'normal' ? (
-                           <AppearLayout>
-                              <Divider orientation="left">
-                                 <h5>List main prompt</h5>
-                              </Divider>
-                              {languages.map((item) => {
-                                 return (
-                                    <ListUpdate
-                                       innerNode={innerNode}
-                                       setInnerNode={setInnerNode}
-                                       item={item}
-                                       key={item.label + item.value}
-                                    />
-                                 );
-                              })}
-                           </AppearLayout>
-                        ) : null}
+                                          ) : (
+                                             innerNode.data.extend.map((item, index) => {
+                                                return (
+                                                   <UpdateProduct
+                                                      index={index}
+                                                      {...item}
+                                                      key={crypto.randomUUID()}
+                                                      innerNode={innerNode}
+                                                      // item={item}
+                                                      setInnerNode={(n) => setInnerNode(n)}
+                                                      // key={item.key}
+                                                   />
+                                                );
+                                             })
+                                          )}
+                                       </div>
+                                    </div>
+                                 </AppearLayout>
+                              ) : innerNode.data.prompt_type === 'address_template' ? (
+                                 <>Address</>
+                              ) : innerNode.data.prompt_type === 'normal' ? (
+                                 <AppearLayout>
+                                    <Divider orientation="left">
+                                       <h5>List main prompt</h5>
+                                    </Divider>
+                                    {languages.map((item) => {
+                                       return (
+                                          <ListUpdate
+                                             innerNode={innerNode}
+                                             setInnerNode={setInnerNode}
+                                             item={item}
+                                             key={item.label + item.value}
+                                          />
+                                       );
+                                    })}
+                                 </AppearLayout>
+                              ) : null}
+                           </>
+                        ) : (
+                           <>
+                              <AppearLayout>
+                                 <Divider orientation="left">
+                                    <h5>List main prompt when not match</h5>
+                                 </Divider>
+                                 {languages.map((item) => {
+                                    return (
+                                       <ListUpdateNotMatch
+                                          innerNode={innerNode}
+                                          setInnerNode={setInnerNode}
+                                          item={item}
+                                          key={item.label + item.value}
+                                       />
+                                    );
+                                 })}
+                              </AppearLayout>
+                           </>
+                        )}
                      </AppearLayout>
                   </>
                ) : keyTab === 'grammar' ? (
@@ -288,7 +310,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                            <Form.Item label="Grammar">
                               <Select />
                            </Form.Item>
-                           <Form.Item label="Assign Chatbot Response">
+                           <Form.Item label="Assign User Response">
                               <Select
                                  options={listVariable.map((item) => item)}
                                  defaultValue={innerNode.data.answer}
@@ -298,7 +320,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                                           ...pre,
                                           data: {
                                              ...pre.data,
-                                             answer: b,
+                                             answer: b.value,
                                           },
                                        };
                                     });
@@ -311,9 +333,6 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                                  );
                               })} */}
                               </Select>
-                           </Form.Item>
-                           <Form.Item label="Assign Intent">
-                              <Select />
                            </Form.Item>
                         </Form>
                      </div>

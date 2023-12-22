@@ -553,6 +553,7 @@ const DnDFlow: React.FC = () => {
                         id,
                         type: type,
                         name: 'Prompt & Collect',
+                        notmatchprompts: [],
                         text: [],
                         validateType: 'none',
                         answer: {},

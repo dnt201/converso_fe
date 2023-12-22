@@ -11,16 +11,17 @@ export interface PromptCollectData {
 
    type: TypeOfNode;
    name: string;
+   notmatchprompts: {
+      language: tLanguage;
+      message: string;
+   }[];
    text: {
       // key: string | number;
       language: tLanguage;
       message: string;
    }[];
    validateType: string;
-   answer: {
-      label: string;
-      value: string;
-   };
+   answer: string;
    intent: string;
    nextAction: {
       case: string; //"label:{intent}" backend tự check
