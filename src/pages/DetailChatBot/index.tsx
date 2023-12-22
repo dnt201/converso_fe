@@ -554,7 +554,7 @@ const DnDFlow: React.FC = () => {
                         type: type,
                         name: 'Prompt & Collect',
                         text: [],
-                        validateType: 'intent',
+                        validateType: 'none',
                         answer: {},
                         intent: '',
                         nextAction: [],

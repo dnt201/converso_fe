@@ -18,13 +18,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Node } from 'reactflow';
 
 type tKeyTab = 'general' | 'settings' | 'grammar';
+type tSubMenu = 'main' | 'no-match';
 import './style.less';
 import AppearLayout from '@layouts/AppearLayout';
 import UpdateProduct from './UpdateProduct';
-import { useAtom } from 'jotai';
+import { atom, useAtom } from 'jotai';
 import { languagesAtom } from '@pages/DetailChatBot';
 import ListUpdate from './ListUpdate';
 import { listVariableAtom } from '@pages/DetailChatBot/VariablesModal';
+import { Option } from 'antd/es/mentions';
 
 interface PromptCollectMenuProps {
    promptCollect: Node<PromptCollectData>;
@@ -41,6 +43,8 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
    const { closeModal, promptCollect, setNode } = props;
    const [innerNode, setInnerNode] = useState<Node<PromptCollectData>>(promptCollect);
    const [keyTab, setKeyTab] = useState<tKeyTab>('general');
+
+   const [curSubMenu, setCurSubMenu] = useState<tSubMenu>('main');
    const [languages, setLanguages] = useAtom(languagesAtom);
    const [listVariable] = useAtom(listVariableAtom);
 
@@ -172,78 +176,114 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                   </div>
                </div>
                {keyTab === 'general' ? (
-                  <AppearLayout>
-                     {innerNode.data.prompt_type === 'template' ? (
-                        <AppearLayout>
-                           <Divider orientation="left">
-                              <h5>List response</h5>
-                           </Divider>
-                           <div className="list-product-container">
-                              {innerNode.data.extend.length &&
-                              refListProduct.current &&
-                              refListProduct.current.scrollWidth >
-                                 refListProduct.current.clientWidth ? (
-                                 <>
-                                    <i
-                                       className="left-btn"
-                                       onClick={() => (refListProduct.current.scrollLeft -= 200)}>
-                                       <ArrowLeftOutlined />
-                                    </i>
-                                    <i
-                                       className="right-btn"
-                                       onClick={() => (refListProduct.current.scrollLeft += 200)}>
-                                       <ArrowRightOutlined />
-                                    </i>
-                                 </>
-                              ) : null}
+                  <>
+                     <AppearLayout>
+                        <div className="tab-menu">
+                           <span
+                              className={'tab-item' + (curSubMenu === 'main' ? ' active' : '')}
+                              onClick={() => setCurSubMenu('main')}>
+                              Main
+                           </span>
+                           <span
+                              className={'tab-item' + (curSubMenu === 'no-match' ? ' active' : '')}
+                              onClick={() => setCurSubMenu('no-match')}>
+                              No Match
+                           </span>
+                        </div>
 
-                              <div className="list-product" ref={refListProduct}>
-                                 {innerNode.data.extend.length <= 0 ? (
-                                    <Empty
-                                       description="Click button in left menu to add response!"
-                                       style={{ width: '100%' }}
-                                    />
-                                 ) : (
-                                    innerNode.data.extend.map((item, index) => {
-                                       return (
-                                          <UpdateProduct
-                                             index={index}
-                                             {...item}
-                                             key={crypto.randomUUID()}
-                                             innerNode={innerNode}
-                                             // item={item}
-                                             setInnerNode={(n) => setInnerNode(n)}
-                                             // key={item.key}
-                                          />
-                                       );
-                                    })
-                                 )}
+                        {innerNode.data.prompt_type === 'template' ? (
+                           <AppearLayout>
+                              <Divider orientation="left">
+                                 <h5>List response</h5>
+                              </Divider>
+                              <div className="list-product-container">
+                                 {innerNode.data.extend.length &&
+                                 refListProduct.current &&
+                                 refListProduct.current.scrollWidth >
+                                    refListProduct.current.clientWidth ? (
+                                    <>
+                                       <i
+                                          className="left-btn"
+                                          onClick={() =>
+                                             (refListProduct.current.scrollLeft -= 200)
+                                          }>
+                                          <ArrowLeftOutlined />
+                                       </i>
+                                       <i
+                                          className="right-btn"
+                                          onClick={() =>
+                                             (refListProduct.current.scrollLeft += 200)
+                                          }>
+                                          <ArrowRightOutlined />
+                                       </i>
+                                    </>
+                                 ) : null}
+
+                                 <div className="list-product" ref={refListProduct}>
+                                    {innerNode.data.extend.length <= 0 ? (
+                                       <Empty
+                                          description="Click button in left menu to add response!"
+                                          style={{ width: '100%' }}
+                                       />
+                                    ) : (
+                                       innerNode.data.extend.map((item, index) => {
+                                          return (
+                                             <UpdateProduct
+                                                index={index}
+                                                {...item}
+                                                key={crypto.randomUUID()}
+                                                innerNode={innerNode}
+                                                // item={item}
+                                                setInnerNode={(n) => setInnerNode(n)}
+                                                // key={item.key}
+                                             />
+                                          );
+                                       })
+                                    )}
+                                 </div>
                               </div>
-                           </div>
-                        </AppearLayout>
-                     ) : innerNode.data.prompt_type === 'address_template' ? (
-                        <>Address</>
-                     ) : innerNode.data.prompt_type === 'normal' ? (
-                        languages.map((item) => {
-                           return (
-                              <ListUpdate
-                                 innerNode={innerNode}
-                                 setInnerNode={setInnerNode}
-                                 item={item}
-                                 key={item.label + item.value}
-                              />
-                           );
-                        })
-                     ) : null}
-                  </AppearLayout>
-               ) : keyTab === 'settings' ? (
-                  <></>
-               ) : (
+                           </AppearLayout>
+                        ) : innerNode.data.prompt_type === 'address_template' ? (
+                           <>Address</>
+                        ) : innerNode.data.prompt_type === 'normal' ? (
+                           <AppearLayout>
+                              <Divider orientation="left">
+                                 <h5>List main prompt</h5>
+                              </Divider>
+                              {languages.map((item) => {
+                                 return (
+                                    <ListUpdate
+                                       innerNode={innerNode}
+                                       setInnerNode={setInnerNode}
+                                       item={item}
+                                       key={item.label + item.value}
+                                    />
+                                 );
+                              })}
+                           </AppearLayout>
+                        ) : null}
+                     </AppearLayout>
+                  </>
+               ) : keyTab === 'grammar' ? (
                   <AppearLayout>
                      <div className="settings">
                         <Form layout="vertical">
                            <Form.Item label="Grammar type">
-                              <Select />
+                              <Select
+                                 options={listGrammarType}
+                                 defaultValue={innerNode.data.validateType}
+                                 onSelect={(_, b) => {
+                                    setInnerNode((pre) => {
+                                       return {
+                                          ...pre,
+                                          data: {
+                                             ...pre.data,
+                                             validateType: b.value,
+                                          },
+                                       };
+                                    });
+                                 }}
+                              />
                            </Form.Item>
                            <Form.Item label="Grammar">
                               <Select />
@@ -264,12 +304,12 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                                     });
                                  }}>
                                  {/* {listVariable.map((item) => {
-                                    return (
-                                       <Select.Option key={item.label} value={item.value}>
-                                          {item.label}
-                                       </Select.Option>
-                                    );
-                                 })} */}
+                                 return (
+                                    <Select.Option key={item.label} value={item.value}>
+                                       {item.label}
+                                    </Select.Option>
+                                 );
+                              })} */}
                               </Select>
                            </Form.Item>
                            <Form.Item label="Assign Intent">
@@ -278,7 +318,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                         </Form>
                      </div>
                   </AppearLayout>
-               )}
+               ) : null}
             </div>
          </div>
       </div>
@@ -286,3 +326,14 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
 };
 
 export default PromptCollectMenu;
+
+// export const listGrammarType = atom<iAttributes[]>([]);
+// "yes-no ||  ||  ||  ||  || ",
+const listGrammarType = [
+   { value: 'none', label: 'None' },
+   { value: 'yes-no', label: 'Yes or No' },
+   { value: 'number', label: 'Number' },
+   { value: 'email', label: 'Email' },
+   { value: 'phonenumber', label: 'Phonenumber' },
+   { value: 'intent', label: 'Intent' },
+];

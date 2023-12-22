@@ -16,7 +16,7 @@ export interface PromptCollectData {
       language: tLanguage;
       message: string;
    }[];
-   validateType: ValidateType;
+   validateType: string;
    answer: {
       label: string;
       value: string;

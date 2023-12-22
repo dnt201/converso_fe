@@ -189,6 +189,7 @@
                }
             }
          }
+         
 
          .step-menu {
             background: white;
@@ -298,6 +299,30 @@
                }
             }
          }
+         .tab-menu {
+            display: flex;
+            width: 100%;
+            justify-content: space-evenly;
+            >.tab-item {
+               padding:12px;
+               font-size: 16px;
+               font-weight: 500; 
+               flex:1;
+               color: var(--color-disable);
+               text-align: center;
+               border-bottom: solid 1px var(--color-disable-hover);
+               transition-duration: 250ms;
+               &.active {
+                  color: var(--color-main-blue);
+                  border-bottom: 2px solid var(--color-main-blue);
+               }
+               &:hover {
+                  color: var(--color-main-blue);
+                  opacity: 0.85;
+                  cursor: pointer;
+               }
+            }
+           }
       }
    }
 }

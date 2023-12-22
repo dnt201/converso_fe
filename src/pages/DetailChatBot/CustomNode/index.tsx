@@ -75,5 +75,5 @@ export type tListNodeData =
    | CheckVariableData
    | HttpRequestData;
 
-export type ValidateType = 'yes-no' | 'number' | 'email' | 'phonenumber' | 'intent';
+export type ValidateType = 'yes-no' | 'number' | 'email' | 'phonenumber' | 'intent' | 'none';
 
