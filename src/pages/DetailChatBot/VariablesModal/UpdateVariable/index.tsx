@@ -23,7 +23,7 @@ const UpdateVariable: React.FC<UpdateVariable> = (props) => {
          initialValues={{ label: item.label, value: item.value }}
          form={form}
          onFinish={(formV) => {
-            let indexOf = listVariable.filter((i) => item.label === formV.label);
+            let indexOf = listVariable.filter((i) => i.label === formV.label);
             if (
                (item.label === formV.label && indexOf.length >= 2) ||
                (item.label !== formV.label && indexOf.length >= 1)

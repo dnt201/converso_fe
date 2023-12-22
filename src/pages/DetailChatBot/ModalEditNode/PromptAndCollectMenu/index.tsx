@@ -252,15 +252,25 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                               <Select
                                  options={listVariable.map((item) => item)}
                                  defaultValue={innerNode.data.answer}
-                                 onSelect={(v) => {
+                                 onSelect={(_, b) => {
                                     setInnerNode((pre) => {
                                        return {
                                           ...pre,
-                                          data: { ...pre.data, answer: v },
+                                          data: {
+                                             ...pre.data,
+                                             answer: b,
+                                          },
                                        };
                                     });
-                                 }}
-                              />
+                                 }}>
+                                 {/* {listVariable.map((item) => {
+                                    return (
+                                       <Select.Option key={item.label} value={item.value}>
+                                          {item.label}
+                                       </Select.Option>
+                                    );
+                                 })} */}
+                              </Select>
                            </Form.Item>
                            <Form.Item label="Assign Intent">
                               <Select />

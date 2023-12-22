@@ -73,8 +73,8 @@ const listOptionFalse: iOption[] = [
 ];
 
 function getLabelByValue(value: string): string | undefined {
-   const option = listOptionTrue.find((option) => option.value === value);
-   return option ? option.label : undefined;
+   const option = listOptionFalse.find((option) => option.value === value);
+   return option ? option.label : 'undefined';
 }
 
 const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
@@ -94,7 +94,10 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
    };
    let defaultValueSelect: string = '';
    if (edge)
-      if (edge.sourceHandle === 'prompt-and-collect-false') {
+      if (
+         edge.sourceHandle === 'prompt-and-collect-false' ||
+         edge.sourceHandle === 'check-variable-false'
+      ) {
          defaultValueSelect =
             edge.data?.condition && edge.data?.condition !== ''
                ? findOptionByValue(edge.data.condition, listOptionFalse)?.value ?? ''
@@ -121,7 +124,10 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
    }, [formData]);
 
    const curNodeSource = nodes.find((node) => {
-      if (node.data.id === edge.source && node.data.type === 'promptandcollect') {
+      if (
+         node.data.id === edge.source
+         // && node.data.type === 'promptandcollect'
+      ) {
          const temp = node;
          return temp;
       }
@@ -144,7 +150,7 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                if (
                   condition === undefined ||
                   condition.length <= 0 ||
-                  (edge.sourceHandle !== 'prompt-and-collect-false' &&
+                  (!edge.sourceHandle.includes('false') &&
                      (intent === undefined || intent.length <= 0))
                ) {
                   deleteEdgeById(edge.id);
@@ -157,7 +163,7 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                if (
                   condition === undefined ||
                   condition.length <= 0 ||
-                  (edge.sourceHandle !== 'prompt-and-collect-false' &&
+                  (!edge.sourceHandle.includes('false') &&
                      (intent === undefined || intent.length <= 0))
                ) {
                   deleteEdgeById(edge.id);
@@ -180,7 +186,7 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                   if (
                      condition === undefined ||
                      condition.length <= 0 ||
-                     (edge.sourceHandle !== 'prompt-and-collect-false' &&
+                     (!edge.sourceHandle.includes('false') &&
                         (intent === undefined || intent.length <= 0))
                   ) {
                      deleteEdgeById(edge.id);
@@ -191,9 +197,10 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                               ...item,
                               selected: false,
                               label:
-                                 edge.sourceHandle !== 'prompt-and-collect-false'
+                                 edge.sourceHandle !== 'prompt-and-collect-false' &&
+                                 edge.sourceHandle !== 'check-variable-false'
                                     ? `${condition}: ${intent}`
-                                    : condition,
+                                    : getLabelByValue(condition),
                               data: {
                                  condition: condition,
                                  intent: intent,
@@ -212,7 +219,8 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                   <Select
                      placeholder="Select condition."
                      options={
-                        edge.sourceHandle === 'prompt-and-collect-false'
+                        edge.sourceHandle === 'prompt-and-collect-false' ||
+                        edge.sourceHandle === 'check-variable-false'
                            ? listOptionFalse.filter((item) => {
                                 if (
                                    curNodeSource.data.nextAction.findIndex((next) => {
@@ -227,7 +235,8 @@ const ModalEditCheckIntent: React.FC<ModalEditCheckIntentProps> = (props) => {
                      }
                   />
                </Form.Item>
-               {edge.sourceHandle === 'prompt-and-collect-false' ? null : (
+               {edge.sourceHandle === 'prompt-and-collect-false' ||
+               edge.sourceHandle === 'check-variable-false' ? null : (
                   <Form.Item name={'intent'} label="Value" style={{ flex: 2 }}>
                      <Input />
                   </Form.Item>

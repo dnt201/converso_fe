@@ -199,11 +199,64 @@ const DnDFlow: React.FC = () => {
             }
             case 'checkattribute': {
                let tempNode = item as Node<CheckVariableData>;
-               return tempNode;
+               let tempNextAction = [];
+               edges.map((e) => {
+                  if (tempNode.data.id === e.source) {
+                     if (e.data?.condition) {
+                        if (e.data?.condition === 'other') {
+                           tempNextAction = tempNextAction.concat({
+                              case: 'other',
+                              actionId: e.target,
+                           });
+                        } else if (e.data?.condition === 'case') {
+                           tempNextAction = tempNextAction.concat({
+                              case: 'case',
+                              actionId: e.target,
+                           });
+                        } else {
+                           tempNextAction = tempNextAction.concat({
+                              case: `${e.data.condition}: ${e.data.intent}`,
+                              actionId: e.target,
+                           });
+                        }
+                     }
+                  }
+               });
+               return {
+                  ...tempNode,
+                  data: {
+                     ...tempNode.data,
+                     nextAction: tempNextAction,
+                  },
+               };
             }
             case 'http': {
                let tempNode = item as Node<HttpRequestData>;
-               return tempNode;
+               let tempNextAction = [];
+               edges.map((e) => {
+                  if (tempNode.data.id === e.source) {
+                     if (e.data?.condition) {
+                        if (e.data?.condition === 'failed') {
+                           tempNextAction = tempNextAction.concat({
+                              case: 'failed',
+                              actionId: e.target,
+                           });
+                        } else if (e.data?.condition === 'success') {
+                           tempNextAction = tempNextAction.concat({
+                              case: 'success',
+                              actionId: e.target,
+                           });
+                        }
+                     }
+                  }
+               });
+               return {
+                  ...tempNode,
+                  data: {
+                     ...tempNode.data,
+                     nextAction: tempNextAction,
+                  },
+               };
             }
             case 'message': {
                let tempNode = item as Node<SendAMessageData>;
@@ -225,7 +278,12 @@ const DnDFlow: React.FC = () => {
 
    const onConnect = useCallback(
       async (params: Edge | Connection) => {
-         if (params?.sourceHandle?.includes('prompt-and-collect')) {
+         const httpRequestId = crypto.randomUUID();
+
+         if (
+            params?.sourceHandle?.includes('prompt-and-collect') ||
+            params?.sourceHandle?.includes('check-variable')
+         ) {
             // setSelectedEdge(params)
 
             const tempId = crypto.randomUUID();
@@ -261,6 +319,39 @@ const DnDFlow: React.FC = () => {
                   },
                ];
             });
+         } else if (params?.sourceHandle?.includes('http-request')) {
+            setEdges((e) => {
+               return [
+                  ...e,
+                  {
+                     ...params,
+                     source: params.source + '',
+                     target: params.target + '',
+                     type: 'promptCollectEdge',
+                     id: httpRequestId,
+                     label: params.sourceHandle === 'http-request-failed' ? 'Failed' : 'Success',
+                     data: {
+                        condition:
+                           params.sourceHandle === 'http-request-failed' ? 'failed' : 'success',
+                     },
+                     markerEnd: {
+                        type: MarkerType.ArrowClosed,
+                        width: 16,
+                        height: 16,
+                        color: '#333',
+                     },
+                  },
+               ];
+            });
+            //    label:
+            //    edge.sourceHandle !== 'prompt-and-collect-false' &&
+            //    edge.sourceHandle !== 'check-variable-false'
+            //       ? `${condition}: ${intent}`
+            //       : getLabelByValue(condition),
+            // data: {
+            //    condition: condition,
+            //    intent: intent,
+            // },
          } else {
             const id = crypto.randomUUID();
             setEdges((e) => {
@@ -295,30 +386,37 @@ const DnDFlow: React.FC = () => {
          nodes.map((item) => {
             if (item.id === params.source) {
                switch (item.data.type) {
-                  case 'checkattribute': {
-                     const asNode = item as Node<CheckVariableData>;
-                     break;
-                  }
+                  // case 'checkattribute': {
+                  //    const asNode = item as Node<CheckVariableData>;
+                  //    break;
+                  // }
 
                   case 'http': {
                      const asNode = item as Node<HttpRequestData>;
-                     // if (
-                     //    asNode.data?.nextAction !== undefined &&
-                     //    asNode.data.nextAction.length > 0
-                     // ) {
-                     //    setEdges((pre) => {
-                     //       return pre.filter((item) => {
-                     //          if (
-                     //             item.source !== asNode.data.id ||
-                     //             (item.source === asNode.data.id && item.target === params.target)
-                     //          )
-                     //             return item;
-                     //       });
-                     //    });
-                     // }
+                     if (
+                        asNode.data?.nextAction !== undefined &&
+                        asNode.data.nextAction.length > 0
+                     ) {
+                        setEdges((pre) => {
+                           return pre.filter((edg) => {
+                              if (edg.source !== asNode.data.id) {
+                                 return edg; // Giữ lại những cạnh không phải của node này - xóa tất cả các cạnh của node này
+                              } else if (
+                                 edg.id === httpRequestId || // Giữ lại cạnh vừa tạo
+                                 (params.sourceHandle === 'http-request-failed' && // Giữ lại cạnh không phải là handle vừa tạo
+                                    edg.sourceHandle !== 'http-request-failed') ||
+                                 (params.sourceHandle === 'http-request-success' &&
+                                    edg.sourceHandle !== 'http-request-success')
+                              )
+                                 return edg;
+                              else {
+                              }
+                           });
+                        });
+                     }
+
                      // asNode.data.nextAction = params.target;
-                     // return asNode;
-                     break;
+                     return asNode;
                   }
                   case 'message': {
                      const asNode = item as Node<SendAMessageData>;
@@ -457,7 +555,7 @@ const DnDFlow: React.FC = () => {
                         name: 'Prompt & Collect',
                         text: [],
                         validateType: 'intent',
-                        answer: '',
+                        answer: {},
                         intent: '',
                         nextAction: [],
                         extend: [],
@@ -488,7 +586,7 @@ const DnDFlow: React.FC = () => {
                         id,
                         type: type,
                         name: 'Check Variable',
-                        attribute: 'string',
+                        attribute: undefined,
                         nextAction: [],
                      },
                   } as tCheckVariableNode;

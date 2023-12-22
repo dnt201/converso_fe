@@ -12,6 +12,8 @@ import HttpRequestMenu from './HttpRequestMenu';
 import { HttpRequestData } from '../CustomNode/HttpRequestNode';
 import { useNavigate } from 'react-router-dom';
 import { useMyListFlow } from '@hooks/flow/myListFlow';
+import CheckVariableMenu from './CheckVariableMenu';
+import { CheckVariableData } from '../CustomNode/CheckVariable';
 
 interface ModalEditNodeProps {
    node: Node<tListNodeData> | null;
@@ -49,7 +51,11 @@ const ModalEditNode: React.FC<ModalEditNodeProps> = (props) => {
                   node={node as Node<SendAMessageData>}
                />
             ) : node.type === 'checkattribute' ? (
-               <></>
+               <CheckVariableMenu
+                  setNode={(curNode) => setNode(curNode)}
+                  closeModal={() => setNode(null)}
+                  node={node as Node<CheckVariableData>}
+               />
             ) : node.type === 'http' ? (
                <HttpRequestMenu
                   setNode={(curNode) => setNode(curNode)}

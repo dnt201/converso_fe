@@ -17,7 +17,10 @@ export interface PromptCollectData {
       message: string;
    }[];
    validateType: ValidateType;
-   answer: string;
+   answer: {
+      label: string;
+      value: string;
+   };
    intent: string;
    nextAction: {
       case: string; //"label:{intent}" backend tự check
