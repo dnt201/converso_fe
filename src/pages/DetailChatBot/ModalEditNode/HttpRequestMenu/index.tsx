@@ -63,6 +63,21 @@ const HttpRequestMenu: React.FC<HttpRequestMenuProps> = (props) => {
                />
             </div>
             <div className="node-information">
+               <b>Url:</b>
+               <Input
+                  className="input-edit-name"
+                  placeholder="Enter your url"
+                  defaultValue={node.data.url}
+                  onChange={(e) => {
+                     setInnerNode((pre) => {
+                        return { ...pre, data: { ...pre.data, url: e.target.value } };
+                     });
+                  }}
+                  // options={list_type_selection}
+                  // onSelect={(e) => changeType(e)}
+               />
+            </div>
+            <div className="node-information">
                <b>Type:</b>
                <Select
                   className="select-type"
@@ -72,6 +87,11 @@ const HttpRequestMenu: React.FC<HttpRequestMenuProps> = (props) => {
                      { value: 'PUT', label: 'PUT' },
                   ]}
                   defaultValue={node.data.method}
+                  onChange={(e) => {
+                     setInnerNode((pre) => {
+                        return { ...pre, data: { ...pre.data, method: e } };
+                     });
+                  }}
                   // options={list_type_selection}
                   // onSelect={(e) => changeType(e)}
                />

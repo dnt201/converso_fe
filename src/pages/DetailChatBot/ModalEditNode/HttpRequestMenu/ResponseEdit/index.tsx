@@ -24,10 +24,10 @@ const ResponseEdit: React.FC<ResponseEditProps> = (props) => {
             placeholder="Select variable to contain your response!"
             options={listVariable.map((item) => item)}
             defaultValue={innerNode.data.response}
-            onSelect={(v) => {
+            onSelect={(_, v) => {
                setInnerNode({
                   ...innerNode,
-                  data: { ...innerNode.data, response: v },
+                  data: { ...innerNode.data, response: v.label },
                });
             }}
          />

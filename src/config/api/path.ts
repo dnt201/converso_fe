@@ -14,6 +14,7 @@ export const apiPath = {
       MY_LIST: '/flow/my-flows',
       DETAIL_BY_ID: '/flow/{id}',
       EDIT: '/flow/edit',
+      DELETE: '/flow/delete/{id}',
       // /api
    },
 };

@@ -75,7 +75,7 @@ const CheckVariableMenu: React.FC<CheckVariableMenuProps> = (props) => {
                         options={listVariable.map((item) => item)}
                         onSelect={(v, b) => {
                            setInnerNode((pre) => {
-                              return { ...pre, data: { ...pre.data, attribute: b } };
+                              return { ...pre, data: { ...pre.data, attribute: b.label } };
                            });
                         }}
                         placeholder="Select variable"

@@ -334,7 +334,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                                           ...pre,
                                           data: {
                                              ...pre.data,
-                                             answer: b.value,
+                                             answer: b.label,
                                           },
                                        };
                                     });

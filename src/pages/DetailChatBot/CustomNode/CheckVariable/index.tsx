@@ -8,10 +8,7 @@ export interface CheckVariableData {
    id: string;
    type: TypeOfNode;
    name: string;
-   attribute?: {
-      label: string;
-      value: string;
-   };
+   attribute?: string;
    nextAction: {
       case: string;
       actionId: string;

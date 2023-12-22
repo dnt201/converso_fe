@@ -59,12 +59,14 @@ const ManageChanel = () => {
    return (
       <AppearLayout className="manage-chanel-container">
          <ModalAddChanel open={openAddChanel} setCloseModal={(b) => setOpenAddChanel(b)} />
+
          <ModalEditChanel
             open={openEditChanel ? true : false}
             setCloseModal={() => setOpenEditChanel(undefined)}
             chanelProps={openEditChanel}
             flows={flows}
          />
+
          <Modal
             title="Confirm"
             open={openConfirmModal}
