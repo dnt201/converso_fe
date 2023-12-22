@@ -246,7 +246,21 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                                     </div>
                                  </AppearLayout>
                               ) : innerNode.data.prompt_type === 'address_template' ? (
-                                 <>Address</>
+                                 <AppearLayout>
+                                    <Divider orientation="left">
+                                       <h5>Ask user address</h5>
+                                    </Divider>
+                                    {languages.map((item) => {
+                                       return (
+                                          <ListUpdate
+                                             innerNode={innerNode}
+                                             setInnerNode={setInnerNode}
+                                             item={item}
+                                             key={item.label + item.value}
+                                          />
+                                       );
+                                    })}
+                                 </AppearLayout>
                               ) : innerNode.data.prompt_type === 'normal' ? (
                                  <AppearLayout>
                                     <Divider orientation="left">
