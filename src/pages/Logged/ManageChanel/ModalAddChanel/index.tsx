@@ -4,7 +4,7 @@ import './style.less';
 import { useForm } from 'antd/es/form/Form';
 import { iChanel, iMessengerCredentials } from '@hooks/chanel/myListChanel';
 import { useCreateChanel } from '@hooks/chanel/createChannel';
-type ModalAddChanelProps = ModalProps & { setCloseModal: (b: boolean) => void };
+type ModalAddChanelProps = ModalProps & { setCloseModal: (b: boolean) => void; flows: any[] };
 
 const ChannelTypes = [
    { value: 1, label: 'Web' },
@@ -39,11 +39,10 @@ const LineCredentials: React.FC<any> = () => {
 };
 
 const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
-   const { setCloseModal, ...modalProps } = props;
+   const { setCloseModal, flows, ...modalProps } = props;
    const [formAddChanel] = useForm();
    const [type, setType] = useState(1);
    const createChanel = useCreateChanel();
-
    const renderCredentialsForm = () => {
       if (type == 2) return <MessengerCredentials />;
       if (type == 3) return <LineCredentials />;
@@ -103,7 +102,16 @@ const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
                />
             </Form.Item>
             <Form.Item name="flowId" label="Flow reference">
-               <Select placeholder={'Select flow'} />
+               <Select
+                  placeholder={'Select flow'}
+                  options={
+                     (flows &&
+                        flows.map((e) => {
+                           return { value: e.id, label: e.name };
+                        })) ||
+                     []
+                  }
+               />
             </Form.Item>
             <Form.Item
                name="channelTypeId"

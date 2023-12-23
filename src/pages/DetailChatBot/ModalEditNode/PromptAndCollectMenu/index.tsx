@@ -18,7 +18,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Node } from 'reactflow';
 
 type tKeyTab = 'general' | 'settings' | 'grammar';
-type tSubMenu = 'main' | 'no-match';
+type tSubMenu = 'main' | 'no-match' | 'repeat';
 import './style.less';
 import AppearLayout from '@layouts/AppearLayout';
 import UpdateProduct from './UpdateProduct';
@@ -190,6 +190,11 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                               onClick={() => setCurSubMenu('no-match')}>
                               No Match
                            </span>
+                           <span
+                              className={'tab-item' + (curSubMenu === 'repeat' ? ' active' : '')}
+                              onClick={() => setCurSubMenu('repeat')}>
+                              Repeat
+                           </span>
                         </div>
                         {curSubMenu === 'main' ? (
                            <>
@@ -279,7 +284,25 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                                  </AppearLayout>
                               ) : null}
                            </>
-                        ) : (
+                        ) : curSubMenu === 'repeat' ? (
+                           <AppearLayout>
+                              <Divider orientation="left">
+                                 <h5>Repeat times</h5>
+                              </Divider>
+                              <Select
+                                 options={listRepeat}
+                                 defaultValue={innerNode.data.repeat}
+                                 style={{ width: '100%' }}
+                                 placeholder="Select repeat times"
+                                 onSelect={(v) => {
+                                    setInnerNode({
+                                       ...innerNode,
+                                       data: { ...innerNode.data, repeat: v },
+                                    });
+                                 }}
+                              />
+                           </AppearLayout>
+                        ) : curSubMenu === 'no-match' ? (
                            <>
                               <AppearLayout>
                                  <Divider orientation="left">
@@ -297,7 +320,7 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                                  })}
                               </AppearLayout>
                            </>
-                        )}
+                        ) : null}
                      </AppearLayout>
                   </>
                ) : keyTab === 'grammar' ? (
@@ -369,4 +392,17 @@ const listGrammarType = [
    { value: 'email', label: 'Email' },
    { value: 'phonenumber', label: 'Phonenumber' },
    { value: 'intent', label: 'Intent' },
+];
+const listRepeat = [
+   { value: 0, label: '0' },
+   { value: 1, label: '1' },
+   { value: 2, label: '2' },
+   { value: 3, label: '3' },
+   { value: 4, label: '4' },
+   { value: 5, label: '5' },
+   { value: 6, label: '6' },
+   { value: 7, label: '7' },
+   { value: 8, label: '8' },
+   { value: 9, label: '9' },
+   { value: 10, label: '10' },
 ];

@@ -1,6 +1,6 @@
 import { ChatBotLogo } from '@assets/icons';
 import AppearLayout from '@layouts/AppearLayout';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './style.less';
 import {
@@ -22,6 +22,8 @@ import ModalCreateChatBot from './ModalCreateChatBot';
 import { useMyListFlow } from '@hooks/flow/myListFlow';
 import { useDeleteId } from '@hooks/flow/deleteFlow';
 import { setCurrentUser } from '@utils/localStorage';
+import { IResponse } from '@interfaces/index';
+import { iFlow } from '@hooks/flow';
 
 const listChatbot = { data: [{ id: '1', flowType: 'MSG', name: 'Dnt201' }] };
 interface iChatbotManagementProps {}
@@ -30,10 +32,21 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
 
    const navigate = useNavigate();
    const [openCreateChatbot, setOpenCreateChatbot] = useState(false);
-   const { data: listChatbot } = useMyListFlow();
    const [currentId, setCurrentId] = useState<string>();
 
+   const [flows, setFlows] = useState<iFlow[]>();
+
+   const filterChannels = (search) => {
+      if (!search || search == '') return setFlows(listChatbot.data ?? undefined);
+
+      setFlows(listChatbot.data.filter((e) => e.name.toLowerCase().includes(search.toLowerCase())));
+   };
    const deleteFlowById = useDeleteId();
+   const { data: listChatbot } = useMyListFlow();
+
+   useEffect(() => {
+      setFlows(listChatbot?.data || []);
+   }, [listChatbot]);
    //Todo: API
    // const { data: listChatbot, isLoading: isListChatbotLoading } = useMyListFlow();
    return (
@@ -47,7 +60,11 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
             title="Delete flow"
             open={currentId !== undefined}
             onOk={() => {
-               deleteFlowById.mutate(currentId);
+               deleteFlowById.mutate(currentId, {
+                  onSuccess: () => {
+                     setCurrentId(undefined);
+                  },
+               });
             }}
             okButtonProps={{ loading: deleteFlowById.isLoading }}
             onCancel={() => setCurrentId(undefined)}>
@@ -70,14 +87,14 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
                   }}>
                   <ArrowLeftOutlined />
                </Button>
-               <h2 className="title">Manage Chanel</h2>
+               <h2 className="title">Manage Flow</h2>
             </Space>
             <div className="actions">
                <Input.Search
                   width={'300px'}
                   style={{ width: 260 }}
-                  placeholder={`Enter your chanel's name to find`}
-                  // onChange={(e) => filterChannels(e.target.value)}
+                  placeholder={`Enter your flow's name to find`}
+                  onSearch={(e) => filterChannels(e)}
                />
             </div>
          </div>
@@ -118,10 +135,10 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
          <div className="list-chatbot-container">
             <span className="title">List flow</span>
             <div className="list-chatbot">
-               {!listChatbot ? (
+               {!flows ? (
                   <Empty />
                ) : (
-                  listChatbot.data.map((e) => {
+                  flows.map((e) => {
                      return (
                         <div key={e.id} className="action-item create-chat-bot">
                            <div className="hover_layer">

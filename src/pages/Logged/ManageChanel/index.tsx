@@ -17,7 +17,6 @@ const ManageChanel = () => {
    const navigate = useNavigate();
 
    const { data: listChanelData, isLoading: listChanelLoading } = useMyListChanel();
-
    const { data: listFlow, isLoading: listFlowLoading } = useMyListFlow();
 
    const [openAddChanel, setOpenAddChanel] = useState(false);
@@ -58,7 +57,11 @@ const ManageChanel = () => {
 
    return (
       <AppearLayout className="manage-chanel-container">
-         <ModalAddChanel open={openAddChanel} setCloseModal={(b) => setOpenAddChanel(b)} />
+         <ModalAddChanel
+            open={openAddChanel}
+            setCloseModal={(b) => setOpenAddChanel(b)}
+            flows={flows}
+         />
 
          <ModalEditChanel
             open={openEditChanel ? true : false}

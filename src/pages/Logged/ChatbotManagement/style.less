@@ -4,11 +4,24 @@
    align-items: center;
    gap: 8px;
    min-height: 100vh;
-   padding-bottom: 40px;
-   .logo {
-      margin: 40px 0 60px;
-   }
+   padding: 0px 40px;
+   padding-top: 40px;
 
+   > .header {
+ 
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(5, 5, 5, 0.06);
+      margin-bottom: 16px;
+      > .actions {
+         display: flex;
+         align-items: center;
+         gap: 4px;
+      }
+   }
    > .list-chatbot-container {
       display:flex;
       flex-direction: column;

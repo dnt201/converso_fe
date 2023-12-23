@@ -7,19 +7,19 @@ import { notification } from 'antd';
 import { iFLowPut, iFlow, iFlowParams } from '.';
 
 export const useDeleteId = () => {
-   // const queryClient = useQueryClient();
+   const queryClient = useQueryClient();
    return useMutation({
       mutationFn: (flowId: string) => {
-         return mutationDelete<IResponse<any>>({
+         return mutationPost<IResponse<any>>({
             url: `${apiPath.FOLLOW.DELETE.replace('{id}', flowId)}`,
             body: {},
          });
       },
       onSuccess: (success) => {
          notification.success({ message: 'Delete follow success!' });
-         // return queryClient.invalidateQueries({
-         //    queryKey: ['my-list-flow'],
-         // });
+         return queryClient.invalidateQueries({
+            queryKey: ['my-list-flow'],
+         });
       },
       onError: (error: IResponse<any>) => {
          notification.error({

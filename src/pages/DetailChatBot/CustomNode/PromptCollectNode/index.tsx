@@ -20,6 +20,7 @@ export interface PromptCollectData {
       language: tLanguage;
       message: string;
    }[];
+   repeat: number;
    validateType: string;
    answer: string;
    intent: string;

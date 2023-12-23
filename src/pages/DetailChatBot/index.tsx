@@ -175,7 +175,7 @@ const DnDFlow: React.FC = () => {
                               case: 'other',
                               actionId: e.target,
                            });
-                        } else if (e.data?.condition === 'case') {
+                        } else if (e.data?.condition === 'Not match') {
                            tempNextAction = tempNextAction.concat({
                               case: 'case',
                               actionId: e.target,
@@ -203,14 +203,15 @@ const DnDFlow: React.FC = () => {
                edges.map((e) => {
                   if (tempNode.data.id === e.source) {
                      if (e.data?.condition) {
+                        console.log(e.data?.condition === 'Not match', e.data);
                         if (e.data?.condition === 'other') {
                            tempNextAction = tempNextAction.concat({
                               case: 'other',
                               actionId: e.target,
                            });
-                        } else if (e.data?.condition === 'case') {
+                        } else if (e.data?.condition === 'Not match') {
                            tempNextAction = tempNextAction.concat({
-                              case: 'case',
+                              case: 'Not match',
                               actionId: e.target,
                            });
                         } else {
@@ -555,6 +556,7 @@ const DnDFlow: React.FC = () => {
                         name: 'Prompt & Collect',
                         notmatchprompts: [],
                         text: [],
+                        repeat: 0,
                         validateType: 'none',
                         answer: {},
                         intent: '',
@@ -696,6 +698,8 @@ const DnDFlow: React.FC = () => {
                         }
                      }}
                      onEdgeClick={(_, e) => {
+                        console.log('click to edge', e);
+
                         // setSelectedEdge(e);
                      }}>
                      <Controls showZoom={true} showFitView={true} position="bottom-right" />

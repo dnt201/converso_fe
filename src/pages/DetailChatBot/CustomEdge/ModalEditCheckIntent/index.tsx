@@ -67,7 +67,7 @@ const listOptionFalse: iOption[] = [
       label: 'Else',
    },
    {
-      value: 'case',
+      value: 'Not match',
       label: 'Not match',
    },
 ];
