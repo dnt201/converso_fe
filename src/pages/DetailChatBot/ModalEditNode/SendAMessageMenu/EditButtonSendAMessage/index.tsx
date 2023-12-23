@@ -11,7 +11,7 @@ import {
 } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
 import DetailButton from './DetailsButton';
 
-type EditButtonsProps = {
+type EditButtonSendAMessageProps = {
    innerNode: Node<PromptCollectData>;
    setInnerNode: (node: Node<PromptCollectData>) => void;
    index: number;
@@ -19,11 +19,11 @@ type EditButtonsProps = {
    setListButton: (buttons: Array<WEB_URL | POST_BACK | PHONE_NUMBER>) => void;
 };
 
-const EditButtons: React.FC<EditButtonsProps> = (props) => {
+const EditButtonSendAMessage: React.FC<EditButtonSendAMessageProps> = (props) => {
    const { innerNode, index, setInnerNode, listButton, setListButton } = props;
 
    return (
-      <div className="edit-button">
+      <div className="edit-button-send-a-message">
          <div className="add-actions">
             <Divider orientation="left">
                <h5>Action Buttons</h5>
@@ -65,4 +65,4 @@ const EditButtons: React.FC<EditButtonsProps> = (props) => {
    );
 };
 
-export default EditButtons;
+export default EditButtonSendAMessage;
