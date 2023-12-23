@@ -39,13 +39,21 @@ const DetailButton: React.FC<DetailButtonProps> = (props) => {
                      listButton.map((item, i) => {
                         if (i === indexButton) {
                            if (e === 'web_url') {
-                              let temp = { ...item, type: 'web_url' } as WEB_URL;
+                              let temp = { url: '', title: item.title, type: 'web_url' } as WEB_URL;
                               return temp;
                            } else if (e === 'postback') {
-                              let temp = { ...item, type: 'postback' } as POST_BACK;
+                              let temp = {
+                                 payload: '',
+                                 title: item.title,
+                                 type: 'postback',
+                              } as POST_BACK;
                               return temp;
                            } else {
-                              let temp = { ...item, type: 'phone_number' } as PHONE_NUMBER;
+                              let temp = {
+                                 payload: '',
+                                 title: item.title,
+                                 type: 'phone_number',
+                              } as PHONE_NUMBER;
                               return temp;
                            }
                         }

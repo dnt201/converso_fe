@@ -63,7 +63,11 @@ const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
                      // subtitle: `${formValue.quantity ?? `Quantity : ${formValue.quantity}`}\n ${formValue.size ?? `Size: ${formValue.size}`,
                      subtitle: subTitle,
                      image_url: formValue.img,
-                     default_action: { type: '', url: '', webview_height_ratio: '' },
+                     default_action: {
+                        url: 'https://converso.site',
+                        type: 'web_url',
+                        webview_height_ratio: 'tall',
+                     },
                      buttons: listButton,
                   };
                } else return item;

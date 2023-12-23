@@ -33,18 +33,27 @@ const DetailButtonSendAMessage: React.FC<DetailButtonSendAMessageProps> = (props
             <Select
                placeholder="Add new button actions"
                defaultValue={button.type}
+               style={{ width: 140 }}
                onChange={(e) => {
                   setListButton(
                      listButton.map((item, i) => {
                         if (i === indexButton) {
                            if (e === 'web_url') {
-                              let temp = { ...item, type: 'web_url' } as WEB_URL;
+                              let temp = { type: 'web_url', title: item.title, url: '' } as WEB_URL;
                               return temp;
                            } else if (e === 'postback') {
-                              let temp = { ...item, type: 'postback' } as POST_BACK;
+                              let temp = {
+                                 title: item.title,
+                                 payload: '',
+                                 type: 'postback',
+                              } as POST_BACK;
                               return temp;
                            } else {
-                              let temp = { ...item, type: 'phone_number' } as PHONE_NUMBER;
+                              let temp = {
+                                 title: item.title,
+                                 payload: '',
+                                 type: 'phone_number',
+                              } as PHONE_NUMBER;
                               return temp;
                            }
                         }

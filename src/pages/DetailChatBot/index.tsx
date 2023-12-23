@@ -559,6 +559,7 @@ const DnDFlow: React.FC = () => {
                         repeat: 0,
                         validateType: 'none',
                         answer: {},
+
                         intent: '',
                         nextAction: [],
                         extend: [],
@@ -680,6 +681,9 @@ const DnDFlow: React.FC = () => {
                      onInit={setReactFlowInstance}
                      onDrop={onDrop}
                      onDragOver={onDragOver}
+                     onNodeClick={(_, e) => {
+                        console.log(e);
+                     }}
                      onNodeDoubleClick={(event, curNode) => {
                         if (curNode.type === 'start-node' || curNode.id === 'start-node')
                            setSelectedNode(null);

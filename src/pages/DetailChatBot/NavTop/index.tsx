@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './style.less';
 import {
@@ -16,6 +16,7 @@ import { useEditFollow } from '@hooks/flow/editFlow';
 import { tListNodeData } from '../CustomNode';
 import { Edge, Node } from 'reactflow';
 import { listVariableAtom } from '../VariablesModal';
+import TestBot from './TestBot';
 
 type NavTopChatbotProps = {
    setOpenVariable: (b: boolean) => void;
@@ -30,12 +31,17 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
    const [haveFlowChange, setHaveFlowChange] = useAtom(haveFlowChangeAtom);
    const [languages, setLanguages] = useAtom(languagesAtom);
    const [variables, setVariables] = useAtom(listVariableAtom);
-
+   const [openTestBot, setOpenTestBot] = useState(false);
    const navigate = useNavigate();
+
+   useEffect(() => {
+      localStorage.setItem('curChanelId', props.detailFlowById.id);
+   }, []);
 
    const editFlow = useEditFollow();
    return (
       <div className={'nav-top-chatbot'}>
+         {/* {openTestBot ? <TestBot closeWindow={() => setOpenTestBot(false)} /> : null} */}
          <div className="breadcrumb">
             <span
                className="btn-back-create-page"
@@ -53,11 +59,11 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
                      <CodeOutlined />
                   </button>
                </Popover>
-               <Popover placement="bottom" content={<h6>Versions</h6>}>
+               {/* <Popover placement="bottom" content={<h6>Versions</h6>}>
                   <button className="tool-item">
                      <ClockCircleOutlined />
                   </button>
-               </Popover>
+               </Popover> */}
 
                <Popover placement="bottom" content={<h6>Settings</h6>}>
                   <button className="tool-item" onClick={() => setOpenSettings(true)}>
@@ -66,7 +72,9 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
                </Popover>
             </div>
             <div className="action-list">
-               <Button className="action-item --test-your-bot">Test your bot</Button>
+               <Button className="action-item --test-your-bot" onClick={() => setOpenTestBot(true)}>
+                  Test your bot
+               </Button>
                <Button
                   className="action-item"
                   type="primary"
@@ -84,9 +92,6 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
                      setHaveFlowChange(false);
                   }}>
                   Save
-               </Button>
-               <Button className="action-item" type="primary" disabled>
-                  Publish
                </Button>
             </div>
          </div>
