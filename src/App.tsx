@@ -25,10 +25,10 @@ import CustomError from '@components/CustomError';
 
 function App() {
    const router = createBrowserRouter([
-      {
-         path: '',
-         element: <Navigate to="/dashboard" replace />,
-      },
+      // {
+      //    path: '',
+      //    element: <Navigate to="/dashboard" replace />,
+      // },
       {
          path: '/',
          element: <MainLayout />,

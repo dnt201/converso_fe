@@ -26,6 +26,20 @@ export type tLoginParams = {
    password: string;
 };
 
+
+export type tRegister = {
+   username: string;
+   password: string;
+   name: string;
+   avatar: string;
+   phonenumber: string;
+   email: string;
+   address: string;
+   extendData?: object;
+   slug: string;
+   token: string;
+};
+
 export const useMutationLogin = () => {
    return useMutation({
       mutationFn: (loginParams: tLoginParams) => {
