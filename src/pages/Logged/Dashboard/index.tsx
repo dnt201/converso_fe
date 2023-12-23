@@ -23,7 +23,7 @@ const Dashboard = () => {
                <i>
                   <RobotFilled />
                </i>
-               <span className="title">Manage ChatBot</span>
+               <span className="title">Manage Flow</span>
             </div>
             <div
                className="action-item"

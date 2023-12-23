@@ -20,10 +20,10 @@ export interface PromptCollectData {
       language: tLanguage;
       message: string;
    }[];
-   repeat: number;
+   repeat?: number;
    validateType: string;
-   answer: string;
-   intent: string;
+   answer?: string;
+   intent?: string;
    nextAction: {
       case: string; //"label:{intent}" backend tự check
       actionId: string;

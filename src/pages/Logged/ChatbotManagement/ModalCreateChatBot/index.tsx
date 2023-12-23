@@ -27,7 +27,7 @@ const ModalCreateChatBot: React.FC<ModalCreateChatBotProps> = (props) => {
          title={
             <Space size={4} align="center">
                <RobotFilled style={{ color: 'var(--color-main-blue)', fontSize: 24 }} />
-               <h2>Create chatbot</h2>
+               <h2>Create Flow</h2>
             </Space>
          }
          {...modalProps}

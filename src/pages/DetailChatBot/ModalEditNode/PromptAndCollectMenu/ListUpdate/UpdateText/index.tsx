@@ -38,7 +38,7 @@ const UpdateText: React.FC<UpdateTextProps> = (props) => {
    return (
       <div className="input-container">
          <Input.TextArea
-            placeholder="Enter your chatbot response"
+            placeholder="Enter your chatbot response - shift enter to next line"
             defaultValue={curUpdateText.message}
             style={{
                padding: '10px 8px',
@@ -47,9 +47,8 @@ const UpdateText: React.FC<UpdateTextProps> = (props) => {
             onChange={(e) => {
                setCurText(e.currentTarget.value);
             }}
-            autoSize={{ minRows: 2, maxRows: 4 }}
             onKeyDown={(e) => {
-               if (e.key === 'Enter') {
+               if (e.key === 'Enter' && !e.shiftKey) {
                   e.currentTarget.blur();
                   updateTextByKey(curText);
                }

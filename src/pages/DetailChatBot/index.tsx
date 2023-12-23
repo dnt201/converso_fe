@@ -203,7 +203,6 @@ const DnDFlow: React.FC = () => {
                edges.map((e) => {
                   if (tempNode.data.id === e.source) {
                      if (e.data?.condition) {
-                        console.log(e.data?.condition === 'Not match', e.data);
                         if (e.data?.condition === 'other') {
                            tempNextAction = tempNextAction.concat({
                               case: e.data.condition,
@@ -676,9 +675,6 @@ const DnDFlow: React.FC = () => {
                      edges={edges}
                      onEdgesDelete={(e) => {}}
                      onNodesChange={onNodesChange}
-                     onNodeClick={(n, node) => {
-                        console.log('click to node', node);
-                     }}
                      onEdgesChange={onEdgesChange}
                      onConnect={onConnect}
                      onInit={setReactFlowInstance}
@@ -697,11 +693,6 @@ const DnDFlow: React.FC = () => {
                            setSelectedEdge(e);
                            setOpenModalEditCheckIntent(true);
                         }
-                     }}
-                     onEdgeClick={(_, e) => {
-                        console.log('click to edge', e);
-
-                        // setSelectedEdge(e);
                      }}>
                      <Controls showZoom={true} showFitView={true} position="bottom-right" />
                   </ReactFlow>
