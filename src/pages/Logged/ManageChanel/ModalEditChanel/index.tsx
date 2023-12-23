@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { text } from 'stream/consumers';
 type ModalEditChanelProps = ModalProps & {
    setCloseModal: () => void;
-   chanelProps: iChanel | undefined;
+   chanelProps?: iChanel;
    flows: any[];
 };
 
@@ -146,7 +146,7 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
                   }
                />
             </Form.Item>
-            {chanelProps.channelTypeId === 1 ? (
+            {chanelProps && chanelProps.channelTypeId === 1 ? (
                <Tooltip title="Click to copy script!">
                   <Button
                      style={{ width: '100%' }}

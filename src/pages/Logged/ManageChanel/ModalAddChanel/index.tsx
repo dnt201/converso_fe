@@ -15,10 +15,16 @@ const ChannelTypes = [
 const MessengerCredentials: React.FC<any> = () => {
    return (
       <>
-         <Form.Item name="PageToken" label="Page Token">
+         <Form.Item
+            name="PageToken"
+            label="Page Token"
+            rules={[{ message: 'This filed is required!', required: true }]}>
             <Input.TextArea autoSize={{ minRows: 1, maxRows: 2 }} placeholder="Enter Page token" />
          </Form.Item>
-         <Form.Item name="WebhookSecret" label="Secret">
+         <Form.Item
+            name="WebhookSecret"
+            label="Secret"
+            rules={[{ message: 'This filed is required!', required: true }]}>
             <Input.TextArea autoSize={{ minRows: 1, maxRows: 2 }} placeholder="Enter your Secret" />
          </Form.Item>
       </>
@@ -28,7 +34,10 @@ const MessengerCredentials: React.FC<any> = () => {
 const LineCredentials: React.FC<any> = () => {
    return (
       <>
-         <Form.Item name="LineToken" label="Line Access Token">
+         <Form.Item
+            name="LineToken"
+            label="Line Access Token"
+            rules={[{ message: 'This filed is required!', required: true }]}>
             <Input.TextArea
                autoSize={{ minRows: 1, maxRows: 2 }}
                placeholder="Enter Line Access Token"
@@ -122,7 +131,11 @@ const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
                rules={[{ message: 'This filed is required!', required: true }]}>
                <Select placeholder={'Select provider'} onSelect={(val) => setType(val)}>
                   {ChannelTypes.map((e) => {
-                     return <Select.Option value={e.value}>{e.label}</Select.Option>;
+                     return (
+                        <Select.Option key={e.value} value={e.value}>
+                           {e.label}
+                        </Select.Option>
+                     );
                   })}
                </Select>
             </Form.Item>

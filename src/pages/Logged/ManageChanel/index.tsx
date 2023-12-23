@@ -69,7 +69,6 @@ const ManageChanel = () => {
             chanelProps={openEditChanel}
             flows={flows}
          />
-
          <Modal
             title="Confirm"
             open={openConfirmModal}
