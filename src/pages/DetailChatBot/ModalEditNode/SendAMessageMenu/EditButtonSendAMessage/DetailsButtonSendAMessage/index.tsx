@@ -11,11 +11,10 @@ import './style.less';
 import WebUrl from './WebUrl';
 import PhoneNumber from './PhoneNumber';
 import PostBack from './PostBack';
-interface DetailButtonProps {
+interface DetailButtonSendAMessageProps {
    button: WEB_URL | POST_BACK | PHONE_NUMBER;
    listButton: Array<WEB_URL | POST_BACK | PHONE_NUMBER>;
    setListButton: (buttons: Array<WEB_URL | POST_BACK | PHONE_NUMBER>) => void;
-   indexProduct: number;
    indexButton: number;
 }
 
@@ -25,8 +24,8 @@ const options = [
    { value: 'phone_number', label: 'Phone Number' },
 ];
 
-const DetailButton: React.FC<DetailButtonProps> = (props) => {
-   const { button, listButton, indexButton, indexProduct, setListButton } = props;
+const DetailButtonSendAMessage: React.FC<DetailButtonSendAMessageProps> = (props) => {
+   const { button, listButton, indexButton, setListButton } = props;
 
    return (
       <div className="details-button-container">
@@ -91,4 +90,4 @@ const DetailButton: React.FC<DetailButtonProps> = (props) => {
    );
 };
 
-export default DetailButton;
+export default DetailButtonSendAMessage;

@@ -2,6 +2,7 @@ import { Handle, Node, NodeProps, Position } from 'reactflow';
 import { TypeOfNode, tLanguage } from '..';
 import './style.less';
 import { MessageFilled } from '@ant-design/icons';
+import { PHONE_NUMBER, POST_BACK, WEB_URL } from '../PromptCollectNode';
 
 //User Input
 
@@ -12,6 +13,7 @@ export interface SendAMessageData {
    name: string;
    text: { language: tLanguage; message: string }[];
    nextAction: string;
+   buttons: Array<WEB_URL | POST_BACK | PHONE_NUMBER>;
 
    // number: number;
 }

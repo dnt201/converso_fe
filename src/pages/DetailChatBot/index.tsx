@@ -541,6 +541,7 @@ const DnDFlow: React.FC = () => {
                         name: 'Send A Message',
                         text: [],
                         type: type,
+                        buttons: [],
                         nextAction: '',
                      },
                   } as tSendAMessageNode;

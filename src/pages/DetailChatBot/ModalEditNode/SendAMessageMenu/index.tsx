@@ -7,6 +7,7 @@ import './style.less';
 import { useAtom } from 'jotai';
 import { languagesAtom } from '@pages/DetailChatBot';
 import ListUpdateMessage from './ListUpdate';
+import EditButtonSendAMessage from './EditButtonSendAMessage';
 interface SendAMessageMenuProps {
    node: Node<SendAMessageData>;
    closeModal: () => void;
@@ -16,10 +17,13 @@ const SendAMessageMenu: React.FC<SendAMessageMenuProps> = (props) => {
    const { closeModal, node, setNode } = props;
    const [innerNode, setInnerNode] = useState<Node<SendAMessageData>>(node);
    const [languages, setLanguages] = useAtom(languagesAtom);
-
+   const [listButton, setListButton] = useState(innerNode.data.buttons);
    useEffect(() => {
       setNode(innerNode);
    }, [innerNode]);
+   useEffect(() => {
+      setInnerNode({ ...innerNode, data: { ...innerNode.data, buttons: listButton } });
+   }, [listButton]);
 
    return (
       <div className="edit-mode-send-a-message" onClick={(e) => e.preventDefault()}>
@@ -78,6 +82,12 @@ const SendAMessageMenu: React.FC<SendAMessageMenuProps> = (props) => {
             <Divider orientation="left">
                <h5>List Button Response</h5>
             </Divider>
+            <EditButtonSendAMessage
+               listButton={listButton}
+               setListButton={(l) => setListButton(l)}
+               innerNode={innerNode}
+               setInnerNode={setInnerNode}
+            />
          </div>
       </div>
    );

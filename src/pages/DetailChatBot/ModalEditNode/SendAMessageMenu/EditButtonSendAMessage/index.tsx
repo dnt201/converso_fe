@@ -1,47 +1,45 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Divider, Input, Select, Slider, Space, notification } from 'antd';
+import { Button, Divider, Empty, Input, Select, Slider, Space, notification } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './style.less';
 import { Node } from 'reactflow';
 import {
    PHONE_NUMBER,
    POST_BACK,
-   PromptCollectData,
    WEB_URL,
 } from '@pages/DetailChatBot/CustomNode/PromptCollectNode';
-import DetailButton from './DetailsButton';
+import DetailButtonSendAMessage from './DetailsButtonSendAMessage';
+import { SendAMessageData } from '@pages/DetailChatBot/CustomNode/SendAMessageNode';
 
 type EditButtonSendAMessageProps = {
-   innerNode: Node<PromptCollectData>;
-   setInnerNode: (node: Node<PromptCollectData>) => void;
-   index: number;
+   innerNode: Node<SendAMessageData>;
+   setInnerNode: (node: Node<SendAMessageData>) => void;
    listButton: Array<WEB_URL | POST_BACK | PHONE_NUMBER>;
    setListButton: (buttons: Array<WEB_URL | POST_BACK | PHONE_NUMBER>) => void;
 };
 
 const EditButtonSendAMessage: React.FC<EditButtonSendAMessageProps> = (props) => {
-   const { innerNode, index, setInnerNode, listButton, setListButton } = props;
+   const { innerNode, setInnerNode, listButton, setListButton } = props;
 
    return (
       <div className="edit-button-send-a-message">
          <div className="add-actions">
-            <Divider orientation="left">
-               <h5>Action Buttons</h5>
-            </Divider>
-
             <div className="list-button">
-               {listButton.map((item, i) => {
-                  return (
-                     <DetailButton
-                        indexButton={i}
-                        indexProduct={index}
-                        listButton={listButton}
-                        setListButton={(b) => setListButton(b)}
-                        button={item}
-                        key={i}
-                     />
-                  );
-               })}
+               {listButton.length <= 0 ? (
+                  <Empty description="No button" />
+               ) : (
+                  listButton.map((item, i) => {
+                     return (
+                        <DetailButtonSendAMessage
+                           indexButton={i}
+                           listButton={listButton}
+                           setListButton={(b) => setListButton(b)}
+                           button={item}
+                           key={i}
+                        />
+                     );
+                  })
+               )}
             </div>
             <Button
                onClick={() => {
