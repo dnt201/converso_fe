@@ -1,6 +1,6 @@
 import { useEditChanel } from '@hooks/chanel/editChanel';
 import { iChanel } from '@hooks/chanel/myListChanel';
-import { Button, Form, Input, Modal, ModalProps, Select, Tooltip, notification } from 'antd';
+import { Button, Form, Input, Modal, ModalProps, Select, Space, Tooltip, notification } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import React, { useEffect, useState } from 'react';
 import { text } from 'stream/consumers';
@@ -147,16 +147,23 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
                />
             </Form.Item>
             {chanelProps && chanelProps.channelTypeId === 1 ? (
-               <Tooltip title="Click to copy script!">
-                  <Button
-                     style={{ width: '100%' }}
-                     onClick={() => {
-                        const script = `<script src="https://converso.site/script/chatbot" channelId="${chanelProps.id}"></script>`;
-                        handleCopyClick(script);
-                     }}>
-                     Generate script
-                  </Button>
-               </Tooltip>
+               <>
+                  <Input
+                     disabled
+                     style={{ marginBottom: 8 }}
+                     value={`<script src="https://converso.site/script/chatbot" channelId="${chanelProps.id}"></script>`}
+                  />
+                  <Tooltip title="Click to copy script!">
+                     <Button
+                        style={{ width: '100%' }}
+                        onClick={() => {
+                           const script = `<script src="https://converso.site/script/chatbot" channelId="${chanelProps.id}"></script>`;
+                           handleCopyClick(script);
+                        }}>
+                        Copy script
+                     </Button>
+                  </Tooltip>
+               </>
             ) : (
                <>
                   <h2>Credentials</h2>
