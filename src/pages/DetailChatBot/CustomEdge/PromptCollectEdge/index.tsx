@@ -10,16 +10,6 @@ import { iOption } from '@interfaces/index';
 //    alert(`remove ${id}`);
 // };
 
-const listOptionFalse: iOption[] = [
-   {
-      value: 'other',
-      label: 'Else',
-   },
-   {
-      value: 'case',
-      label: 'Not match',
-   },
-];
 const PromptCollectEdge: React.FC<EdgeProps<iValueEdgePromptCollect>> = (props) => {
    const {
       // id,

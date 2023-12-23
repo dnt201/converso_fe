@@ -172,12 +172,12 @@ const DnDFlow: React.FC = () => {
                      if (e.data?.condition) {
                         if (e.data?.condition === 'other') {
                            tempNextAction = tempNextAction.concat({
-                              case: 'other',
+                              case: e.data.condition,
                               actionId: e.target,
                            });
                         } else if (e.data?.condition === 'Not match') {
                            tempNextAction = tempNextAction.concat({
-                              case: 'case',
+                              case: e.data.condition,
                               actionId: e.target,
                            });
                         } else {
@@ -206,12 +206,12 @@ const DnDFlow: React.FC = () => {
                         console.log(e.data?.condition === 'Not match', e.data);
                         if (e.data?.condition === 'other') {
                            tempNextAction = tempNextAction.concat({
-                              case: 'other',
+                              case: e.data.condition,
                               actionId: e.target,
                            });
                         } else if (e.data?.condition === 'Not match') {
                            tempNextAction = tempNextAction.concat({
-                              case: 'Not match',
+                              case: e.data.condition,
                               actionId: e.target,
                            });
                         } else {
