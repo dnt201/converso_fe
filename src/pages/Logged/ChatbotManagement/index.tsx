@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './style.less';
 import {
    ArrowLeftOutlined,
+   ClusterOutlined,
    DeleteOutlined,
    EditOutlined,
    FacebookFilled,
@@ -163,7 +164,9 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
                                  <DeleteOutlined />
                               </Button>
                            </div>
-                           <i>{e.flowType === 'MSG' ? <FacebookFilled /> : <MessageFilled />}</i>
+                           <i>
+                              <ClusterOutlined />
+                           </i>
                            <p className="title">{e.name}</p>
                         </div>
                      );

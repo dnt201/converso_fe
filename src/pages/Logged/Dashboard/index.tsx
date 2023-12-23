@@ -35,13 +35,21 @@ const Dashboard = () => {
                </i>
                <span className="title">Manage Chanel</span>
             </div>
-            <div className="action-item">
+            <div
+               className="action-item"
+               onClick={() => {
+                  notification.info({ message: 'This feature is coming soon!' });
+               }}>
                <i className=" lazy">
                   <CpuChipIcon height={40} width={40} />
                </i>
                <span className="title">Training</span>
             </div>
-            <div className="action-item">
+            <div
+               className="action-item"
+               onClick={() => {
+                  notification.info({ message: 'This feature is coming soon!' });
+               }}>
                <i>
                   <SettingFilled />
                </i>
