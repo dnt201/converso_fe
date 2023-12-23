@@ -151,13 +151,13 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
                   <Input
                      disabled
                      style={{ marginBottom: 8 }}
-                     value={`<script src="https://converso.site/script/chatbot" channelId="${chanelProps.id}"></script>`}
+                     value={`<script src="https://converso.site/script/chatbot" channelId="${chanelProps.contactId}"></script>`}
                   />
                   <Tooltip title="Click to copy script!">
                      <Button
                         style={{ width: '100%' }}
                         onClick={() => {
-                           const script = `<script src="https://converso.site/script/chatbot" channelId="${chanelProps.id}"></script>`;
+                           const script = `<script src="https://converso.site/script/chatbot" channelId="${chanelProps.contactId}"></script>`;
                            handleCopyClick(script);
                         }}>
                         Copy script
