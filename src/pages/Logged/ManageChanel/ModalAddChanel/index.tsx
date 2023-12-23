@@ -101,7 +101,10 @@ const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
                   placeholder={`Enter contact name`}
                />
             </Form.Item>
-            <Form.Item name="flowId" label="Flow reference">
+            <Form.Item
+               name="flowId"
+               label="Flow reference"
+               rules={[{ message: 'This filed is required!', required: true }]}>
                <Select
                   placeholder={'Select flow'}
                   options={

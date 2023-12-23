@@ -1,8 +1,9 @@
 import { useEditChanel } from '@hooks/chanel/editChanel';
 import { iChanel } from '@hooks/chanel/myListChanel';
-import { Form, Input, Modal, ModalProps, Select } from 'antd';
+import { Button, Form, Input, Modal, ModalProps, Select, Tooltip, notification } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import React, { useEffect, useState } from 'react';
+import { text } from 'stream/consumers';
 type ModalEditChanelProps = ModalProps & {
    setCloseModal: () => void;
    chanelProps: iChanel | undefined;
@@ -12,10 +13,16 @@ type ModalEditChanelProps = ModalProps & {
 const MessengerCredentials: React.FC<any> = () => {
    return (
       <>
-         <Form.Item name="PageToken" label="Page Token">
+         <Form.Item
+            name="PageToken"
+            label="Page Token"
+            rules={[{ message: 'This filed is required!', required: true }]}>
             <Input.TextArea autoSize={{ minRows: 1, maxRows: 2 }} placeholder="Enter Page token" />
          </Form.Item>
-         <Form.Item name="WebhookSecret" label="Secret">
+         <Form.Item
+            name="WebhookSecret"
+            label="Secret"
+            rules={[{ message: 'This filed is required!', required: true }]}>
             <Input.TextArea autoSize={{ minRows: 1, maxRows: 2 }} placeholder="Enter your Secret" />
          </Form.Item>
       </>
@@ -25,7 +32,10 @@ const MessengerCredentials: React.FC<any> = () => {
 const LineCredentials: React.FC<any> = () => {
    return (
       <>
-         <Form.Item name="LineToken" label="Line Access Token">
+         <Form.Item
+            name="LineToken"
+            label="Line Access Token"
+            rules={[{ message: 'This filed is required!', required: true }]}>
             <Input.TextArea
                autoSize={{ minRows: 1, maxRows: 2 }}
                placeholder="Enter Line Access Token"
@@ -41,7 +51,7 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
    const [formEditChanel] = useForm();
    const initFormValue: iChanel = chanelProps;
    const editChanel = useEditChanel();
-
+   console.log(initFormValue);
    useEffect(() => {
       let cres = credentials;
 
@@ -73,6 +83,15 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
       if (chanelProps?.channelTypeId == 3) return <LineCredentials />;
 
       return <></>;
+   };
+   const handleCopyClick = async (text) => {
+      try {
+         await navigator.clipboard.writeText(text);
+         notification.success({ message: 'Copied to clipboard!' });
+      } catch (err) {
+         console.error('Unable to copy to clipboard.', err);
+         notification.success({ message: 'Copy to clipboard failed!' });
+      }
    };
 
    return (
@@ -112,7 +131,10 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
                   placeholder={`Enter contact name`}
                />
             </Form.Item>
-            <Form.Item name="flowId" label="Flow reference">
+            <Form.Item
+               name="flowId"
+               label="Flow reference"
+               rules={[{ message: 'This filed is required!', required: true }]}>
                <Select
                   placeholder={'Select flow'}
                   options={
@@ -124,8 +146,23 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
                   }
                />
             </Form.Item>
-            <h2>Credentials</h2>
-            {renderCredentialsForm()}
+            {chanelProps.channelTypeId === 1 ? (
+               <Tooltip title="Click to copy script!">
+                  <Button
+                     style={{ width: '100%' }}
+                     onClick={() => {
+                        const script = `<script src="https://converso.site/script/chatbot" channelId="${chanelProps.id}"></script>`;
+                        handleCopyClick(script);
+                     }}>
+                     Generate script
+                  </Button>
+               </Tooltip>
+            ) : (
+               <>
+                  <h2>Credentials</h2>
+                  {renderCredentialsForm()}
+               </>
+            )}
          </Form>
       </Modal>
    );
