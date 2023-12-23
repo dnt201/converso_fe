@@ -18,7 +18,7 @@ const PrivateLayout = () => {
          if (currentUser && currentUser.token)
             return (
                <Layout className="private-layout">
-                  <div className="nav-top"></div>
+                  <div className="nav-top" />
                   <Content className="content">
                      <Outlet />
                   </Content>

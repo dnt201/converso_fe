@@ -5,13 +5,18 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useForm } from 'antd/es/form/Form';
 import { tRegister, useMutationRegister } from '@hooks/auth';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
    const [form] = useForm<tRegister>();
    const mutationRegister = useMutationRegister();
-
+   const navigate = useNavigate();
    const formRegisterSubmit = (formValue: tRegister) => {
-      mutationRegister.mutate(formValue, {});
+      mutationRegister.mutate(formValue, {
+         onSuccess: () => {
+            navigate('/dashboard', { replace: true });
+         },
+      });
    };
 
    // Watch all values
