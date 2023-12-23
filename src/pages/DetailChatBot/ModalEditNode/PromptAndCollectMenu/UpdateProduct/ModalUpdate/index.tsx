@@ -79,8 +79,12 @@ const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
       <Modal
          title={<h2>Update item</h2>}
          {...modalProps}
-         onCancel={() => setOpenModal(false)}
+         onCancel={() => {
+            setOpenModal(false);
+            setListButton([...props.innerNode.data.extend[index]?.buttons] || []);
+         }}
          className="modal-update"
+         maskClosable={false}
          onOk={() => {
             form.submit();
          }}>
