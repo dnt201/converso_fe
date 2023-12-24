@@ -81,9 +81,9 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
                </Popover>
             </div>
             <div className="action-list">
-               <Button className="action-item --test-your-bot" onClick={() => setOpenTestBot(true)}>
+               {/* <Button className="action-item --test-your-bot" onClick={() => setOpenTestBot(true)}>
                   Test your bot
-               </Button>
+               </Button> */}
                {!flowName ? (
                   <Tooltip title="Flow name is empty">
                      <Button
