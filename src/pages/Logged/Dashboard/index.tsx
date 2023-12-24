@@ -33,7 +33,7 @@ const Dashboard = () => {
                <i>
                   <SlidersFilled />
                </i>
-               <span className="title">Manage Chanel</span>
+               <span className="title">Manage Channel</span>
             </div>
             <div
                className="action-item"

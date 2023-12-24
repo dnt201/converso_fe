@@ -64,7 +64,7 @@ const LoginForm: React.FC<{}> = () => {
                         className="forgot-password"
                         onClick={(e) => {
                            e.preventDefault();
-                           prompt('Forgot-password');
+                           notification.info({ message: 'This feature is coming soon!' });
                         }}>
                         Forgot password?
                      </span>
