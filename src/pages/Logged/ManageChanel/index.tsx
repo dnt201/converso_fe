@@ -96,13 +96,13 @@ const ManageChanel = () => {
                      }}>
                      <ArrowLeftOutlined />
                   </Button>
-                  <h2 className="title">Manage Chanel</h2>
+                  <h2 className="title">Manage Channel</h2>
                </Space>
                <div className="actions">
                   <Input.Search
                      width={'300px'}
                      style={{ width: 260 }}
-                     placeholder={`Enter your chanel's name to find`}
+                     placeholder={`Enter your channel's name to find`}
                      onChange={(e) => filterChannels(e.target.value)}
                   />
                </div>
@@ -111,7 +111,7 @@ const ManageChanel = () => {
                <div className="chanel" onClick={() => setOpenAddChanel(true)}>
                   <Space direction="vertical" align="center">
                      <PlusOutlined className="icon" />
-                     <span className="title">Add new chanel</span>
+                     <span className="title">Add new channel</span>
                   </Space>
                </div>
 

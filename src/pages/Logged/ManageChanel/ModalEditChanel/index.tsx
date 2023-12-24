@@ -98,7 +98,7 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
       <Modal
          {...modalProps}
          onCancel={() => setCloseModal()}
-         title="Edit Chanel"
+         title="Edit Channel"
          className="modal-edit-chanel"
          okButtonProps={{ loading: editChanel.isLoading }}
          onOk={() => {

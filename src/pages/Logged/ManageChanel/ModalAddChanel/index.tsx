@@ -68,7 +68,7 @@ const ModalAddChanel: React.FC<ModalAddChanelProps> = (props) => {
          afterClose={() => {
             formAddChanel.resetFields();
          }}
-         title="Add New Chanel"
+         title="Add New Channel"
          className="modal-add-chanel">
          <Form<
             Pick<
