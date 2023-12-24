@@ -68,6 +68,7 @@ export const languagesAtom = atom<iLanguageFollow[]>([
 ]);
 
 export const haveFlowChangeAtom = atom<boolean>(false);
+export const flowNameAtom = atom<string>('');
 
 const DnDFlow: React.FC = () => {
    //Todo: State - ReactFlo w
@@ -94,6 +95,7 @@ const DnDFlow: React.FC = () => {
    const selectedEdgeId = useRef<string | null>(null);
 
    const [languages, setLanguages] = useAtom(languagesAtom);
+   const [flowName, setFlowName] = useAtom(flowNameAtom);
    const [, setListVariable] = useAtom(listVariableAtom);
    const [_, setHaveFlowChange] = useAtom(haveFlowChangeAtom);
    //Todo: State - Another: modal,...
@@ -124,6 +126,7 @@ const DnDFlow: React.FC = () => {
          if (tempVariables.length > 0) {
             setListVariable(tempVariables);
          }
+         setFlowName(detailFlowById.data.name);
       }
    }, []);
    useLayoutEffect(() => {

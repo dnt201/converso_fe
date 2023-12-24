@@ -7,16 +7,17 @@ import {
    CodeOutlined,
    SettingOutlined,
 } from '@ant-design/icons';
-import { Button, Popover } from 'antd';
+import { Button, Form, Input, Popover, Tooltip } from 'antd';
 import { iFlow } from '@hooks/flow';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import { haveFlowChangeAtom, languagesAtom } from '..';
+import { flowNameAtom, haveFlowChangeAtom, languagesAtom } from '..';
 import { useEditFollow } from '@hooks/flow/editFlow';
 import { tListNodeData } from '../CustomNode';
 import { Edge, Node } from 'reactflow';
 import { listVariableAtom } from '../VariablesModal';
 import TestBot from './TestBot';
+import FormItem from 'antd/es/form/FormItem';
 
 type NavTopChatbotProps = {
    setOpenVariable: (b: boolean) => void;
@@ -31,6 +32,8 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
    const [haveFlowChange, setHaveFlowChange] = useAtom(haveFlowChangeAtom);
    const [languages, setLanguages] = useAtom(languagesAtom);
    const [variables, setVariables] = useAtom(listVariableAtom);
+   const [flowName, setFlowName] = useAtom(flowNameAtom);
+   console.log(flowName);
    const [openTestBot, setOpenTestBot] = useState(false);
    const navigate = useNavigate();
 
@@ -49,7 +52,13 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
                Create Flow
             </span>
             <CaretRightOutlined className="icon" />
-            <span>{props.detailFlowById.name ?? 'Chat-Bot-Name'}</span>
+
+            <Input
+               style={{ width: 200 }}
+               placeholder="Enter your flow name"
+               defaultValue={detailFlowById.name}
+               onChange={(e) => setFlowName(e.target.value)}
+            />
          </div>
 
          <div className="menu-right">
@@ -75,24 +84,48 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
                <Button className="action-item --test-your-bot" onClick={() => setOpenTestBot(true)}>
                   Test your bot
                </Button>
-               <Button
-                  className="action-item"
-                  type="primary"
-                  disabled={!haveFlowChange}
-                  onClick={() => {
-                     //update flow api)
-                     // console.log(JSON.stringify(nodes));
-                     editFlow.mutate({
-                        ...detailFlowById,
-                        diagram: nodes,
-                        edges: props.edges,
-                        settings: languages,
-                        attributes: variables,
-                     });
-                     setHaveFlowChange(false);
-                  }}>
-                  Save
-               </Button>
+               {!flowName ? (
+                  <Tooltip title="Flow name is empty">
+                     <Button
+                        className="action-item"
+                        type="primary"
+                        disabled={true}
+                        onClick={() => {
+                           //update flow api)
+                           // console.log(JSON.stringify(nodes));
+                           editFlow.mutate({
+                              ...detailFlowById,
+                              diagram: nodes,
+                              edges: props.edges,
+                              settings: languages,
+                              attributes: variables,
+                           });
+                           setHaveFlowChange(false);
+                        }}>
+                        Save
+                     </Button>
+                  </Tooltip>
+               ) : (
+                  <Button
+                     className="action-item"
+                     type="primary"
+                     disabled={!haveFlowChange || flowName === detailFlowById.name}
+                     onClick={() => {
+                        //update flow api)
+                        // console.log(JSON.stringify(nodes));
+                        editFlow.mutate({
+                           ...detailFlowById,
+                           diagram: nodes,
+                           edges: props.edges,
+                           settings: languages,
+                           attributes: variables,
+                           name: flowName,
+                        });
+                        setHaveFlowChange(false);
+                     }}>
+                     Save
+                  </Button>
+               )}
             </div>
          </div>
       </div>
