@@ -39,7 +39,7 @@ const UpdateTextSendAMessage: React.FC<UpdateTextSendAMessageProps> = (props) =>
    return (
       <div className="input-container">
          <Input.TextArea
-            placeholder={`Enter your chatbot response - shift enter to next line`}
+            placeholder={`Enter your flow response - shift enter to next line`}
             defaultValue={curUpdateText.message}
             style={{
                padding: '10px 8px',

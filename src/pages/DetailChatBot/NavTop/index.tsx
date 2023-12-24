@@ -45,8 +45,8 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
          <div className="breadcrumb">
             <span
                className="btn-back-create-page"
-               onClick={() => navigate('/manage-chatbot', { replace: true })}>
-               Create ChatBot
+               onClick={() => navigate('/manage-flow', { replace: true })}>
+               Create Flow
             </span>
             <CaretRightOutlined className="icon" />
             <span>{props.detailFlowById.name ?? 'Chat-Bot-Name'}</span>

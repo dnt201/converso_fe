@@ -96,7 +96,7 @@ const SettingsModal: React.FC<SettingsModalProps> = (props) => {
                         </Space>
                      </div>
                      <div className="list-language">
-                        <span>List chatbot language</span>
+                        <span>List flow language</span>
                         {languages.map((item) => {
                            return (
                               <div className="item" key={item.value}>

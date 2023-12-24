@@ -38,7 +38,7 @@ const UpdateTextNotMatch: React.FC<UpdateTextNotMatchProps> = (props) => {
    return (
       <div className="input-container">
          <Input.TextArea
-            placeholder="Enter your chatbot response"
+            placeholder="Enter your flow response"
             defaultValue={curUpdateText.message}
             style={{
                padding: '10px 8px',
