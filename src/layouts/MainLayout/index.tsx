@@ -23,9 +23,9 @@ const MainLayout = () => {
                      </Content>
                   </Layout>
                </Content>
-               <Footer className="footer" style={{ backgroundColor: '#fff', textAlign: 'center' }}>
+               {/* <Footer className="footer" style={{ backgroundColor: '#fff', textAlign: 'center' }}>
                   Ant Design ©2023 Created by Ant UED
-               </Footer>
+               </Footer> */}
             </Layout>
          );
       }
