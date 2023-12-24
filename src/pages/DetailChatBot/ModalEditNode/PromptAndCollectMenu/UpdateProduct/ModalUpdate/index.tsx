@@ -39,9 +39,7 @@ interface ModalUpdateProps extends ModalProps {
 const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
    const { setOpenModal, innerNode, setInnerNode, index, ...modalProps } = props;
    const init = props.innerNode.data.extend[index];
-   const { color, quantity, size } = extractInfo(
-      props.innerNode.data.extend[index]?.subtitle || ''
-   );
+   const { color, price, size } = extractInfo(props.innerNode.data.extend[index]?.subtitle || '');
    const [listButton, setListButton] = useState<Array<WEB_URL | POST_BACK | PHONE_NUMBER>>(
       props.innerNode.data.extend[index]?.buttons || []
    );
@@ -55,12 +53,11 @@ const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
             extend: innerNode.data.extend.map((item, i) => {
                if (i === index) {
                   let subTitle = '';
-                  if (formValue.quantity) subTitle += `Quantity: ${formValue.quantity}\n`;
+                  if (formValue.price) subTitle += `Price: ${formValue.price}\n`;
                   if (formValue.size) subTitle += `Size: ${formValue.size}\n`;
                   if (formValue.color) subTitle += `Color: ${formValue.color}\n`;
                   return {
                      title: formValue.title,
-                     // subtitle: `${formValue.quantity ?? `Quantity : ${formValue.quantity}`}\n ${formValue.size ?? `Size: ${formValue.size}`,
                      subtitle: subTitle,
                      image_url: formValue.img,
                      default_action: {
@@ -95,7 +92,7 @@ const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
             initialValues={{
                img: init.image_url,
                title: init.title,
-               quantity: quantity,
+               price: price,
                size: size,
                color: color,
             }}>
@@ -104,7 +101,7 @@ const ModalUpdate: React.FC<ModalUpdateProps> = (props) => {
             </FormItem>
 
             <Space>
-               <FormItem name="quantity" label="Quantity">
+               <FormItem name="price" label="Price">
                   <Input placeholder="Ex: 52" />
                </FormItem>
                <FormItem name="size" label="Size">

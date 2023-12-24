@@ -15,7 +15,7 @@ type UpdateProductProps = tProduct & {
 const UpdateProduct: React.FC<UpdateProductProps> = (props) => {
    const { innerNode, setInnerNode, index } = props;
    const curExtendData = innerNode.data.extend[index];
-   const { color, quantity, size } = extractInfo(curExtendData.subtitle);
+   const { color, price, size } = extractInfo(curExtendData.subtitle);
 
    const [openModalUpdate, setOpenModalUpdate] = useState(false);
    return (
@@ -47,11 +47,11 @@ const UpdateProduct: React.FC<UpdateProductProps> = (props) => {
          {curExtendData.title && curExtendData.title.length > 0 ? (
             <div className="title-container-content">
                <span className="title">{curExtendData.title}</span>
-               {quantity ? (
+               {price ? (
                   <span className="quantity">
                      <Space size={4}>
-                        <b>Quantity:</b>
-                        {quantity}
+                        <b>Price:</b>
+                        {price}
                      </Space>
                   </span>
                ) : null}
