@@ -2,9 +2,19 @@ import React, { useState, useEffect } from 'react';
 
 import './style.less';
 import AppearLayout from '@layouts/AppearLayout';
-import { ChatBotLogo } from '@assets/icons';
+import { ChatBotLogo, Messenger } from '@assets/icons';
 import { Button, Divider, Empty, Input, Modal, Skeleton, Space } from 'antd';
-import { ArrowLeftOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+   ArrowLeftOutlined,
+   DeleteOutlined,
+   EditOutlined,
+   FacebookFilled,
+   GlobalOutlined,
+   MessageFilled,
+   MessageOutlined,
+   PlusOutlined,
+   WhatsAppOutlined,
+} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { routerPath } from '@config/router/path';
 import { iChanel, useMyListChanel } from '@hooks/chanel/myListChanel';
@@ -131,8 +141,20 @@ const ManageChanel = () => {
                         channelsArray.map((item, i) => {
                            return (
                               <div key={i} className="chanel">
-                                 <div className="chanel_1" key={item.id}>
-                                    {item.contactName}
+                                 <div className="chanel_1">
+                                    <div className="icon-name">
+                                       <i className="icon">
+                                          {item.channelTypeId === 2 ? (
+                                             <FacebookFilled />
+                                          ) : item.channelTypeId === 1 ? (
+                                             <GlobalOutlined />
+                                          ) : item.channelTypeId === 3 ? (
+                                             <WhatsAppOutlined />
+                                          ) : null}
+                                       </i>
+                                       <p className="name">{item.contactName}</p>
+                                    </div>
+
                                     <div className="hover_layer">
                                        <Button onClick={() => setOpenEditChanel(item)}>
                                           <EditOutlined />
