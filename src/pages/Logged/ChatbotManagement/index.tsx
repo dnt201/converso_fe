@@ -48,6 +48,7 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
    useEffect(() => {
       setFlows(listChatbot?.data || []);
    }, [listChatbot]);
+   console.log(flows);
    //Todo: API
    // const { data: listChatbot, isLoading: isListChatbotLoading } = useMyListFlow();
    return (
@@ -136,8 +137,8 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
          <div className="list-chatbot-container">
             <span className="title">List flow</span>
             <div className="list-chatbot">
-               {!flows ? (
-                  <Empty />
+               {!flows || flows.length <= 0 ? (
+                  <Empty description="No flow..." />
                ) : (
                   flows.map((e) => {
                      return (

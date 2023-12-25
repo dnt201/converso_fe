@@ -113,7 +113,7 @@ const ManageChanel = () => {
                      width={'300px'}
                      style={{ width: 260 }}
                      placeholder={`Enter your channel's name to find`}
-                     onChange={(e) => filterChannels(e.target.value)}
+                     onSearch={(e) => filterChannels(e)}
                   />
                </div>
             </div>

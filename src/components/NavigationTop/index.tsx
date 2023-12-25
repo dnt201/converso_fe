@@ -7,37 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import './style.less';
 
 const items: MenuProps['items'] = [
-   {
-      label: (
-         <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-            1st menu item
-         </a>
-      ),
-      key: '0',
-   },
-   {
-      label: (
-         <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-            2nd menu item
-         </a>
-      ),
-      key: '1',
-   },
-   {
-      type: 'divider',
-   },
-   {
-      label: '3rd menu item（disabled）',
-      key: '3',
-   },
+
 ];
 const items2: MenuProps['items'] = [
    {
       label: (
-         <a
-            rel="noopener noreferrer"
-            href="https://www.antgroup.com"
-            className="drop-down-item-selection">
+         <a rel="noopener noreferrer" className="drop-down-item-selection">
             <Messenger />
             Messenger
          </a>
@@ -46,10 +21,7 @@ const items2: MenuProps['items'] = [
    },
    {
       label: (
-         <a
-            rel="noopener noreferrer"
-            href="https://www.aliyun.com"
-            className="drop-down-item-selection">
+         <a rel="noopener noreferrer" className="drop-down-item-selection">
             <Zalo width={24} />
             Zalo
          </a>
@@ -58,10 +30,7 @@ const items2: MenuProps['items'] = [
    },
    {
       label: (
-         <a
-            rel="noopener noreferrer"
-            href="https://www.aliyun.com"
-            className="drop-down-item-selection">
+         <a rel="noopener noreferrer" className="drop-down-item-selection">
             <Wordpress width={24} />
             WordPress
          </a>
@@ -70,10 +39,7 @@ const items2: MenuProps['items'] = [
    },
    {
       label: (
-         <a
-            rel="noopener noreferrer"
-            href="https://www.aliyun.com"
-            className="drop-down-item-selection">
+         <a rel="noopener noreferrer" className="drop-down-item-selection">
             <Shopify width={24} />
             Shopify
          </a>
