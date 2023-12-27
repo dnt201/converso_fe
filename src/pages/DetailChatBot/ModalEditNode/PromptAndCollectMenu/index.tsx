@@ -23,7 +23,7 @@ import './style.less';
 import AppearLayout from '@layouts/AppearLayout';
 import UpdateProduct from './UpdateProduct';
 import { atom, useAtom } from 'jotai';
-import { languagesAtom } from '@pages/DetailChatBot';
+import { languagesAtom, listIntentAtom } from '@pages/DetailChatBot';
 import ListUpdate from './ListUpdate';
 import { listVariableAtom } from '@pages/DetailChatBot/VariablesModal';
 import { Option } from 'antd/es/mentions';
@@ -47,8 +47,9 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
 
    const [curSubMenu, setCurSubMenu] = useState<tSubMenu>('main');
    const [languages, setLanguages] = useAtom(languagesAtom);
-   const [listVariable] = useAtom(listVariableAtom);
+   const [listIntent] = useAtom(listIntentAtom);
 
+   const [listVariable] = useAtom(listVariableAtom);
    useEffect(() => {
       setNode(innerNode);
    }, [innerNode]);
@@ -344,13 +345,38 @@ const PromptCollectMenu: React.FC<PromptCollectMenuProps> = (props) => {
                                  }}
                               />
                            </Form.Item>
-                           <Form.Item label="Grammar">
-                              <Select />
+                           <Form.Item label="Trained data">
+                              <Select
+                                 defaultValue={innerNode.data.intent}
+                                 onSelect={(_, b) => {
+                                    setInnerNode((pre) => {
+                                       return {
+                                          ...pre,
+                                          data: {
+                                             ...pre.data,
+                                             intent: b.value,
+                                          },
+                                       };
+                                    });
+                                 }}
+                                 options={listIntent.map((item) => {
+                                    return {
+                                       value: item.referenceId,
+                                       label: item.name,
+                                    };
+                                 })}
+                                 placeholder="Select intent"
+                              />
                            </Form.Item>
                            <Form.Item label="Assign User Response">
                               <Select
+                                 placeholder="Assign User Response"
                                  options={listVariable.map((item) => item)}
-                                 defaultValue={innerNode.data.answer}
+                                 defaultValue={
+                                    innerNode.data.answer.length <= 0
+                                       ? undefined
+                                       : innerNode.data.answer
+                                 }
                                  onSelect={(_, b) => {
                                     setInnerNode((pre) => {
                                        return {

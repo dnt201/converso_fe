@@ -64,17 +64,6 @@ const ModalEditNode: React.FC<ModalEditNodeProps> = (props) => {
                />
             ) : null
          ) : null}
-
-         {/* <h6>
-            <Input
-               defaultValue={props.node.data.label}
-               onChange={(d) => {
-                  setNode({ ...props.node, data: { label: d.target.value } });
-               }}
-            />
-            Current node Id:
-            {props.node.id}
-         </h6> */}
       </div>
    );
 };

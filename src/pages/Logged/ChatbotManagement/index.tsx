@@ -48,7 +48,6 @@ const ChatbotManagement: React.FC<iChatbotManagementProps> = (props) => {
    useEffect(() => {
       setFlows(listChatbot?.data || []);
    }, [listChatbot]);
-   console.log(flows);
    //Todo: API
    // const { data: listChatbot, isLoading: isListChatbotLoading } = useMyListFlow();
    return (

@@ -12,3 +12,12 @@ export const useMyListIntent = () => {
       cacheTime: 0,
    });
 };
+
+export const useMyListIntentSuspense = () => {
+   return useQuery({
+      queryKey: ['my-list-intent-suspense'],
+      queryFn: () => getData<iMyListIntentResponse>(apiPath.INTENT.GET_LIST),
+      cacheTime: 0,
+      suspense: true,
+   });
+};

@@ -48,7 +48,6 @@ const ModalEditTraining: React.FC<ModalEditTrainingProps> = (props) => {
                      intents: listIntent.filter((intent) => {
                         if (intent.intent.length > 0) {
                            let tempP = intent.prompts.filter((item) => item.length > 0);
-                           console.log(tempP);
                            return {
                               intent: intent.intent,
                               prompts: tempP,

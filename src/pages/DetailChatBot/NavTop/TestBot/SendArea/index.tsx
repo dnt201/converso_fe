@@ -14,7 +14,6 @@ const SendArea: React.FC = () => {
 
    const sendMessageToBot = (msg: string) => {
       if (!msg) return;
-      console.log(msg, 'emit');
       socket.emit('message', { message: msg, address: channelId + '_' + userId });
       setMessage('');
    };

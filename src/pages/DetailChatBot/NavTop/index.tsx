@@ -33,7 +33,6 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
    const [languages, setLanguages] = useAtom(languagesAtom);
    const [variables, setVariables] = useAtom(listVariableAtom);
    const [flowName, setFlowName] = useAtom(flowNameAtom);
-   console.log(flowName);
    const [openTestBot, setOpenTestBot] = useState(false);
    const navigate = useNavigate();
 
@@ -109,7 +108,7 @@ const NavTopChatbot: React.FC<NavTopChatbotProps> = (props) => {
                   <Button
                      className="action-item"
                      type="primary"
-                     disabled={!haveFlowChange || flowName === detailFlowById.name}
+                     disabled={!haveFlowChange && flowName === detailFlowById.name}
                      onClick={() => {
                         //update flow api)
                         // console.log(JSON.stringify(nodes));

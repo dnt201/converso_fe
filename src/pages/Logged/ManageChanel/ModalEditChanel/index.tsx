@@ -51,7 +51,6 @@ const ModalEditChanel: React.FC<ModalEditChanelProps> = (props) => {
    const [formEditChanel] = useForm();
    const initFormValue: iChanel = chanelProps;
    const editChanel = useEditChanel();
-   console.log(initFormValue);
    useEffect(() => {
       let cres = credentials;
 

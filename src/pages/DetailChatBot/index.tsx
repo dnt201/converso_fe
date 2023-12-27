@@ -34,6 +34,8 @@ import { useParams } from 'react-router-dom';
 import CustomPrompt from '@components/CustomPrompt';
 import { iAttributes, iLanguageFollow } from '@hooks/flow';
 import VariablesModal, { listVariableAtom } from './VariablesModal';
+import { iIntent } from '@hooks/intent';
+import { useMyListIntent, useMyListIntentSuspense } from '@hooks/intent/myListIntent';
 
 export interface iLanguageOption {
    value: tLanguage;
@@ -69,11 +71,12 @@ export const languagesAtom = atom<iLanguageFollow[]>([
 
 export const haveFlowChangeAtom = atom<boolean>(false);
 export const flowNameAtom = atom<string>('');
-
+export const listIntentAtom = atom<Pick<iIntent, 'referenceId' | 'name'>[]>([]);
 const DnDFlow: React.FC = () => {
    //Todo: State - ReactFlo w
    const { id } = useParams();
    const { data: detailFlowById } = useDetailFlowById(id);
+   const { data: listIntentAPI } = useMyListIntentSuspense();
 
    const [initialNodes, setInitialNodes] = useState<Node<tListNodeData>[]>([
       {
@@ -94,8 +97,9 @@ const DnDFlow: React.FC = () => {
    const [selectedEdge, setSelectedEdge] = useState<Edge<ListEdgeType> | null>(null);
    const selectedEdgeId = useRef<string | null>(null);
 
-   const [languages, setLanguages] = useAtom(languagesAtom);
-   const [flowName, setFlowName] = useAtom(flowNameAtom);
+   const [, setLanguages] = useAtom(languagesAtom);
+   const [, setFlowName] = useAtom(flowNameAtom);
+   const [, setListIntent] = useAtom(listIntentAtom);
    const [, setListVariable] = useAtom(listVariableAtom);
    const [_, setHaveFlowChange] = useAtom(haveFlowChangeAtom);
    //Todo: State - Another: modal,...
@@ -107,7 +111,7 @@ const DnDFlow: React.FC = () => {
    const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
 
    //Todo: Api
-   useLayoutEffect(() => {
+   useEffect(() => {
       if (detailFlowById.data) {
          let tempNodes = JSON.parse(detailFlowById.data.diagram) as Node<tListNodeData>[];
          if (tempNodes.length > 0) {
@@ -125,6 +129,17 @@ const DnDFlow: React.FC = () => {
          let tempVariables = JSON.parse(detailFlowById.data.attributes) as iAttributes[];
          if (tempVariables.length > 0) {
             setListVariable(tempVariables);
+         }
+         // console.log(listIntent.data, '1');
+         if (listIntentAPI.data.length > 0) {
+            setListIntent(
+               listIntentAPI.data.map((item) => {
+                  return {
+                     referenceId: item.referenceId,
+                     name: item.name,
+                  };
+               })
+            );
          }
          setFlowName(detailFlowById.data.name);
       }
@@ -161,6 +176,7 @@ const DnDFlow: React.FC = () => {
             return node;
          })
       );
+      setHaveFlowChange(true);
    }, [selectedNode]);
 
    //Update next action when edges have any change
