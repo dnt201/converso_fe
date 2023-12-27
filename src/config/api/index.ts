@@ -18,7 +18,7 @@ export async function mutationPost<T>(obj: IMutationPost<object>): Promise<T> {
    return await apiClient.post(url, { ...body }).then((response) => response.data as T);
 }
 export async function mutationDelete<T>(params: IMutationPost<object>): Promise<T> {
-   const response = await apiClient.delete(params.url, params.body);
+   const response = await apiClient.delete(params.url);
    return response.data as T;
 }
 export async function mutationPut<T>(params: IMutationPost<object>): Promise<T> {

@@ -9,6 +9,7 @@ export const routerPath = {
    MANAGE_CHATBOT: '/manage-flow',
    MANAGE_CHATBOT_BY_ID: '/manage-flow/:id',
    MANAGE_CHANEL: '/manage-chanel',
+   TRAINING: '/training',
    NOT_FOUND: '/notfound',
    ANY: '*',
 };

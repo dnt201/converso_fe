@@ -1,0 +1,56 @@
+.update-intent-container-lazy {
+    padding: 8px;
+    padding-top:16px ;
+    border: solid 1px var(--color-disable-hover);
+    border-radius: 8px;
+    position: relative;
+    .icon-expand {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        transition: all 0.5s;
+        cursor: pointer;
+        z-index: 10;
+        padding: 4px 8px;
+        &.expand {
+            transform: rotate(180deg);
+        }   
+     
+    }
+    > div.list-input {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-height: 42px;
+        overflow: hidden;
+        transition: all 0.5s;
+        &.expand {
+           transition: all 0.5s;
+
+           max-height: 1000px;
+        }
+        .ant-form-item {
+           margin: 0 !important;
+        }
+        .input-container {
+           display: flex;
+           align-items: center;
+           gap: 8px;
+           > textarea {
+              border: none;
+              border-radius: 0;
+           }
+           >.ant-space {
+              color:var(--color-main-blue);
+              &:hover {
+                 cursor: pointer;
+                 opacity: 0.75;
+              }
+              &.saved {
+                 color:var(--color-disable);
+              }
+           }
+        }
+     }
+
+}

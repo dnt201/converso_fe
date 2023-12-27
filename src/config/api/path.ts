@@ -17,4 +17,12 @@ export const apiPath = {
       DELETE: '/flow/delete/{id}',
       // /api
    },
+   INTENT: {
+      CREATE: '/intent/train',
+      GET_LIST: '/intent',
+      DETAIL_BY_ID: '/intent/{id}',
+      DELETE: '/intent/delete/{id}',
+
+      // /api/intent/1
+   },
 };

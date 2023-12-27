@@ -22,6 +22,7 @@ import Loader from '@components/Loader';
 import './App.less';
 import 'reactflow/dist/style.css';
 import CustomError from '@components/CustomError';
+import ManageIntent from '@pages/Logged/ManageIntent';
 
 function App() {
    const router = createBrowserRouter([
@@ -42,6 +43,7 @@ function App() {
                path: routerPath.HOME,
                element: <HomePage />,
             },
+
             {
                path: routerPath.ANY,
                element: <NotFound />,
@@ -70,6 +72,11 @@ function App() {
                path: routerPath.MANAGE_CHANEL,
                element: <ManageChanel />,
             },
+            {
+               path: routerPath.TRAINING,
+               element: <ManageIntent />,
+            },
+
             {
                path: routerPath.ANY,
                element: <NotFound />,

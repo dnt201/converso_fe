@@ -38,7 +38,7 @@ const Dashboard = () => {
             <div
                className="action-item"
                onClick={() => {
-                  notification.info({ message: 'This feature is coming soon!' });
+                  navigate(routerPath.TRAINING);
                }}>
                <i className=" lazy">
                   <CpuChipIcon height={40} width={40} />
