@@ -2,7 +2,7 @@ import { mutationPost } from '@config/api';
 import { apiPath } from '@config/api/path';
 import { IError, IResponse } from '@interfaces/index';
 import { useMutation } from '@tanstack/react-query';
-import { setCurrentUser } from '@utils/localStorage';
+import { setAccessToken, setCurrentUser } from '@utils/localStorage';
 import { notification } from 'antd';
 
 export type tCurrentUser = {
@@ -25,7 +25,6 @@ export type tLoginParams = {
    username: string;
    password: string;
 };
-
 
 export type tRegister = {
    username: string;
@@ -76,9 +75,10 @@ export const useMutationRegister = () => {
             body: registerParams,
          });
       },
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
          notification.success({ message: 'Register success' });
-         setCurrentUser(data.data);
+         await setCurrentUser(data.data);
+         await setAccessToken(data.data.token);
       },
       onError: (error: IError) => {
          if (error.error === 'username must be unique')
